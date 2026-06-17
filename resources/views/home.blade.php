@@ -137,23 +137,23 @@
 $products = [
 
     [
-        "name" => "Air Jordan 1",
-        "price" => "35,000円"
+        "name" => "Off-White × Nike Air Force 1 Low \"Black\"",
+        "price" => 82500
     ],
 
     [
         "name" => "Dunk Low",
-        "price" => "22,000円"
+        "price" => 22000
     ],
 
     [
         "name" => "New Balance 990",
-        "price" => "28,000円"
+        "price" => 28000
     ],
 
     [
         "name" => "Yeezy Boost",
-        "price" => "42,000円"
+        "price" => 42000
     ]
 
 ];
