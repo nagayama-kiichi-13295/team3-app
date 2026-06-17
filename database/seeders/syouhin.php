@@ -1,16 +1,16 @@
 <?php
-
+ 
 namespace Database\Seeders;
-
+ 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
+ 
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
-
+ 
     public function run(): void
     {
         // ユーザー
@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-
+ 
         // 商品データ
 DB::table('products')->insert([
     [
@@ -30,7 +30,7 @@ DB::table('products')->insert([
         'updated_at' => now(),
     ]
 ]);
-
+ 
         // 商品画像データ
         DB::table('product_images')->insert([
             [
