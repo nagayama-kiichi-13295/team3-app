@@ -48,7 +48,7 @@
     <input type="hidden" name="address" value="{{ $address }}">
     <input type="hidden" name="payment" value="{{ $payment }}">
 
-    <button type="submit">注文確定</button>
+    <button type="submit">注文確定ya</button>
 </form>
 
 <button onclick="history.back()">戻る</button>
