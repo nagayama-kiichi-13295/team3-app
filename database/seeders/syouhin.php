@@ -20,39 +20,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 商品データ
-        DB::table('products')->insert([
-            [
-                'name' => 'Off-White × Nike Air Force 1 Low "Black"',
-                'price' => 82500,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => '商品B',
-                'price' => 2000,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => '商品C',
-                'price' => 1500,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-             [
-                'name' => '商品C',
-                'price' => 1500,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-             [
-                'name' => '商品C',
-                'price' => 1500,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
-        ]);
+DB::table('products')->insert([
+    [
+        'name' => 'Off-White × Nike Air Force 1 Low "Black"',
+        'price' => 82500,
+        'description' => '人気コラボモデル',
+        'category_id' => 1,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]
+]);
 
         // 商品画像データ
         DB::table('product_images')->insert([
