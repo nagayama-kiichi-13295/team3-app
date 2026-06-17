@@ -39,6 +39,19 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+             [
+                'name' => '商品C',
+                'price' => 1500,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+             [
+                'name' => '商品C',
+                'price' => 1500,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            
         ]);
 
         // 商品画像データ
