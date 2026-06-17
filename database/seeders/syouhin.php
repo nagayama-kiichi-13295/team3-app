@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
         // 商品データ
         DB::table('products')->insert([
             [
-                'name' => '商品A',
-                'price' => 1000,
+                'name' => 'Off-White × Nike Air Force 1 Low "Black"',
+                'price' => 82500,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -39,6 +39,19 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+             [
+                'name' => '商品C',
+                'price' => 1500,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+             [
+                'name' => '商品C',
+                'price' => 1500,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
         ]);
 
         // 商品画像データ
