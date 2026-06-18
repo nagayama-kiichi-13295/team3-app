@@ -19,7 +19,14 @@ class AuthController extends Controller{
         $validated = $request -> validate([
             'user_name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
+            'password' => 'required|min:8',  // パス8文字以上じゃないとエラー
+        ], [
+            'user_name.required' =>'名前を入力してください。',
+            'email.required' =>'メールアドレスを入力してください。',
+            'email.email' =>'メールアドレスの形式が正しくありません。',
+            'email.unique' =>'このメールアドレスは既に使われています。',
+            'password.required' =>'パスワードを入力してください。',
+            'password.min' =>'パスワードは8文字以上で入力してください。',
         ]);
 
         User::create($validated);
