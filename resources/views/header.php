@@ -2,6 +2,8 @@
 <?php /** @var \App\Models\User|null $user */ ?>
 <?php $user = Auth::user(); ?>
 
+<link rel="stylesheet" href="/css/header.css">
+
 <header>
     <div class="logo">Sneaker Market</div>
 
