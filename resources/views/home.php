@@ -102,21 +102,7 @@
 </head>
 <body>
 
-<header>
-
-    <div class="logo">
-        Sneaker Market
-    </div>
-
-    // 6.18ファイル名からURLに変更
-    <div class="menu">
-        <a href="/">ホーム</a>
-        <a href="/login">ログイン</a>
-        <a href="/register">新規登録</a>
-        <a href="/mypage">マイページ</a>
-    </div>
-
-</header>
+<?= view('header') -> render() ?>
 
 <div class="search-area">
 
