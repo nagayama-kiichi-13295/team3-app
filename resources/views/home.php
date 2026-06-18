@@ -108,7 +108,7 @@
         Sneaker Market
     </div>
 
-    // 6.18ファイル名からURLに変更
+    <!-- 6.18ファイル名からURLに変更 -->
     <div class="menu">
         <a href="/">ホーム</a>
         <a href="/login">ログイン</a>
