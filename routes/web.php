@@ -5,12 +5,21 @@ use Illuminate\Support\Facades\Route;
 // --- 6.18ルート追加 ---
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\MypageController;
+
 // ログイン画面(表示)
 Route::get('login', [AuthController::class, 'showLogin']);
+// ログイン処理
+Route::post('/login', [AuthController::class, 'login']);
+// ログアウト
+Route::post('/logout', [AuthController::class, 'logout']);
 
 // 新規登録(表示と処理)
 Route::get('/register', [AuthController::class, 'showRegister']);
-Route::post('/register', [AuthController::class, 'Register']);
+Route::post('/register', [AuthController::class, 'register']);
+
+// マイページ
+Route::get('/mypage', [MypageController::class, 'show']);
 //--- 6.18 ここまで追加 ---
 
 

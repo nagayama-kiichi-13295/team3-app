@@ -12,7 +12,7 @@
     <?= csrf_field() ?>
 
     名前<br>
-    <input type="text" name="name"><br><br>
+    <input type="text" name="user_name"><br><br>
 
     メールアドレス<br>
     <input type="email" name="email"><br><br>

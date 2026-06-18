@@ -42,30 +42,16 @@
 </head>
 <body>
 
-<header>
-    <div class="logo">Sneaker Shop</div>
-
-    <div class="menu">
-        <a href="home.php">ホーム</a>
-        <a href="mypage.php">マイページ</a>
-    </div>
-</header>
+<?= view('header') -> render() ?>
 
 <div class="profile">
 
-<?php
-$user = [
-    "name" => "山田太郎",
-    "email" => "test@example.com",
-    "bio" => "スニーカー好きです"
-];
-?>
+<?php /** @var \App\Models\User $user */ ?>
 
 <h1>マイページ</h1>
 
-<p>名前：<?= htmlspecialchars($user["name"]) ?></p>
-<p>メール：<?= htmlspecialchars($user["email"]) ?></p>
-<p>自己紹介：<?= htmlspecialchars($user["bio"]) ?></p>
+<p>名前：<?= htmlspecialchars($user -> name) ?></p>
+<p>メール：<?= htmlspecialchars($user -> email) ?></p>
 
 </div>
 

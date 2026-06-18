@@ -9,7 +9,7 @@
         <a href="/">ホーム</a>
 <?php if ($user): ?>
         <a href="/mypage">マイページ</a>
-        <span><?= htmlspecialchars($user -> name) ?>さん</span>
+        <span><?= htmlspecialchars($user -> user_name) ?>さん</span>
         <form action="/logout" method="post" style="display:inline;">
             <?= csrf_field() ?>
             <button type="submit">ログアウト</button>
