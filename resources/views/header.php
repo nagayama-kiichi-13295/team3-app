@@ -7,6 +7,7 @@
 
     <div class="menu">
         <a href="/">ホーム</a>
+        <a href="/cart">カート🛒</a>
 <?php if ($user): ?>
         <a href="/mypage">マイページ</a>
         <span><?= htmlspecialchars($user -> user_name) ?>さん</span>
@@ -16,7 +17,6 @@
         </form>
 <?php else: ?>
         <a href="/login">ログイン</a>
-        <a href="/register">新規登録</a>
 <?php endif; ?>
     </div>
 </header>

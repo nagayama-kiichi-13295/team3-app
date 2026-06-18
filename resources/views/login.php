@@ -20,5 +20,7 @@
     <p style="color: red;"><?= $errors -> first() ?></p>
 <?php endif; ?>
 
+<p>アカウントお持ちでない方は<a href="/register">新規登録はこちら</a></p>
+
 </body>
 </html>

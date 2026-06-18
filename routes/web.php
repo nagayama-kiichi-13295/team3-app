@@ -20,6 +20,11 @@ Route::post('/register', [AuthController::class, 'register']);
 
 // マイページ
 Route::get('/mypage', [MypageController::class, 'show']);
+
+// カート(仮ページ)
+Route::get('/cart', function(){
+    return view('cart');
+});
 //--- 6.18 ここまで追加 ---
 
 
