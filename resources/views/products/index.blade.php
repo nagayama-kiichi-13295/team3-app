@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>スニーカー販売サイト</title>
 
+<!-- ✅ CSS読み込み（ここが正解） -->
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 </head>
@@ -48,8 +49,7 @@
         </div>
 
         <div class="card-body">
-            <!-- ✅ ここ修正 -->
-            <h3>{{ $product->product_name }}</h3>
+            <h3>{{ $product->name }}</h3>
 
             <div class="price">
                 {{ number_format($product->price) }}円
@@ -66,3 +66,4 @@
 
 </body>
 </html>
+``
