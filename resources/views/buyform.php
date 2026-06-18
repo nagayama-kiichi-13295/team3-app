@@ -2,33 +2,33 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>購入者情報入力</title>
+    <title>確認画面</title>
 </head>
 <body>
 
-<h2>購入者情報入力</h2>
+<h2>購入者情報確認</h2>
 
-<form action="confirm.php" method="post">
-    名前：<br>
-    <input type="text" name="name"><br><br>
+@if(isset($customer))
+    <p>名前：{{ $customer->name }}</p>
+@else
+    <form method="POST" action="/kakunin">
+        @csrf
 
+        <input name="name">
+        <input name="email">
+        <input name="postal_code">
+        <input name="phone_number">
+        <input name="address">
 
-    電話番号：<br>
-    <input type="text" name="tel"><br><br>
+        <select name="payment">
+            <option value="credit">クレカ</option>
+            <option value="cash">代引き</option>
+            <option value="bank">銀行</option>
+        </select>
 
-
-    住所：<br>
-    <input type="text" name="address"><br><br>
-
-    支払い方法：<br>
-    <select name="payment">
-        <option value="credit">クレジットカード</option>
-        <option value="cash">代金引換</option>
-        <option value="bank">銀行振込</option>
-    </select><br><br>
-
-    <button type="submit">確認画面へ</button>
-</form>
+        <button>確認</button>
+    </form>
+@endif
 
 </body>
 </html>

@@ -112,7 +112,7 @@
         <a href="home.php">ホーム</a>
         <a href="login.php">ログイン</a>
         <a href="register.php">新規登録</a>
-        <a href="mypage.php">マイページ</a>
+        <a href="mypage.php">マイページ</a>s
     </div>
 
 </header>
