@@ -1,45 +1,52 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
-// --- 6.18ルート追加 ---
+// --- コントローラ ---
 use App\Http\Controllers\AuthController;
-
 use App\Http\Controllers\MypageController;
-
 use App\Http\Controllers\BuyController;
+use App\Http\Controllers\ProductController;
 
-// ログイン画面(表示)
-Route::get('login', [AuthController::class, 'showLogin']);
-// ログイン処理
+// --------------------
+// 認証系
+// --------------------
+Route::get('/login', [AuthController::class, 'showLogin']);
 Route::post('/login', [AuthController::class, 'login']);
-// ログアウト
 Route::post('/logout', [AuthController::class, 'logout']);
 
-// 新規登録(表示と処理)
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register/confirm', [AuthController::class, 'confirmRegister']);
 Route::post('/register/back', [AuthController::class, 'backRegister']);
 
+// --------------------
 // マイページ
+// --------------------
 Route::get('/mypage', [MypageController::class, 'show']);
 
-// カート(仮ページ/ログイン必須)
-Route::get('/cart', function(){
-    if (!Auth::check()){
+// --------------------
+// カート（ログインチェック）
+// --------------------
+Route::get('/cart', function () {
+    if (!Auth::check()) {
         return redirect('/login');
     }
     return view('cart');
 });
-//--- 6.18 ここまで追加 ---
 
-// トップページ
-Route::get('/', function () {
-    return view('home');
-});
+// --------------------
+// ✅ トップページ（ここ修正）
+// --------------------
+Route::get('/', [ProductController::class, 'index']);
 
+// 商品詳細
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
+// --------------------
+// 購入関連
+// --------------------
 Route::get('/purchase/confirm', function () {
     return view('buyfrom');
 });
