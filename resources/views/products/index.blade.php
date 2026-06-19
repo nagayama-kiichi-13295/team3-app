@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <title>スニーカー販売サイト</title>
 
-<!-- ✅ CSS読み込み（ここが正解） -->
+<!-- ✅ CSS -->
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 </head>
+
 <body>
 
 <?= view('header') -> render() ?>
-
 
 <div class="search-area">
     <input type="text" placeholder="商品名を検索">
@@ -31,11 +31,11 @@
     <div class="card">
 
         <div class="image">
-            @if($product->mainImage)
+            @if($product->mainImage && $product->mainImage->image_path)
                 <img src="{{ asset('storage/' . $product->mainImage->image_path) }}"
                      style="width:100%; height:100%; object-fit:cover;">
             @else
-                <img src="/images/no-image.png"
+                <img src="{{ asset('images/no-image.png') }}"
                      style="width:100%; height:100%; object-fit:cover;">
             @endif
         </div>
@@ -58,4 +58,3 @@
 
 </body>
 </html>
-``

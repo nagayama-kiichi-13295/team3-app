@@ -11,7 +11,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // メイン画像を一緒に取得
         $products = Product::with('mainImage')->get();
 
         return view('products.index', compact('products'));
@@ -22,7 +21,6 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        // 商品 + 全画像取得
         $product = Product::with('images')->findOrFail($id);
 
         return view('products.show', compact('product'));
