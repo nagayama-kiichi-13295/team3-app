@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\MypageController;
 
+use App\Http\Controllers\BuyController;
+
 // ログイン画面(表示)
 Route::get('login', [AuthController::class, 'showLogin']);
 // ログイン処理
@@ -30,8 +32,13 @@ Route::get('/cart', function(){
 });
 //--- 6.18 ここまで追加 ---
 
-
+// トップページ
 Route::get('/', function () {
+    return view('home');
+});
+
+
+Route::get('/purchase/confirm', function () {
     return view('buyfrom');
 });
 
