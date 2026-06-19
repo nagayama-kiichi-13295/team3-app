@@ -5,7 +5,8 @@
     <title>ログイン</title>
 </head>
 <body>
-    <?php /** @var \Illuminate\Support\ViewErrorBag $errors */ ?>
+<?= view('header') -> render() ?>
+<?php /** @var \Illuminate\Support\ViewErrorBag $errors */ ?>
     
 <h2>ログイン</h2>
 

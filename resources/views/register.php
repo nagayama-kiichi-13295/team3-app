@@ -5,6 +5,7 @@
     <title>新規登録</title>
 </head>
 <body>
+<?= view('header') -> render() ?>
 <?php /** @var \Illuminate\Support\ViewErrorBag $errors */ ?>
 
 <h1>新規登録</h1>

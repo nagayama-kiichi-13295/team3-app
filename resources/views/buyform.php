@@ -5,6 +5,8 @@
     <title>購入者情報入力</title>
 </head>
 <body>
+    
+<?= view('header') -> render() ?>
 
 <h2>購入者情報入力</h2>
 
