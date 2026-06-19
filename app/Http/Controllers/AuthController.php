@@ -31,6 +31,11 @@ class AuthController extends Controller{
         return view('Register_result', $validated); // 保存せず確認画面へ
     }
 
+    public function backRegister(Request $request) {
+        // 送られてきた入力を old() に積んで、登録フォームに戻る
+        return redirect('/register') -> withInput();
+    }
+
     public function register(Request $request){
         $validated = $request -> validate([
             'user_name' => 'required',

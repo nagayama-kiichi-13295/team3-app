@@ -20,6 +20,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register/confirm', [AuthController::class, 'confirmRegister']);
+Route::post('/register/back', [AuthController::class, 'backRegister']);
 
 // マイページ
 Route::get('/mypage', [MypageController::class, 'show']);

@@ -29,7 +29,7 @@
     <input type="email" name="email" value="<?= old('email') ?>"><br><br>
 
     パスワード<br>
-    <input type="password" name="password"><br><br>
+    <input type="password" name="password" value="<?= old('password') ?>"><br><br>
 
     <button type="submit">確認画面へ</button>
 

@@ -26,6 +26,12 @@
     <button type="submit">この内容で登録する</button>
 </form>
 
-<p><a href="/register">修正する</a></p>
+<form action="/register/back" method="post">
+    <?= csrf_field() ?>
+    <input type="hidden" name="user_name" value="<?= htmlspecialchars($user_name) ?>">
+    <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
+    <input type="hidden" name="password" value="<?= htmlspecialchars($password) ?>">
+    <button type="submit">修正する</button>
+</form>
 </body>
 </html>
