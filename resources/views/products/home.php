@@ -10,16 +10,8 @@
 </head>
 <body>
 
-<header>
-    <div class="logo">Sneaker Market</div>
+<?= view('header') -> render() ?>
 
-    <div class="menu">
-        <a href="/">ホーム</a>
-        <a href="/login">ログイン</a>
-        <a href="/register">新規登録</a>
-        <a href="/mypage">マイページ</a>
-    </div>
-</header>
 
 <div class="search-area">
     <input type="text" placeholder="商品名を検索">

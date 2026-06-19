@@ -34,7 +34,7 @@ Route::get('/cart', function(){
 
 // トップページ
 Route::get('/', function () {
-    return view('home');
+    return view('products/home');
 });
 
 
