@@ -36,6 +36,9 @@
         <p class="detail-description">
             {{ $product->description }}
         </p>
+
+    <a href="/cart" class="cart-btn">カートに追加</a>
+
     @endif
 
     <!-- 戻る -->
