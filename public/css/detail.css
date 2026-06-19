@@ -1,0 +1,79 @@
+/* リセット */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 全体 */
+body {
+    font-family: sans-serif;
+    background: #f5f5f5;
+}
+
+/* ===== 詳細コンテナ ===== */
+.detail-container {
+    width: 80%;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 商品名 */
+.detail-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* ===== 画像一覧 ===== */
+.image-list {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.image-list img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    background: #ddd;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.image-list img:hover {
+    transform: scale(1.05);
+}
+
+/* ===== 価格 ===== */
+.detail-price {
+    font-size: 24px;
+    color: red;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ===== 説明 ===== */
+.detail-description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* ===== 戻るボタン ===== */
+.back-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: #ff5a5f;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.back-btn:hover {
+    background: #e04b50;
+}

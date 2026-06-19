@@ -1,40 +1,52 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
-// トップページ
-Route::get('/', function () {
-    return view('home');
-});
+// --- コントローラ ---
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MypageController;
+use App\Http\Controllers\BuyController;
+use App\Http\Controllers\ProductController;
 
-// 注文確認
-Route::post('/kakunin', function () {
+// --------------------
+// 認証系
+// --------------------
+Route::get('/login', [AuthController::class, 'showLogin']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
-    $name = request('name');
-    $email = request('email');
-    $tel = request('tel');
-    $address = request('address');
-    $payment = request('payment');
+Route::get('/register', [AuthController::class, 'showRegister']);
+Route::post('/register', [AuthController::class, 'register']);
 
-    // ✅ カート追加（ここが必要）
-    $cart = [
-        ["name" => "Off-White × Nike Air Force 1 Low Black", "price" => 82500, "qty" => 1]
-    ];
+// --------------------
+// マイページ
+// --------------------
+Route::get('/mypage', [MypageController::class, 'show']);
 
-    // ✅ 合計計算
-    $total = 0;
-    foreach ($cart as $item) {
-        $total += $item['price'] * $item['qty'];
+// --------------------
+// カート（ログインチェック）
+// --------------------
+Route::get('/cart', function () {
+    if (!Auth::check()) {
+        return redirect('/login');
     }
-
-    // ✅ Viewに全部渡す
-    return view('kakunin', compact(
-        'name',
-        'email',
-        'tel',
-        'address',
-        'payment',
-        'cart',
-        'total'
-    ));
+    return view('cart');
 });
+
+// --------------------
+// ✅ トップページ（ここ修正）
+// --------------------
+Route::get('/', [ProductController::class, 'index']);
+
+// 商品詳細
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+// --------------------
+// 購入関連
+// --------------------
+Route::get('/purchase/confirm', function () {
+    return view('buyfrom');
+});
+
+Route::post('/kakunin', [BuyController::class, 'confirm']);

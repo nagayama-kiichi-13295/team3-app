@@ -5,16 +5,28 @@
     <title>新規登録</title>
 </head>
 <body>
+<?= view('header') -> render() ?>
+<?php /** @var \Illuminate\Support\ViewErrorBag $errors */ ?>
 
 <h1>新規登録</h1>
 
-<form action="register_result.php" method="POST">
+<?php if ($errors -> any()): ?>
+    <ul style="color: red;">
+<?php foreach ($errors -> all() as $error): ?>
+        <li><?= htmlspecialchars($error) ?></li>
+<?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+
+<form action="/register" method="POST">
+    <?= csrf_field() ?>
 
     名前<br>
-    <input type="text" name="name"><br><br>
+    <input type="text" name="user_name" value="<?= old('user_name') ?>"><br><br>
 
     メールアドレス<br>
-    <input type="email" name="email"><br><br>
+    <input type="email" name="email" value="<?= old('email') ?>"><br><br>
 
     パスワード<br>
     <input type="password" name="password"><br><br>
