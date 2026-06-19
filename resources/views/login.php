@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>ログイン</title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
+
 <?= view('header') -> render() ?>
 <?php /** @var \Illuminate\Support\ViewErrorBag $errors */ ?>
     

@@ -27,18 +27,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * ✅ Laravel標準の email を使わないようにする
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'mail';
-    }
-
-    /**
      * ✅ 不要なcasts削除
      */
     protected function casts(): array
     {
-        return [];
+        return [
+            'password' => 'hashed',
+        ];
     }
 }

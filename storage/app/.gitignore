@@ -1,18 +1,25 @@
-# --- 全部無視 ---
-*
+# --- 除外（不要なもの） ---
+*.log
+.DS_Store
+.env
+node_modules/
+vendor/
 
 # --- 必須 ---
 !.gitignore
 .env.example
 
-# --- Laravel ---
+# --- Laravel 本体 ---
 !app/
 !bootstrap/
 !config/
 !database/
-!public/
 !resources/
 !routes/
+
+# --- public（全部許可） ---
+!public/
+!public/*
 
 # --- composer ---
 !composer.json
@@ -25,8 +32,3 @@ storage/app/*
 !storage/app/public/
 storage/app/public/*
 !storage/app/public/products/
-
-# --- 除外 ---
-node_modules/
-vendor/
-.env

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/css/header.css">
 
 <header>
-    <div class="logo">Sneaker Market</div>
+    <a href="/" class="logo">Sneaker Market</a>
 
     <div class="menu">
         <a href="/">ホーム</a>
