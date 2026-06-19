@@ -1,4 +1,8 @@
+
+# 全部無視
 *
-!private/
-!public/
+
+# 必須ファイル
 !.gitignore
+!public/
+!storage/app/public/products/
