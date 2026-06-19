@@ -1,8 +1,32 @@
-
-# 全部無視
+# --- 全部無視 ---
 *
 
-# 必須ファイル
+# --- 必須 ---
 !.gitignore
+.env.example
+
+# --- Laravel ---
+!app/
+!bootstrap/
+!config/
+!database/
 !public/
+!resources/
+!routes/
+
+# --- composer ---
+!composer.json
+!composer.lock
+
+# --- storage（画像だけ許可） ---
+storage/*
+!storage/app/
+storage/app/*
+!storage/app/public/
+storage/app/public/*
 !storage/app/public/products/
+
+# --- 除外 ---
+node_modules/
+vendor/
+.env
