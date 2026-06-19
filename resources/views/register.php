@@ -19,7 +19,7 @@
 <?php endif; ?>
 
 
-<form action="/register" method="POST">
+<form action="/register/confirm" method="POST">
     <?= csrf_field() ?>
 
     名前<br>
@@ -31,7 +31,7 @@
     パスワード<br>
     <input type="password" name="password"><br><br>
 
-    <button type="submit">登録</button>
+    <button type="submit">確認画面へ</button>
 
 </form>
 

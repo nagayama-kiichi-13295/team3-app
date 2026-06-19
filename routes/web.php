@@ -19,6 +19,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // 新規登録(表示と処理)
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register/confirm', [AuthController::class, 'confirmRegister']);
 
 // マイページ
 Route::get('/mypage', [MypageController::class, 'show']);

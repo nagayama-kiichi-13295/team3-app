@@ -15,6 +15,22 @@ class AuthController extends Controller{
         return view('register');
     }
 
+    public function confirmRegister(Request $request){
+        $validated = $request -> validate([
+            'user_name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+        ], [
+            'user_name.required' =>'名前を入力してください。',
+            'email.required' =>'メールアドレスを入力してください。',
+            'email.email' =>'メールアドレスの形式が正しくありません。',
+            'email.unique' =>'このメールアドレスは既に使われています。',
+            'password.required' =>'パスワードを入力してください。',
+            'password.min' =>'パスワードは8文字以上で入力してください。',            
+        ]);
+        return view('Register_result', $validated); // 保存せず確認画面へ
+    }
+
     public function register(Request $request){
         $validated = $request -> validate([
             'user_name' => 'required',
@@ -29,10 +45,8 @@ class AuthController extends Controller{
             'password.min' =>'パスワードは8文字以上で入力してください。',
         ]);
 
-        User::create($validated);
-
+        User::create($validated); // ここ保存
         return redirect('login');
-
     }
 
     public function login(Request $request){
