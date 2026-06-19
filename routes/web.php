@@ -2,6 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
+// --- 6.18ルート追加 ---
+use App\Http\Controllers\AuthController;
+
+// ログイン画面(表示)
+Route::get('login', [AuthController::class, 'showLogin']);
+
+// 新規登録(表示と処理)
+Route::get('/register', [AuthController::class, 'showRegister']);
+Route::post('/register', [AuthController::class, 'Register']);
+//--- 6.18 ここまで追加 ---
+
+
 // トップページ
 Route::get('/', function () {
     return view('home');

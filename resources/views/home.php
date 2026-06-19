@@ -108,11 +108,12 @@
         Sneaker Market
     </div>
 
+    // 6.18ファイル名からURLに変更
     <div class="menu">
-        <a href="home.php">ホーム</a>
-        <a href="login.php">ログイン</a>
-        <a href="register.php">新規登録</a>
-        <a href="mypage.php">マイページ</a>
+        <a href="/">ホーム</a>
+        <a href="/login">ログイン</a>
+        <a href="/register">新規登録</a>
+        <a href="/mypage">マイページ</a>
     </div>
 
 </header>

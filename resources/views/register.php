@@ -8,7 +8,8 @@
 
 <h1>新規登録</h1>
 
-<form action="register_result.php" method="POST">
+<form action="/register" method="POST">
+    <?= csrf_field() ?>
 
     名前<br>
     <input type="text" name="name"><br><br>
