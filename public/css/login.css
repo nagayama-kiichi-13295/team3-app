@@ -1,0 +1,229 @@
+/* ===== リセット ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial Black', sans-serif;
+    background: #000;
+    color: #fff;
+}
+
+/* ===== ヘッダー ===== */
+header {
+    background: #000;
+    padding: 20px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    font-size: 26px;
+    letter-spacing: 3px;
+}
+
+.logo span {
+    color: red;
+}
+
+.menu {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.menu a:hover {
+    color: red;
+}
+
+/* ===== レイアウト ===== */
+.wrapper {
+    display: flex;
+    height: calc(100vh - 80px);
+    position: relative;
+}
+
+/* ✅ 【ここが超重要】全体グラデ（これだけ使う） */
+.wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    background: linear-gradient(
+        90deg,
+        rgba(0,0,0,0) 0%,     /* 左は画像そのまま */
+        rgba(0,0,0,0.2) 35%,  /* じわっと暗く */
+        rgba(0,0,0,0.5) 55%,  /* 中央 */
+        rgba(0,0,0,0.85) 75%, /* 強め */
+        #000 100%             /* 右は完全黒 */
+    );
+}
+
+/* ===== 左（背景） ===== */
+
+.left {
+    width: 50%;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center; /* ←縦中央 */
+    align-items: center;     /* ←横中央 */
+
+    text-align: center;      /* ←中央揃え */
+
+    background: url('/images/sneaker.jpg') no-repeat center;
+    background-size: 115%;
+}
+
+
+/* ✅ これで背景だけ暗くなる */
+.left::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    
+    background: rgba(0,0,0,0.5); /* ←ここで暗さ調整 */
+    
+    z-index: 1;
+}
+
+/* ✅ 文字は上に出す */
+.left h1,
+.left p {
+    position: relative;
+    z-index: 2;
+}
+
+/* ロゴ */
+
+.left h1 {
+    font-size: 100px;
+    letter-spacing: 10px;
+    color: #fff;
+
+    text-shadow:
+        0 0 5px rgba(255,255,255,0.4),
+        0 0 15px rgba(255,255,255,0.3),
+        0 0 30px rgba(255,255,255,0.2),
+        0 10px 40px rgba(0,0,0,0.9);
+}
+
+
+.left p {
+    margin-top: 15px;
+    color: #ccc;
+}
+
+/* ===== 右 ===== */
+.right {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* ===== ログインBOX ===== */
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 60px;
+
+    /* ✅ ガラスUI */
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(12px);
+
+    border: none;
+
+    /* ✅ 浮き */
+    box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+
+    position: relative;
+    z-index: 2;
+}
+
+h2 {
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 25px;
+
+    background: #000;
+    border: 1px solid #444;
+    color: #fff;
+}
+
+input:focus {
+    border-color: red;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: red;
+    border: none;
+    color: #fff;
+    letter-spacing: 2px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #ff1a1a;
+    transform: scale(1.03);
+}
+
+/* ===== パスワード ===== */
+.password-box {
+    position: relative;
+}
+
+.password-box input {
+    padding-right: 50px;
+}
+
+.toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+}
+
+.toggle:hover {
+    color: red;
+}
+
+/* ===== フッター ===== */
+.footer {
+    margin-top: 30px;
+    font-size: 12px;
+}
+
+.footer a {
+    color: #aaa;
+}
+
+.footer a:hover {
+    color: red;
+}
