@@ -19,19 +19,19 @@
         </div>
     @else
         <div class="cart-content">
-            <div class="cart-items">
+            <div class="cart-items" style="border-bottom: 1px solid #ddd; padding-bottom: 20 px; margin-bottom: 20px;">
                 @foreach($cartItems as $item)
                 <div class="cart-item">
                     <div class="item-image">
                         @if($item['product']->mainImage && $item['product']->mainImage->image_path)
-                            <img src="{{ asset('storage/' . $item['product']->mainImage->image_path) }}" alt="{{ $item['product']->name }}">
+                            <img src="{{ asset('storage/' . $item['product']->mainImage->image_path) }}" alt="{{ $item['product']->name }}" style="width: 200px; height: 200px; object-fit: cover;">
                         @else
-                            <img src="{{ asset('images/no-image.png') }}" alt="No Image">
+                            <img src="{{ asset('images/no-image.png') }}" alt="No Image" style="width: 100px; height: 100px; object-fit: cover;">
                         @endif
                     </div>
 
                     <div class="item-details">
-                        <h3>{{ $item['product']->name }}</h3>
+                        <h3>{{ $item['product']->product_name }}</h3>
                         <p class="item-price">{{ number_format($item['product']->price) }}円</p>
                     </div>
 
@@ -54,6 +54,7 @@
             </div>
 
             <div class="cart-summary">
+               
                 <h2>注文内容</h2>
                 <div class="summary-row">
                     <span>小計</span>
