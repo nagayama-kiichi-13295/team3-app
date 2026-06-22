@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\BuyController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AccountController;
 
 // --------------------
 // 認証
@@ -22,11 +23,17 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register/confirm', [AuthController::class, 'confirmRegister']);
 Route::post('/register/back', [AuthController::class, 'backRegister']);
 
+
 // --------------------
 // マイページ
 // --------------------
 Route::get('/mypage', [MypageController::class, 'show'])
     ->middleware('auth');
+
+// アカウント情報変更
+Route::get('/account/edit', [AccountController::class, 'edit']);
+Route::post('/account/update', [AccountController::class, 'update']);
+
 
 // --------------------
 // カート
