@@ -37,6 +37,10 @@ Route::get('/account', [AccountController::class, 'index']);
 Route::get('/account/edit', [AccountController::class, 'edit']);
 Route::post('/account/update', [AccountController::class, 'update']);
 
+// パスワード変更
+Route::get('/account/security', [AccountController::class, 'security']);
+Route::get('/account/password', [AccountController::class, 'editPassword']);
+Route::post('/account/password', [AccountController::class, 'updatePassword']);
 
 // --------------------
 // カート
