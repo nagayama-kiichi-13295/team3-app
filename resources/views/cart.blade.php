@@ -9,15 +9,13 @@
 <body>
 <?= view('header') -> render() ?>
 
-
 <div class="cart-container">
     <h1>ショッピングカート</h1>
-    <form action="/cart" method="post">
 
     @if(empty($cartItems) || count($cartItems) == 0)
         <div class="empty-cart">
             <p>カートに商品が入っていません。</p>
-            <a href="{{ route('products.index') }}" class="btn-secondary">商品一覧に戻る</a>
+            <a href="/" class="back-btn">← 商品一覧に戻る</a>
         </div>
     @else
         <div class="cart-content">
@@ -67,7 +65,7 @@
                 </div>
                 
                 <a href="{{ route('checkout') }}" class="btn-checkout">購入手続きへ進む</a>
-                <a href="{{ route('products.index') }}" class="btn-continue">ショッピングを続ける</a>
+                <a href="/" class="btn-continue">ショッピングを続ける</a>
             </div>
         </div>
     @endif
