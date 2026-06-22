@@ -30,6 +30,9 @@ Route::post('/register/back', [AuthController::class, 'backRegister']);
 Route::get('/mypage', [MypageController::class, 'show'])
     ->middleware('auth');
 
+// アカウントサービス(ハブ画面)
+Route::get('/account', [AccountController::class, 'index']);
+
 // アカウント情報変更
 Route::get('/account/edit', [AccountController::class, 'edit']);
 Route::post('/account/update', [AccountController::class, 'update']);

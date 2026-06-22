@@ -18,7 +18,7 @@
 
             <div class="account-menu" id="accountMenu">
                 <div class="account-menu-header"><?= htmlspecialchars($user -> user_name) ?>さん</div>
-                <a href="/account/edit">アカウント情報変更</a>
+                <a href="/account">アカウントサービス</a>
                 <a href="/orders">購入した商品</a>
                 <a href="/favorites">閲覧した商品</a>
                 <a href="/contact">お問い合わせ</a>
