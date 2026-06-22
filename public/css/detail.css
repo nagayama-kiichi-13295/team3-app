@@ -1,17 +1,19 @@
 body {
     background: #000;
     color: #fff;
-    font-family: Arial Black;
+    font-family: Arial, sans-serif;
 }
 
-/* 全体 */
+/* ===== 全体 ===== */
 .detail-container {
     display: flex;
-    gap: 60px;
+    gap: 50px;
     padding: 60px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* 左 */
+/* ===== 左（画像） ===== */
 .detail-left {
     width: 50%;
 }
@@ -21,46 +23,126 @@ body {
     aspect-ratio: 1/1;
     object-fit: cover;
     border: 1px solid #222;
+    background: #111;
 }
 
-/* 右 */
+/* ===== 右（情報） ===== */
 .detail-right {
     width: 50%;
+    display: flex;
+    flex-direction: column;
 }
 
+/* タイトル */
 .detail-right h1 {
-    font-size: 26px;
-    margin-bottom: 20px;
-}
-
-.price {
     font-size: 24px;
-    color: red;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    line-height: 1.4;
 }
 
+/* 価格 */
+.price {
+    font-size: 22px;
+    color: red;
+    margin-bottom: 15px;
+}
+
+/* 説明 */
 .description {
     color: #aaa;
     margin-bottom: 30px;
+    line-height: 1.6;
 }
 
-/* ボタン */
-.buy-btn {
+/* ===== ボタン共通 ===== */
+.buy-btn,
+.cart-btn {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* 購入ボタン */
+.buy-btn {
     background: red;
     border: none;
     color: #fff;
-    cursor: pointer;
+    margin-bottom: 10px;
 }
 
 .buy-btn:hover {
     background: #ff1a1a;
+    transform: scale(1.02);
+}
+
+/* カートボタン */
+.cart-btn {
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+.cart-btn:hover {
+    border-color: red;
+    transform: scale(1.02);
 }
 
 /* 戻る */
 .back-btn {
-    display: inline-block;
-    margin-top: 20px;
-    color: #aaa;
+    margin-top: 25px;
+    color: #888;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    color: red;
+}
+
+/* ===== ✅ 通知バー ===== */
+.cart-message {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+
+    background: #111;
+    border: 1px solid #333;
+
+    padding: 15px 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    z-index: 999;
+
+    animation: fadeIn 0.3s ease;
+}
+
+/* カート見るボタン */
+.view-cart-btn {
+    background: red;
+    padding: 8px 12px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.view-cart-btn:hover {
+    background: #ff1a1a;
+}
+
+/* ===== アニメーション ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

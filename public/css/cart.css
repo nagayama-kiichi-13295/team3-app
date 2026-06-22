@@ -1,0 +1,195 @@
+/* ===== リセット ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background: #f5f5f5;
+}
+
+/* ===== コンテナ ===== */
+.cart-container {
+    width: 80%;
+    margin: 40px auto;
+}
+
+h1 {
+    margin-bottom: 30px;
+}
+
+/* ===== 空カート ===== */
+.empty-cart {
+    text-align: center;
+    padding: 60px 0;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #555;
+}
+
+.back-btn:hover {
+    color: #e60023;
+}
+
+/* ===== レイアウト ===== */
+.cart-content {
+    display: flex;
+    gap: 30px;
+}
+
+/* ===== 商品一覧 ===== */
+.cart-items {
+    width: 70%;
+}
+
+.cart-item {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 画像 */
+.item-image {
+    width: 120px;
+    height: 120px;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 商品情報 */
+.item-details h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.item-price {
+    color: #e60023;
+    font-weight: bold;
+}
+
+/* ===== 操作 ===== */
+.item-actions {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 数量 */
+input[type="number"] {
+    width: 60px;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* 更新 */
+.btn-update {
+    background: #eee;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.btn-update:hover {
+    background: #ddd;
+}
+
+/* 削除 */
+.btn-delete {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.btn-delete:hover {
+    color: #e60023;
+    border-color: #e60023;
+}
+
+/* ===== 注文内容 ===== */
+.cart-summary {
+    width: 30%;
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.cart-summary h2 {
+    margin-bottom: 20px;
+}
+
+/* 行 */
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.theme-total {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+}
+
+.total-price {
+    color: #e60023;
+    font-weight: bold;
+}
+
+/* ===== ✅ スニダン風ボタン ===== */
+.btn-checkout {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: #e60023;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(230,0,35,0.3);
+}
+
+.btn-checkout:hover {
+    background: #c4001d;
+    transform: scale(1.03);
+}
+
+.btn-continue {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #555;
+}
+
+.btn-continue:hover {
+    color: #e60023;
+}

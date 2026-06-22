@@ -5,11 +5,18 @@
 <title>{{ $product->product_name }}</title>
 
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
 
 <?= view('header')->render() ?>
+
+<!-- ✅ 通知エリア -->
+<div id="cart-message" class="cart-message" style="display:none;">
+    <span id="cart-message-text"></span>
+    <a href="/cart" class="view-cart-btn">カートを見る</a>
+</div>
 
 <div class="detail-container">
 
@@ -38,6 +45,11 @@
             <button class="buy-btn">購入する</button>
         </form>
 
+        <!-- ✅ カート追加ボタン -->
+        <button class="cart-btn" data-product-id="{{ $product->id }}">
+            カートに追加
+        </button>
+
         <!-- 戻る -->
         <a href="/" class="back-btn">← 一覧へ戻る</a>
 
@@ -47,16 +59,17 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
     const cartBtn = document.querySelector('.cart-btn');
+    const messageBox = document.getElementById('cart-message');
+    const messageText = document.getElementById('cart-message-text');
 
     if (cartBtn) {
         cartBtn.addEventListener('click', function() {
-            // ボタンから商品IDを取得
+
             const productId = this.getAttribute('data-product-id');
-            // MetaタグからCSRFトークンを取得
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            // 画面をリロードせずに、裏側で '/cart/add' にPOST送信（Fetch API）
             fetch('/cart/add', {
                 method: 'POST',
                 headers: {
@@ -69,20 +82,27 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('通信エラーが発生しました');
+                    throw new Error('通信エラー');
                 }
                 return response.json();
             })
             .then(data => {
-                // web.phpから成功のJSONが返ってきた時の処理
                 if (data.success) {
-                    alert(data.message); // 「カートに追加しました！」と表示されます
+                    // ✅ 通知表示
+                    messageText.innerText = data.message;
+                    messageBox.style.display = 'flex';
+
+                    // ✅ 3秒後に自動で消える
+                    setTimeout(() => {
+                        messageBox.style.display = 'none';
+                    }, 3000);
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('カートへの追加に失敗しました。');
+                console.error(error);
+                alert('カート追加失敗');
             });
+
         });
     }
 });
