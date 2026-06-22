@@ -9,6 +9,7 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\BuyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AddressController;
 
 // --------------------
 // 認証
@@ -41,6 +42,15 @@ Route::post('/account/update', [AccountController::class, 'update']);
 Route::get('/account/security', [AccountController::class, 'security']);
 Route::get('/account/password', [AccountController::class, 'editPassword']);
 Route::post('/account/password', [AccountController::class, 'updatePassword']);
+
+// 住所
+Route::get('/account/addresses', [AddressController::class, 'index']);
+Route::get('/account/addresses/create', [AddressController::class, 'create']);
+Route::post('/account/addresses', [AddressController::class, 'store']);
+Route::get('/account/addresses/{id}/edit', [AddressController::class, 'edit']);
+Route::post('/account/addresses/{id}', [AddressController::class, 'update']);
+Route::post('/account/addresses/{id}/delete', [AddressController::class, 'destroy']);
+
 
 // --------------------
 // カート
