@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\Register_resultController;
 // --- コントローラ ---
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MypageController;
@@ -54,3 +54,9 @@ Route::get('/purchase/confirm', function () {
 });
 
 Route::post('/kakunin', [BuyController::class, 'confirm']);
+
+Route::post('/register/complete', [AuthController::class, 'complete']);
+
+Route::get('/home', function () {
+    return view('home');
+});
