@@ -15,10 +15,13 @@
 /node_modules
 /public/build
 /public/hot
-/public/storage
 /storage/*.key
 /storage/pail
 /vendor
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# ✅ 追加（これが重要）
+!storage/app/public/
+!storage/app/public/products/

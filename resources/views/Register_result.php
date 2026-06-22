@@ -2,31 +2,36 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>登録結果</title>
+    <title>登録内容の確認</title>
 </head>
 <body>
+<?= view('header') -> render() ?> <!-- header -->
+
+<?php /** @var string $user_name */ ?>
+<?php /** @var string $email */ ?>
+<?php /** @var string $password */ ?>
 
 <h1>登録結果</h1>
 
-<?php
+<p>以下の内容で登録します。これで大丈夫ですか？</p>
 
-$name = $_POST["name"] ?? "";
-$email = $_POST["email"] ?? "";
-$password = $_POST["password"] ?? "";
+<p>名前：<?= htmlspecialchars($user_name) ?></p>
+<p>メールアドレス：<?= htmlspecialchars($email) ?></p>
 
-if ($name === "" || $email === "" || $password === "") {
+<form action="/register" method="post">
+    <?= csrf_field() ?>
+    <input type="hidden" name="user_name" value="<?= htmlspecialchars($user_name) ?>">
+    <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
+    <input type="hidden" name="password" value="<?= htmlspecialchars($password) ?>">
+    <button type="submit">この内容で登録する</button>
+</form>
 
-    echo "未入力の項目があります";
-
-} else {
-
-    echo "登録完了！<br>";
-    echo "名前：" . htmlspecialchars($name) . "<br>";
-    echo "メール：" . htmlspecialchars($email);
-
-}
-
-?>
-
+<form action="/register/back" method="post">
+    <?= csrf_field() ?>
+    <input type="hidden" name="user_name" value="<?= htmlspecialchars($user_name) ?>">
+    <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
+    <input type="hidden" name="password" value="<?= htmlspecialchars($password) ?>">
+    <button type="submit">修正する</button>
+</form>
 </body>
 </html>
