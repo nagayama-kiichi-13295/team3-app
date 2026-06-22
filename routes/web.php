@@ -10,9 +10,10 @@ use App\Http\Controllers\BuyController;
 use App\Http\Controllers\ProductController;
 
 // --------------------
-// 認証系
+// 認証
 // --------------------
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/login', [AuthController::class, 'showLogin'])
+    ->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -24,7 +25,8 @@ Route::post('/register/back', [AuthController::class, 'backRegister']);
 // --------------------
 // マイページ
 // --------------------
-Route::get('/mypage', [MypageController::class, 'show']);
+Route::get('/mypage', [MypageController::class, 'show'])
+    ->middleware('auth');
 
 // --------------------
 // カート（ログインチェック ＆ データ準備）
@@ -65,15 +67,18 @@ Route::get('/cart', function () {
 });
 
 // --------------------
-// ✅ トップページ（ここ修正）
+// トップページ
 // --------------------
 Route::get('/', [ProductController::class, 'index']);
 
+// --------------------
 // 商品詳細
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+// --------------------
+Route::get('/products/{id}', [ProductController::class, 'show'])
+    ->name('products.show');
 
 // --------------------
-// 購入関連
+// 購入
 // --------------------
 Route::get('/purchase/confirm', function () {
     return view('buyfrom');
