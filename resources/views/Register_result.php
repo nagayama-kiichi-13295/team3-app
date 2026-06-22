@@ -2,36 +2,54 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>登録内容の確認</title>
+    <title>CONFIRM</title>
+    <link rel="stylesheet" href="/css/Register_result.css">
 </head>
 <body>
-<?= view('header') -> render() ?> <!-- header -->
-
+<?= view('header')->render() ?>
 <?php /** @var string $user_name */ ?>
 <?php /** @var string $email */ ?>
 <?php /** @var string $password */ ?>
 
-<h1>登録結果</h1>
+    <div class="confirm-wrapper">
+        <div class="confirm-box">
+            <h1>CONFIRM</h1>
+            <p class="sub">入力内容をご確認ください</p>
 
-<p>以下の内容で登録します。これで大丈夫ですか？</p>
+            <!-- 名前 -->
+            <div class="confirm-item">
+                <span>USERNAME</span>
+                <p><?= htmlspecialchars($user_name) ?></p>
+            </div>
 
-<p>名前：<?= htmlspecialchars($user_name) ?></p>
-<p>メールアドレス：<?= htmlspecialchars($email) ?></p>
+            <!-- メール -->
+            <div class="confirm-item">
+                <span>EMAIL</span>
+                <p><?= htmlspecialchars($email) ?></p>
+            </div>
 
-<form action="/register" method="post">
-    <?= csrf_field() ?>
-    <input type="hidden" name="user_name" value="<?= htmlspecialchars($user_name) ?>">
-    <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
-    <input type="hidden" name="password" value="<?= htmlspecialchars($password) ?>">
-    <button type="submit">この内容で登録する</button>
-</form>
+            <!-- ボタン -->
+            <div class="btn-group">
 
-<form action="/register/back" method="post">
-    <?= csrf_field() ?>
-    <input type="hidden" name="user_name" value="<?= htmlspecialchars($user_name) ?>">
-    <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
-    <input type="hidden" name="password" value="<?= htmlspecialchars($password) ?>">
-    <button type="submit">修正する</button>
-</form>
+                <!-- 登録する：POST /register でユーザーを保存（←元の機能を維持） -->
+                <form action="/register" method="post">
+                <?= csrf_field() ?>
+                    <input type="hidden" name="user_name" value="<?= htmlspecialchars($user_name) ?>">
+                    <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
+                    <input type="hidden" name="password" value="<?= htmlspecialchars($password) ?>">
+                    <button class="submit-btn">登録する</button>
+                </form>
+
+                <!-- 修正する：POST /register/back で入力を保持して登録フォームへ戻る（←元の機能を維持） -->
+                <form action="/register/back" method="post">
+                <?= csrf_field() ?>
+                    <input type="hidden" name="user_name" value="<?= htmlspecialchars($user_name) ?>">
+                    <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
+                    <input type="hidden" name="password" value="<?= htmlspecialchars($password) ?>">
+                    <button class="back-btn">修正する</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
