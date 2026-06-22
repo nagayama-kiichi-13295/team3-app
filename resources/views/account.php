@@ -11,7 +11,7 @@
     <h1>アカウントサービス</h1>
     
     <div class="hub-grid">
-        <a href="/account/edit" class="hub-card">
+        <a href="/mypage" class="hub-card">
             <div class="hub-icon">👤</div>
             <div class="hub-text">
                 <h2>プロフィール</h2>

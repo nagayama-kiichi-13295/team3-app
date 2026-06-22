@@ -32,6 +32,7 @@ class AccountController extends Controller {
             return redirect('/login');
         }
 
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $validated = $request -> validate([
@@ -49,6 +50,6 @@ class AccountController extends Controller {
         $user -> email = $validated['email'];
         $user -> save();
 
-        return redirect('/account/edit') -> with('status', '更新しました。');
+        return redirect('/mypage') -> with('status', '更新しました。');
     }
 }

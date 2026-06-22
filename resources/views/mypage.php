@@ -3,42 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>マイページ</title>
-
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            background: #f5f5f5;
-        }
-
-        header {
-            background: white;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .logo {
-            font-weight: bold;
-            font-size: 24px;
-            color: #ff4d4d;
-        }
-
-        .menu a {
-            margin-left: 15px;
-            text-decoration: none;
-            color: black;
-        }
-
-        .profile {
-            width: 60%;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/mypage.css">
 </head>
 <body>
 
@@ -46,13 +11,23 @@
 
 <div class="profile">
 
-<?php /** @var \App\Models\User $user */ ?>
+<?php /** @var \App\Models\User $user */
 
-<h1>マイページ</h1>
+use Symfony\Component\VarDumper\Command\Descriptor\HtmlDescriptor;
 
-<p>名前：<?= htmlspecialchars($user -> name) ?></p>
-<p>メール：<?= htmlspecialchars($user -> email) ?></p>
+ ?>
 
+<?php if (session('status')): ?>
+    <p class="status"><?= htmlspecialchars(session('status')) ?></p>
+<?php endif; ?>
+    <div class="profile-head">
+        <h1>マイページ</h1>
+        <a href="/account/edit" class="edit-btn">編集</a>
+    </div>
+
+    <div class="profile-icon-placeholder"><?= htmlspecialchars(mb_substr($user -> user_name, 0, 1)) ?></div>
+    <p>名前：<?= htmlspecialchars($user -> name) ?></p>
+    <p>メール：<?= htmlspecialchars($user -> email) ?></p>
 </div>
 
 </body>
