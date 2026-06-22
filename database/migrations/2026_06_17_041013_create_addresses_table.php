@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('postal_code');
             $table->string('address');
             $table->string('phone_number');
+            $table->timestamps(); // ✅ 追加
         });
     }
 

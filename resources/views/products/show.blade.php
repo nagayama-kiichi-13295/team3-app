@@ -2,44 +2,46 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>商品詳細</title>
+<title>{{ $product->product_name }}</title>
 
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}">
 </head>
 
 <body>
 
-<?= view('header') -> render() ?>
-
+<?= view('header')->render() ?>
 
 <div class="detail-container">
 
-    <!-- 商品名 -->
-    <h1 class="detail-title">
-        {{ $product->product_name }}
-    </h1>
-
-    <!-- 画像 -->
-    <div class="image-list">
-        @foreach($product->images as $image)
-            <img src="{{ asset('storage/' . $image->image_path) }}" alt="">
-        @endforeach
+    <!-- 左：画像 -->
+    <div class="detail-left">
+        <img class="main-image"
+             src="{{ asset('storage/' . $product->images->first()->image_path) }}">
     </div>
 
-    <!-- 価格 -->
-    <p class="detail-price">
-        {{ number_format($product->price) }}円
-    </p>
+    <!-- 右：情報 -->
+    <div class="detail-right">
 
-    <!-- 説明 -->
-    @if($product->description)
-        <p class="detail-description">
+        <h1>{{ $product->product_name }}</h1>
+
+        <p class="price">
+            ¥{{ number_format($product->price) }}
+        </p>
+
+        <p class="description">
             {{ $product->description }}
         </p>
-    @endif
 
-    <!-- 戻る -->
-    <a href="/" class="back-btn">← 戻る</a>
+        <!-- 購入ボタン -->
+        <form action="/purchase/form" method="get">
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <button class="buy-btn">購入する</button>
+        </form>
+
+        <!-- 戻る -->
+        <a href="/" class="back-btn">← 一覧へ戻る</a>
+
+    </div>
 
 </div>
 
