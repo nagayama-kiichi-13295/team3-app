@@ -19,17 +19,15 @@
         </div>
     @else
         <div class="cart-content">
-
-            <!-- 商品一覧 -->
-            <div class="cart-items">
+            <div class="cart-items" style="border-bottom: 1px solid #ddd; padding-bottom: 20 px; margin-bottom: 20px;">
                 @foreach($cartItems as $item)
                 <div class="cart-item">
 
                     <div class="item-image">
                         @if($item['product']->mainImage && $item['product']->mainImage->image_path)
-                            <img src="{{ asset('storage/' . $item['product']->mainImage->image_path) }}">
+                            <img src="{{ asset('storage/' . $item['product']->mainImage->image_path) }}" alt="{{ $item['product']->name }}" style="width: 200px; height: 200px; object-fit: cover;">
                         @else
-                            <img src="{{ asset('images/no-image.png') }}">
+                            <img src="{{ asset('images/no-image.png') }}" alt="No Image" style="width: 100px; height: 100px; object-fit: cover;">
                         @endif
                     </div>
 
@@ -61,7 +59,7 @@
 
             <!-- ✅ 注文内容 -->
             <div class="cart-summary">
-
+               
                 <h2>注文内容</h2>
 
                 <div class="summary-row">
