@@ -49,7 +49,7 @@ class AuthController extends Controller
     // =======================
     // 登録処理（登録ボタン押したらここ）
     // =======================
-    public function complete(Request $request)
+    public function register(Request $request)
     {
         // 本来ここでDB保存（confirmでバリデ済み）
 
@@ -59,7 +59,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password) // ←重要（ハッシュ化）
         ]);
 
-        return redirect('/home');
+        return redirect('/login');
     }
 
     // =======================
