@@ -304,3 +304,9 @@ Route::post('/purchase/complete', function (Request $request) {
     return view('purchase.complete', compact('total'));
 
 })->name('purchase.complete');
+
+
+// 例: 直接ビューを返す場合（テスト用）
+Route::get('/orders', function () {
+    return view('orders');
+});
