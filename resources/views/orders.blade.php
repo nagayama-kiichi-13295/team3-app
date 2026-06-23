@@ -10,7 +10,7 @@
 <?= view('header')->render() ?>
 
 <div class="orders-container" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
-    <h1>注文履歴</h1>
+    <h1> 注文履歴 </h1>
 
     @if(empty($orders) || count($orders) == 0)
         <div class="empty-orders" style="text-align: center; padding: 40px;">
