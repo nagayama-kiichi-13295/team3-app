@@ -75,6 +75,7 @@ Route::get('/', function () {
 
     $products = Product::all();
 
+    // ✅ 閲覧履歴取得
     $viewedIds = session()->get('viewed_products', []);
     $viewedProducts = Product::whereIn('id', $viewedIds)->get();
 
@@ -84,13 +85,14 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| 商品詳細（履歴保存）
+| 商品詳細（閲覧履歴保存）
 |--------------------------------------------------------------------------
 */
 Route::get('/products/{id}', function ($id) {
 
     $product = Product::with('images')->findOrFail($id);
 
+    // ✅ 閲覧履歴保存
     $viewed = session()->get('viewed_products', []);
     $viewed = array_diff($viewed, [$id]);
     array_unshift($viewed, $id);
@@ -111,14 +113,30 @@ Route::get('/products/{id}', function ($id) {
 
 /*
 |--------------------------------------------------------------------------
-| ✅ 注文履歴（ここが今回のメイン修正）
+| ✅ 閲覧履歴ページ（ここ追加）
+|--------------------------------------------------------------------------
+*/
+Route::get('/history', function () {
+
+    if (!Auth::check()) return redirect('/login');
+
+    $viewedIds = session()->get('viewed_products', []);
+    $viewedProducts = Product::whereIn('id', $viewedIds)->get();
+
+    return view('history', compact('viewedProducts'));
+
+})->name('history');
+
+
+/*
+|--------------------------------------------------------------------------
+| ✅ 注文履歴
 |--------------------------------------------------------------------------
 */
 Route::get('/orders', function () {
 
     if (!Auth::check()) return redirect('/login');
 
-    // ✅ DBから注文＋中身＋商品＋画像を取得
     $orders = Order::with('orderItems.product.mainImage')
         ->where('user_id', auth()->id())
         ->latest()
@@ -188,7 +206,6 @@ Route::post('/cart/add', function (Request $request) {
 
 
 Route::patch('/cart/update/{id}', function (Request $request, $id) {
-
     $cart = session()->get('cart', []);
 
     if (isset($cart[$id])) {
@@ -197,12 +214,10 @@ Route::patch('/cart/update/{id}', function (Request $request, $id) {
     }
 
     return redirect('/cart');
-
 })->name('cart.update');
 
 
 Route::delete('/cart/remove/{id}', function ($id) {
-
     $cart = session()->get('cart', []);
 
     if (isset($cart[$id])) {
@@ -211,7 +226,6 @@ Route::delete('/cart/remove/{id}', function ($id) {
     }
 
     return redirect('/cart');
-
 })->name('cart.remove');
 
 
