@@ -1,0 +1,47 @@
+.account-hub {
+   width: 80%;
+   max-width: 1000px;
+   margin: 40px auto;
+}
+.account-hub h1 {
+   margin-bottom: 25px;
+   color: #333;
+}
+.hub-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+   gap: 20px;
+}
+.hub-card {
+   display: flex;
+   align-items: center;
+   gap: 16px;
+   background: white;
+   padding: 22px;
+   border: 1px solid #e0e0e0;
+   border-radius: 10px;
+   text-decoration: none;
+   color: inherit;
+   transition: 0.15s;
+}
+.hub-card:hover {
+   border-color: #ff5a5f;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+.hub-icon {
+   font-size: 36px;
+   flex-shrink: 0;
+}
+.hub-text h2 {
+   font-size: 17px;
+   margin-bottom: 6px;
+   color: #0066c0;
+}
+.hub-card:hover .hub-text h2 {
+   color: #ff5a5f;
+}
+.hub-text p {
+   font-size: 14px;
+   color: #666;
+   line-height: 1.4;
+}

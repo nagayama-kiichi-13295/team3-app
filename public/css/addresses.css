@@ -1,0 +1,186 @@
+body {
+   font-family: sans-serif;
+   margin: 0;
+   background: #f5f5f5;
+}
+.address-page {
+   width: 85%;
+   max-width: 900px;
+   margin: 40px auto;
+}
+.address-page h1 {
+   font-size: 22px;
+   margin-bottom: 20px;
+}
+.address-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+   gap: 16px;
+}
+.address-card {
+   background: white;
+   border: 1px solid #e0e0e0;
+   border-radius: 12px;
+   padding: 20px;
+   display: flex;
+   flex-direction: column;
+}
+.card-zip {
+   color: #555;
+   font-size: 14px;
+   margin-bottom: 8px;
+}
+.card-addr {
+   color: #333;
+   font-size: 16px;
+   line-height: 1.6;
+   flex-grow: 1;
+}
+.card-phone {
+   color: #555;
+   font-size: 14px;
+   margin-top: 10px;
+}
+.card-actions {
+   display: flex;
+   gap: 14px;
+   margin-top: 16px;
+   border-top: 1px solid #f0f0f0;
+   padding-top: 12px;
+}
+.edit-link {
+   color: #0066c0;
+   text-decoration: none;
+   font-size: 14px;
+}
+.edit-link:hover {
+   text-decoration: underline;
+}
+.card-actions form {
+   margin: 0;
+}
+.delete-link {
+   background: none;
+   border: none;
+   color: #c0392b;
+   font-size: 14px;
+   cursor: pointer;
+   padding: 0;
+}
+.delete-link:hover {
+   text-decoration: underline;
+}
+.add-card {
+   align-items: center;
+   justify-content: center;
+   border: 2px dashed #ccc;
+   color: #888;
+   text-decoration: none;
+   min-height: 150px;
+   gap: 8px;
+}
+.add-card:hover {
+   border-color: #ff4d4d;
+   color: #ff4d4d;
+}
+.add-card .plus {
+   font-size: 32px;
+   line-height: 1;
+}
+.form-card {
+   background: white;
+   border-radius: 12px;
+   padding: 30px;
+   max-width: 500px;
+}
+.form-card h1 {
+   font-size: 20px;
+   margin-bottom: 20px;
+}
+.field {
+   margin-bottom: 16px;
+}
+.field label {
+   display: block;
+   font-weight: bold;
+   margin-bottom: 6px;
+   font-size: 14px;
+}
+.field input {
+   width: 100%;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 6px;
+   box-sizing: border-box;
+}
+.form-card button[type="submit"] {
+   width: 100%;
+   background: #ff4d4d;
+   color: white;
+   border: none;
+   padding: 12px;
+   border-radius: 6px;
+   font-size: 16px;
+   cursor: pointer;
+   margin-top: 6px;
+}
+.form-card button[type="submit"]:hover {
+   background: #e63c3c;
+}
+.error {
+   background: #ffeaea;
+   color: #c0392b;
+   padding: 12px 16px 12px 32px;
+   border-radius: 6px;
+   margin-bottom: 18px;
+}
+.status {
+   background: #e8f5e9;
+   color: #2e7d32;
+   padding: 10px 14px;
+   border-radius: 6px;
+   margin-bottom: 18px;
+}
+.back {
+   margin-top: 24px;
+}
+.back a {
+   color: #555;
+   font-size: 14px;
+   text-decoration: none;
+}
+
+.zip-row {
+   display: flex;
+   gap: 10px;
+}
+.zip-row input {
+   flex: 1;
+}
+.zip-btn {
+   white-space: nowrap;
+   background: #555;
+   color: #fff;
+   border: none;
+   padding: 0 16px;
+   border-radius: 6px;
+   cursor: pointer;
+   font-size: 14px;
+}
+.zip-btn:hover {
+   background: #333;
+}
+.zip-msg {
+   display: block;
+   margin-top: 6px;
+   color: #c0392b;
+   font-size: 13px;
+}
+.current-address {
+   background: #f0f0f0;
+   padding: 10px 14px;
+   border-radius: 6px;
+   font-size: 14px;
+   color: #555;
+   margin-bottom: 18px;
+}
