@@ -75,9 +75,7 @@ Route::get('/', function () {
 
     $products = Product::all();
 
-    // ✅ 閲覧履歴取得
     $viewedIds = session()->get('viewed_products', []);
-
     $viewedProducts = Product::whereIn('id', $viewedIds)->get();
 
     return view('products.index', compact('products', 'viewedProducts'));
@@ -93,22 +91,12 @@ Route::get('/products/{id}', function ($id) {
 
     $product = Product::with('images')->findOrFail($id);
 
-    // ✅ ✅ 閲覧履歴保存
     $viewed = session()->get('viewed_products', []);
-
-    // 重複削除
     $viewed = array_diff($viewed, [$id]);
-
-    // 先頭追加
     array_unshift($viewed, $id);
-
-    // 最大5件
     $viewed = array_slice($viewed, 0, 5);
-
-    // 保存
     session()->put('viewed_products', $viewed);
 
-    // ✅ お気に入り
     $isFavorite = false;
     if (Auth::check()) {
         $isFavorite = Favorite::where('user_id', auth()->id())
@@ -119,6 +107,26 @@ Route::get('/products/{id}', function ($id) {
     return view('products.show', compact('product', 'isFavorite'));
 
 })->name('products.show');
+
+
+/*
+|--------------------------------------------------------------------------
+| ✅ 注文履歴（ここが今回のメイン修正）
+|--------------------------------------------------------------------------
+*/
+Route::get('/orders', function () {
+
+    if (!Auth::check()) return redirect('/login');
+
+    // ✅ DBから注文＋中身＋商品＋画像を取得
+    $orders = Order::with('orderItems.product.mainImage')
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->get();
+
+    return view('orders', compact('orders'));
+
+})->name('orders');
 
 
 /*
@@ -178,7 +186,9 @@ Route::post('/cart/add', function (Request $request) {
     ]);
 });
 
+
 Route::patch('/cart/update/{id}', function (Request $request, $id) {
+
     $cart = session()->get('cart', []);
 
     if (isset($cart[$id])) {
@@ -187,9 +197,12 @@ Route::patch('/cart/update/{id}', function (Request $request, $id) {
     }
 
     return redirect('/cart');
+
 })->name('cart.update');
 
+
 Route::delete('/cart/remove/{id}', function ($id) {
+
     $cart = session()->get('cart', []);
 
     if (isset($cart[$id])) {
@@ -198,6 +211,7 @@ Route::delete('/cart/remove/{id}', function ($id) {
     }
 
     return redirect('/cart');
+
 })->name('cart.remove');
 
 
@@ -235,8 +249,6 @@ Route::post('/favorite/toggle', function (Request $request) {
 | 購入フロー
 |--------------------------------------------------------------------------
 */
-
-// 入力
 Route::get('/purchase/form', function (Request $request) {
 
     if (!Auth::check()) return redirect('/login');
@@ -249,7 +261,6 @@ Route::get('/purchase/form', function (Request $request) {
 })->name('purchase.form');
 
 
-// 確認
 Route::post('/purchase/buyconfirm', function (Request $request) {
 
     $request->validate([
@@ -270,7 +281,6 @@ Route::post('/purchase/buyconfirm', function (Request $request) {
 })->name('purchase.buyconfirm');
 
 
-// 完了
 Route::post('/purchase/complete', function (Request $request) {
 
     $product = Product::findOrFail($request->product_id);
@@ -292,7 +302,6 @@ Route::post('/purchase/complete', function (Request $request) {
         'total_amount' => $total,
     ]);
 
-    // ✅ 注文明細
     OrderItem::create([
         'order_id' => $order->id,
         'product_id' => $product->id,
@@ -305,9 +314,3 @@ Route::post('/purchase/complete', function (Request $request) {
     return view('purchase.complete', compact('total'));
 
 })->name('purchase.complete');
-
-
-// 例: 直接ビューを返す場合（テスト用）
-Route::get('/orders', function () {
-    return view('orders');
-});
