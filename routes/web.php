@@ -51,6 +51,8 @@ Route::get('/account/addresses/{id}/edit', [AddressController::class, 'edit']);
 Route::post('/account/addresses/{id}', [AddressController::class, 'update']);
 Route::post('/account/addresses/{id}/delete', [AddressController::class, 'destroy']);
 
+// 郵便番号->住所検索
+Route::get('/api/zipcode', [AddressController::class, 'lookupZip']);
 
 // --------------------
 // カート
