@@ -5,7 +5,10 @@
 <link rel="stylesheet" href="/css/header.css">
 
 <header>
-    <a href="/" class="logo">Sneaker Market</a>
+    <a href="/" class="logo">
+        <img src="/images/logo.png" alt="Sneaker Market" class="logo-img">
+        <span>Sneaker Market</span>
+    </a>
 
     <div class="menu">
         <a href="/">ホーム</a>
@@ -13,7 +16,11 @@
 <?php if ($user): ?>
         <div class="account">
             <button class="account-icon" onclick="toggleAccountMenu()" aria-label="アカウントメニュー">
+<?php if (!empty($user->icon_path)): ?>
+                <img src="<?= asset('storage/' . $user->icon_path) ?>" alt="アイコン">
+<?php else: ?>
                 <?= htmlspecialchars(mb_substr($user -> user_name, 0, 1)) ?>
+<?php endif; ?>
             </button>
 
             <div class="account-menu" id="accountMenu">
