@@ -133,7 +133,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    overflow: hidden
 }
 
 /* ===== ログインBOX ===== */
@@ -153,6 +153,7 @@ header {
 
     position: relative;
     z-index: 2;
+    min-height: 500px;
 }
 
 h2 {
@@ -183,7 +184,7 @@ button {
     color: #fff;
     letter-spacing: 2px;
     cursor: pointer;
-
+    margin-top: auto;
     transition: 0.2s;
 }
 

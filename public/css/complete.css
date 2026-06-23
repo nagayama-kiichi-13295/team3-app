@@ -1,0 +1,50 @@
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== 中央ボックス ===== */
+.detail-container {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 40px;
+    background: #111;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* タイトル */
+h1 {
+    color: lime;
+    font-size: 28px;
+}
+
+/* メッセージ */
+p {
+    margin-top: 15px;
+}
+
+/* ✅ 金額 */
+.total {
+    color: red;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+/* ===== ボタン ===== */
+a {
+    display: block;
+    margin-top: 15px;
+    padding: 12px;
+    text-decoration: none;
+    background: red;
+    color: #fff;
+    border-radius: 6px;
+}
+
+/* hover */
+a:hover {
+    background: #ff1a1a;
+    transform: scale(1.02);
+}

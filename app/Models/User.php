@@ -20,9 +20,6 @@ class User extends Authenticatable
         'icon_path',
     ];
 
-    /**
-     * ✅ 不要なやつ削除
-     */
     protected $hidden = [
         'password',
     ];

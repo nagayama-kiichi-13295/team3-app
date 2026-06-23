@@ -5,6 +5,7 @@
     <title>CONFIRM</title>
     <link rel="stylesheet" href="/css/Register_result.css">
 </head>
+
 <body>
 <?= view('header')->render() ?>
 <?php /** @var string $user_name */ ?>
