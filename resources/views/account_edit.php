@@ -25,7 +25,7 @@
         </ul>
 <?php endif; ?>
         
-        <form action="/account/update" method="post">
+        <form action="/account/update" method="post" enctype="multipart/form-data">
             <?= csrf_field() ?>
 
             <div class="field">
