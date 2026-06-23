@@ -11,11 +11,7 @@
 
 <div class="profile">
 
-<?php /** @var \App\Models\User $user */
-
-use Symfony\Component\VarDumper\Command\Descriptor\HtmlDescriptor;
-
- ?>
+<?php /** @var \App\Models\User $user */ ?>
 
 <?php if (session('status')): ?>
     <p class="status"><?= htmlspecialchars(session('status')) ?></p>
@@ -29,7 +25,7 @@ use Symfony\Component\VarDumper\Command\Descriptor\HtmlDescriptor;
 <?php else: ?>
     <div class="profile-icon-placeholder"><?= htmlspecialchars(mb_substr($user -> user_name, 0, 1)) ?></div>
 <?php endif; ?>
-    <p>名前：<?= htmlspecialchars($user -> name) ?></p>
+    <p>名前：<?= htmlspecialchars($user -> user_name) ?></p>
     <p>メール：<?= htmlspecialchars($user -> email) ?></p>
 </div>
 
