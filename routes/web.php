@@ -80,7 +80,7 @@ Route::get('/', function () {
 
     $viewedProducts = Product::whereIn('id', $viewedIds)->get();
 
-    return view('home', compact('products', 'viewedProducts'));
+    return view('products.index', compact('products', 'viewedProducts'));
 });
 
 
