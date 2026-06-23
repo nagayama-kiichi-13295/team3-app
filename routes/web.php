@@ -91,30 +91,30 @@ Route::get('/cart', function () {
 |--------------------------------------------------------------------------
 */
 
-// ✅ カート追加（非同期）
+// ✅ カート追加（非同期・数量対応・ログインチェック）
 Route::post('/cart/add', function (Request $request) {
 
+    // ✅ 未ログイン → ログインへ
     if (!Auth::check()) {
         return response()->json([
-            'success' => false,
-            'message' => 'ログインが必要です'
+            'redirect' => '/login'
         ], 401);
     }
 
     $productId = $request->input('product_id');
-    $cart = session()->get('cart', []);
+    $quantity = (int) $request->input('quantity', 1);
 
-    if (isset($cart[$productId])) {
-        $cart[$productId]++;
-    } else {
-        $cart[$productId] = 1;
-    }
+    $cart = session()->get('cart', []);
+    $currentQty = $cart[$productId] ?? 0;
+
+    // ✅ 数量追加
+    $cart[$productId] = $currentQty + $quantity;
 
     session()->put('cart', $cart);
 
     return response()->json([
         'success' => true,
-        'message' => 'カートに追加しました！'
+        'message' => $quantity . '個 カートに追加しました！'
     ]);
 });
 
@@ -155,7 +155,7 @@ Route::delete('/cart/remove/{id}', function ($id) {
 |--------------------------------------------------------------------------
 */
 
-// ✅ 購入入力画面（住所チェック付き）
+// ✅ 購入入力画面
 Route::get('/purchase/form', function (Request $request) {
 
     if (!Auth::check()) {
@@ -164,7 +164,6 @@ Route::get('/purchase/form', function (Request $request) {
 
     $product = Product::findOrFail($request->product_id);
 
-    // ✅ 住所があるか確認
     $address = Address::where('user_id', auth()->id())->first();
 
     return view('purchase.form', compact('product', 'address'));
@@ -177,7 +176,7 @@ Route::post('/purchase/complete', function (Request $request) {
 
     $product = Product::findOrFail($request->product_id);
 
-    // ✅ 住所がまだ無い場合のみ保存
+    // ✅ 住所登録（未登録なら）
     if (!Address::where('user_id', auth()->id())->exists()) {
         Address::create([
             'user_id' => auth()->id(),
@@ -193,7 +192,7 @@ Route::post('/purchase/complete', function (Request $request) {
         'total_amount' => $product->price,
     ]);
 
-    // ✅ カート初期化
+    // ✅ カートリセット
     session()->forget('cart');
 
     return redirect('/mypage')->with('success', '購入完了しました');
