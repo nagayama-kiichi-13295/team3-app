@@ -52,3 +52,66 @@ header {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.account {
+   position: relative;
+}
+.account .account-icon {
+   width: 40px;
+   height: 40px;
+   padding: 0;
+   border-radius: 50%;
+   background: #ff5a5f;
+   color: white;
+   border: none;
+   font-size: 18px;
+   font-weight: bold;
+   cursor: pointer;
+}
+.account-menu {
+   position: absolute;
+   top: 50px;
+   right: 0;
+   width: 220px;
+   background: white;
+   border-radius: 10px;
+   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+   overflow: hidden;
+   display: none;
+   z-index: 100;
+}
+.account-menu.open {
+   display: block;
+}
+.account-menu-header {
+   padding: 14px 18px;
+   font-weight: bold;
+   border-bottom: 1px solid #eee;
+}
+.account-menu a {
+   display: block;
+   padding: 12px 18px;
+   margin: 0;
+   color: #333;
+   text-decoration: none;
+}
+.account-menu a:hover {
+   background: #f7f7f7;
+}
+.account-menu form {
+   margin: 0;
+   border-top: 1px solid #eee;
+}
+.account-menu .logout-btn {
+   width: 100%;
+   text-align: left;
+   padding: 12px 18px;
+   background: none;
+   border: none;
+   color: #ff5a5f;
+   font-size: 15px;
+   cursor: pointer;
+}
+.account-menu .logout-btn:hover {
+   background: #fff0f0;
+}

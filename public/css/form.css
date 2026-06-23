@@ -1,0 +1,117 @@
+/* ===== リセット ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background: #f5f5f5;
+}
+
+/* ===== コンテナ ===== */
+.form-container {
+    width: 420px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* タイトル */
+h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+/* ===== 住所表示 ===== */
+.saved-address {
+    background: #fafafa;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.saved-address p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* ===== フォーム ===== */
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* ✅ input & select 共通化 */
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* フォーカス */
+input:focus,
+select:focus {
+    border-color: #e60023;
+    outline: none;
+}
+
+/* ✅ 数量小さくしたい場合 */
+input[name="quantity"] {
+    width: 100px;
+}
+
+/* ✅ エラー表示 */
+.error-box {
+    background: #ffecec;
+    border: 1px solid #ff4d4d;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.error-box p {
+    color: #d10000;
+    font-size: 13px;
+}
+
+/* ===== ✅ スニダン風ボタン ===== */
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+
+    background: #e60023;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+
+    transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(230,0,35,0.3);
+}
+
+button:hover {
+    background: #c4001d;
+    transform: scale(1.02);
+}
+
+/* ✅ セパレーター */
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}

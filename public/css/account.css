@@ -1,0 +1,78 @@
+.account-page {
+   display: flex;
+   justify-content: center;
+   margin-top: 50px;
+   padding: 0 20px;
+}
+.account-page .card {
+   background: white;
+   width: 100%;
+   max-width: 480px;
+   padding: 35px;
+   border-radius: 10px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.account-page h1 {
+   font-size: 22px;
+   margin-bottom: 20px;
+   color: #333;
+}
+.field {
+   margin-bottom: 18px;
+}
+.field label {
+   display: block;
+   margin-bottom: 6px;
+   font-size: 14px;
+   color: #555;
+}
+.field input {
+   width: 100%;
+   padding: 12px;
+   border: 1px solid #ccc;
+   border-radius: 8px;
+   font-size: 15px;
+}
+.account-page button {
+   width: 100%;
+   background: #ff5a5f;
+   color: white;
+   border: none;
+   padding: 13px;
+   border-radius: 8px;
+   font-size: 16px;
+   cursor: pointer;
+   margin-top: 10px;
+}
+.account-page button:hover {
+   background: #e14b50;
+}
+.status {
+   background: #e7f7ec;
+   color: #2e7d32;
+   padding: 10px 14px;
+   border-radius: 8px;
+   margin-bottom: 15px;
+}
+.error {
+   color: #e14b50;
+   margin-bottom: 15px;
+   padding-left: 20px;
+}
+.back {
+   text-align: center;
+   margin-top: 18px;
+}
+.back a {
+   color: #ff5a5f;
+   text-decoration: none;
+}
+
+.current-icon {
+   width: 70px;
+   height: 70px;
+   border-radius: 50%;
+   object-fit: cover;
+   display: block;
+   margin-bottom: 10px;
+}

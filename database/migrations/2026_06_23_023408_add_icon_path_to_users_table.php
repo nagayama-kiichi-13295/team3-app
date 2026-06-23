@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('addresses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id');
-            $table->string('postal_code');
-            $table->string('address');
-            $table->string('phone_number');
-            $table->timestamps(); // ✅ 追加
+        Schema::table('users', function (Blueprint $table) {
+            $table -> string('icon_path') -> nullable('user_name');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('addresses');
+        Schema::table('users', function (Blueprint $table) {
+            $table -> dropColumn('icon_path');
+        });
     }
 };

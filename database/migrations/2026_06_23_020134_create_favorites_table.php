@@ -11,21 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->string('postal_code');
-            $table->string('address');
-            $table->string('phone_number');
-            $table->timestamps(); // ✅ 追加
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->unique(['user_id', 'product_id']); // 重複防止
         });
-    }
+            }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('favorites');
     }
 };

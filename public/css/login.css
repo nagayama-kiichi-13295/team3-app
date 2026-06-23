@@ -133,7 +133,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    overflow: hidden
 }
 
 /* ===== ログインBOX ===== */
@@ -153,6 +153,7 @@ header {
 
     position: relative;
     z-index: 2;
+    min-height: 500px;
 }
 
 h2 {
@@ -183,7 +184,7 @@ button {
     color: #fff;
     letter-spacing: 2px;
     cursor: pointer;
-
+    margin-top: auto;
     transition: 0.2s;
 }
 
@@ -226,4 +227,103 @@ button:hover {
 
 .footer a:hover {
     color: red;
+}
+
+
+
+/* ===== 利用規約 ===== */
+.terms-area {
+   margin: 0 0 25px;
+   text-align: left;
+}
+.terms-open {
+   width: auto;              /* 全体の button{width:100%} を打ち消す */
+   background: none;
+   border: none;
+   padding: 0;
+   color: #aaa;
+   font-size: 13px;
+   letter-spacing: 1px;
+   text-decoration: underline;
+   cursor: pointer;
+   transition: 0.2s;
+}
+.terms-open:hover {
+   color: red;
+   background: none;         /* button:hover の赤背景を打ち消す */
+   transform: none;
+}
+.terms-check {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   margin-top: 12px;
+   font-size: 12px;
+   color: #aaa;
+}
+.terms-check input {
+   width: 16px;              /* input{width:100%} を打ち消して普通のチェックに */
+   height: 16px;
+   margin: 0;
+   padding: 0;
+   accent-color: red;
+}
+.terms-overlay {
+   display: none;            /* 初期は非表示。JSで flex にして開く */
+   position: fixed;
+   inset: 0;
+   background: rgba(0, 0, 0, 0.8);
+   justify-content: center;
+   align-items: center;
+   z-index: 1000;
+}
+.terms-modal {
+   width: 90%;
+   max-width: 500px;
+   padding: 40px;
+   background: rgba(0, 0, 0, 0.85);
+   backdrop-filter: blur(12px);
+   border: 1px solid #333;
+   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+   display: flex;
+   flex-direction: column;
+   color: #fff;
+}
+.terms-modal h2 {
+   margin: 0 0 20px;
+   font-size: 22px;
+   letter-spacing: 3px;
+   color: #fff;
+}
+.terms-body {
+   height: 280px;
+   overflow-y: scroll;
+   padding: 18px;
+   background: #000;
+   border: 1px solid #444;
+   font-family: sans-serif;  /* Arial Blackだと規約が読みにくいので普通体に */
+   font-size: 13px;
+   line-height: 1.9;
+   color: #ccc;
+}
+.terms-hint {
+   margin: 16px 0;
+   font-size: 12px;
+   letter-spacing: 1px;
+   color: #888;
+}
+.terms-close {
+   width: auto;              /* button{width:100%} を打ち消す */
+   align-self: flex-end;
+   padding: 12px 28px;
+   background: red;
+   border: none;
+   color: #fff;
+   letter-spacing: 2px;
+   cursor: pointer;
+   transition: 0.2s;
+}
+.terms-close:hover {
+   background: #ff1a1a;
+   transform: scale(1.03);
 }
