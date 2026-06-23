@@ -1,0 +1,83 @@
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* コンテナ中央 */
+.detail-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+/* ✅ メインボックス */
+.confirm-box {
+    width: 500px;
+    background: #111;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+/* タイトル */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* セクション */
+h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+p {
+    margin-bottom: 5px;
+}
+
+/* 区切り */
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #333;
+}
+
+/* ✅ 合計 */
+.total {
+    color: red;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* ✅ ボタン */
+.buy-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: red;
+    border: none;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.buy-btn:hover {
+    background: #ff1a1a;
+}
+
+/* 戻る */
+.back-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    border-color: red;
+}

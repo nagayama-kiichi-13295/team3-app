@@ -17,11 +17,9 @@ class User extends Authenticatable
         'user_name',
         'email',
         'password',
+        'icon_path',
     ];
 
-    /**
-     * ✅ 不要なやつ削除
-     */
     protected $hidden = [
         'password',
     ];

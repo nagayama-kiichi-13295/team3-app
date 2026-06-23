@@ -12,7 +12,7 @@ body {
 
 /* ===== コンテナ ===== */
 .form-container {
-    width: 400px;
+    width: 420px;
     margin: 60px auto;
     background: white;
     padding: 30px;
@@ -27,7 +27,7 @@ h2 {
     font-size: 20px;
 }
 
-/* ===== 住所 ===== */
+/* ===== 住所表示 ===== */
 .saved-address {
     background: #fafafa;
     border: 1px solid #ddd;
@@ -49,15 +49,40 @@ label {
     font-size: 14px;
 }
 
-input {
+/* ✅ input & select 共通化 */
+input,
+select {
     width: 100%;
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    font-size: 14px;
 }
 
-input:focus {
+/* フォーカス */
+input:focus,
+select:focus {
     border-color: #e60023;
+    outline: none;
+}
+
+/* ✅ 数量小さくしたい場合 */
+input[name="quantity"] {
+    width: 100px;
+}
+
+/* ✅ エラー表示 */
+.error-box {
+    background: #ffecec;
+    border: 1px solid #ff4d4d;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.error-box p {
+    color: #d10000;
+    font-size: 13px;
 }
 
 /* ===== ✅ スニダン風ボタン ===== */
@@ -82,4 +107,11 @@ button {
 button:hover {
     background: #c4001d;
     transform: scale(1.02);
+}
+
+/* ✅ セパレーター */
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #eee;
 }
