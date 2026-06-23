@@ -19,27 +19,15 @@
         </div>
     @else
         <div class="cart-content">
-<<<<<<< HEAD
             <div class="cart-items" style="border-bottom: 1px solid #ddd; padding-bottom: 20 px; margin-bottom: 20px;">
-=======
-
-            <!-- 商品一覧 -->
-            <div class="cart-items">
->>>>>>> 84cf912e72817e639328b09bca14de8358128bd3
                 @foreach($cartItems as $item)
                 <div class="cart-item">
 
                     <div class="item-image">
                         @if($item['product']->mainImage && $item['product']->mainImage->image_path)
-<<<<<<< HEAD
                             <img src="{{ asset('storage/' . $item['product']->mainImage->image_path) }}" alt="{{ $item['product']->name }}" style="width: 200px; height: 200px; object-fit: cover;">
                         @else
                             <img src="{{ asset('images/no-image.png') }}" alt="No Image" style="width: 100px; height: 100px; object-fit: cover;">
-=======
-                            <img src="{{ asset('storage/' . $item['product']->mainImage->image_path) }}">
-                        @else
-                            <img src="{{ asset('images/no-image.png') }}">
->>>>>>> 84cf912e72817e639328b09bca14de8358128bd3
                         @endif
                     </div>
 
@@ -71,11 +59,7 @@
 
             <!-- ✅ 注文内容 -->
             <div class="cart-summary">
-<<<<<<< HEAD
                
-=======
-
->>>>>>> 84cf912e72817e639328b09bca14de8358128bd3
                 <h2>注文内容</h2>
 
                 <div class="summary-row">
