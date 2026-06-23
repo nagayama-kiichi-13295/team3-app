@@ -12,10 +12,8 @@ class AccountController extends Controller {
         if (!Auth::check()){
             return redirect('/login');
         }
-
         return view('account');
     }
-
 
     public function edit() {
 
@@ -40,15 +38,25 @@ class AccountController extends Controller {
             'user_name' => 'required',
             // 自分自身のメールは重複チェックから除外する
             'email' => 'required|email|unique:users,email,' .$user -> id,
+            'icon' => 'nullable|image|max:2048', //画像のみ・2MBまで
         ], [
             'user_name.required' => '名前を入力してください。',
             'email.required' => 'メールアドレスを入力してください',
             'email.email' => 'メールアドレスの形式が正しくありません',
             'email.unique' => 'このメールアドレスは既に使われています。',
+            'icon.image' => '画像ファイルを選んでください。',
+            'icon.max' => '画像は2MB以下にいしてください。',
         ]);
 
         $user -> user_name = $validated['user_name'];
         $user -> email = $validated['email'];
+
+        // 画像が選ばれて入れば保存してパスを記憶
+        if($request->hasFile('icon')){
+            $path = $request -> file('icon') -> store('icons', 'public');
+            $user -> icon_path = $path;
+        }
+
         $user -> save();
 
         return redirect('/mypage') -> with('status', '更新しました。');

@@ -33,9 +33,11 @@ Route::post('/register/back', [AuthController::class, 'backRegister']);
 
 
 
-// --------------------
-// マイページ (注文履歴)
-// --------------------
+/* 
+|--------------------------------------------------------------------------
+| マイページ注文履歴
+|--------------------------------------------------------------------------
+*/
 Route::get('/mypage', [MypageController::class, 'show'])
     ->middleware('auth');
 
@@ -62,9 +64,11 @@ Route::post('/account/addresses/{id}/delete', [AddressController::class, 'destro
 // 郵便番号->住所検索
 Route::get('/api/zipcode', [AddressController::class, 'lookupZip']);
 
-// --------------------
-// カート
-// --------------------
+/* 
+|--------------------------------------------------------------------------
+| カート
+|--------------------------------------------------------------------------
+*/
 Route::get('/cart', function () {
     return view('cart');
 })->middleware('auth');

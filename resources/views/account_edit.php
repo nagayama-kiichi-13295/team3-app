@@ -29,6 +29,14 @@
             <?= csrf_field() ?>
 
             <div class="field">
+                <label>プロフィール画像</label>
+<?php if (!empty($user->icon_path)): ?>
+                <img src="<?= asset('storage/' . $user -> icon_path) ?>" class="current-icon" alt="現在のアイコン">
+<?php endif; ?>
+                <input type="file" name="icon" accept="image/*">
+            </div>
+
+            <div class="field">
                 <label>名前</label>
                 <input type="text" name="user_name"
                     value="<?= htmlspecialchars(old('user_name', $user -> user_name)) ?>">

@@ -67,3 +67,12 @@
    color: #ff5a5f;
    text-decoration: none;
 }
+
+.current-icon {
+   width: 70px;
+   height: 70px;
+   border-radius: 50%;
+   object-fit: cover;
+   display: block;
+   margin-bottom: 10px;
+}
