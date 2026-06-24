@@ -3,35 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>スニーカー販売サイト</title>
-
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+<link rel="icon" type="image/png" href="/images/logo.png">
 
 <style>
-
-/* ===== 検索エリア ===== */
-.search-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin: 20px auto;
-}
-
-/* ✅ 検索ボックス（小さく＆丸） */
-#searchInput {
-    width: 500px;   /* ← ここを大きくするんだ */
-    padding: 8px 14px;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    font-size: 14px;
-}
-
-
-#searchInput:focus {
-    border-color: #333;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
 /* ===== 価格 ===== */
 .price-filter-row {
     display: flex;
@@ -46,65 +21,61 @@
     border: 1px solid #ddd;
     border-radius: 6px;
 }
-
-/* ===== カテゴリ（タグボタン） ===== */
-.category-filter {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin: 25px 0;
-}
-
-/* チェックボックス非表示 */
-.category-tag input {
-    display: none;
-}
-
-/* ボタン見た目 */
-.category-tag span {
-    display: inline-block;
-    padding: 8px 18px;
-    border-radius: 999px;
-    border: 1px solid #ddd;
-    background: #fff;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-/* ホバー */
-.category-tag span:hover {
-    background: #f5f5f5;
-    transform: translateY(-2px);
-}
-
-/* ✅ 選択状態 */
-.category-tag input:checked + span {
-    background: #111;
-    color: #fff;
-    border-color: #111;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.card-body h3 {
-    font-size: 14px;
-    line-height: 1.4;
-    height: 40px; /* ← 高さを固定 */
-    
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* ← 最大2行 */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
 </style>
 </head>
 
 <body>
 
 <?= view('header')->render() ?>
+
+<!-- 自動スライドAmazon風バナー -->
+ <div class="hero-banner">
+    <div class="hero-track" id="heroTrack">
+
+        <!-- ▼▼▼ スライド１: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide" style="background: #ffd9d9;">
+            <div class="hero-placeholder">
+                <p>サンプルバナー １</p>
+                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
+            </div>
+         </div>
+        <!-- ▼▼▼ スライド２: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide" style="background: #d9e8ff;">
+            <div class="hero-placeholder">
+                <p>サンプルバナー ２</p>
+                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
+            </div>
+         </div>
+        <!-- ▼▼▼ スライド３: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide" style="background: #d9ffe1;">
+            <div class="hero-placeholder">
+                <p>サンプルバナー ３</p>
+                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
+            </div>
+         </div>
+        <!-- ▼▼▼ スライド４: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide" style="background: #ffd9d9;">
+            <div class="hero-placeholder">
+                <p>サンプルバナー ４</p>
+                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
+            </div>
+         </div>
+        <!-- ▼▼▼ スライド５: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide" style="background: #d9e8ff;">
+            <div class="hero-placeholder">
+                <p>サンプルバナー ５</p>
+                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
+            </div>
+         </div>
+    </div>
+    <div class="hero-fade"></div>
+
+    <button class="hero-arrow prev" onclick="moveHero(-1)" aria-label="前へ"><</button>
+    <button class="hero-arrow next" onclick="moveHero(1)" aria-label="次へ">></button>
+    
+    <div class="hero-dots" id="heroDots"></div>
+ </div>
+
 
 <div class="banner">
     <h1>人気スニーカー特集</h1>
@@ -132,6 +103,8 @@
     </div>
  </div>
 @endif
+
+<h2 class="section-title">おすすめ商品</h2>
 
 <div class="product-list">
 @foreach($products as $product)
@@ -187,6 +160,36 @@ document.addEventListener('DOMContentLoaded', function() {
     maxPriceInput.addEventListener('input', filterProducts);
 
 });
+</script>
+
+<script>
+    let heroIndex = 0;
+    const heroTrack = document.getElementById('heroTrack');
+    const heroCount = heroTrack.children.length;
+    const heroDots = document.getElementById('heroDots');
+
+    // ドットをスライド枚数分自動生成
+    for (let i = 0; i < heroCount; i++) {
+        const dot = document.createElement('button');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {heroIndex = i; renderHero(); });
+        heroDots.appendChild(dot);
+    }
+
+    function renderHero() {
+        heroTrack.style.transform = 'translateX(' + (-heroIndex * 100) + '%)';
+        const dots = heroDots.children;
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.toggle('active', i === heroIndex);
+        }
+    }
+
+    function moveHero(dir) {
+        heroIndex = (heroIndex + dir + heroCount) % heroCount;
+        renderHero();
+    }
+
+    setInterval(() => moveHero(1), 5000); // 5秒ごとに自動で次へ
 </script>
 
 </body>

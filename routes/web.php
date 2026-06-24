@@ -110,7 +110,7 @@ Route::get('/products/{id}', function ($id) {
     $viewed = session()->get('viewed_products', []);
     $viewed = array_diff($viewed, [$id]);
     array_unshift($viewed, $id);
-    $viewed = array_slice($viewed, 0, 5);
+    $viewed = array_slice($viewed, 0, 15);
     session()->put('viewed_products', $viewed);
 
     $isFavorite = false;
