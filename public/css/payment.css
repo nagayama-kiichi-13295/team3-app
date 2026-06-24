@@ -55,3 +55,24 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 .status { background: #e8f5e9; color: #2e7d32; padding: 10px 14px; border-radius: 6px; margin-bottom: 18px; }
 .back { margin-top: 24px; }
 .back a { color: #555; font-size: 14px; text-decoration: none; }
+/* bodyのflexは消す or 上書きする */
+body {
+    display: block;
+}
+
+/* ✅ 中央配置はここでやる */
+.payment--page {
+    min-height: calc(100vh - 80px); /* ヘッダー分引く */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* フォーム */
+.form-card {
+    max-width: 500px;
+    width: 100%;
+}
+.payment--page {
+    padding-top: 100px; /* ← これ追加 */
+}
