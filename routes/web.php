@@ -80,8 +80,13 @@ Route::get('/', function () {
 
     // ✅ 閲覧履歴取得
     $viewedIds = session()->get('viewed_products', []);
-    $viewedProducts = Product::whereIn('id', $viewedIds)->get();
-
+    $viewedProducts = Product::with('mainImage')
+        ->whereIn('id', $viewedIds)
+        ->get()
+        ->sortBy(function ($p) use ($viewedIds) {
+            return array_search($p->id, $viewedIds); // セッションの並び順(最近見た順)
+        })
+        ->values();
     return view('products.index', compact('products', 'viewedProducts'));
 });
 

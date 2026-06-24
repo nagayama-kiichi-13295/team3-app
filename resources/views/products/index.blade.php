@@ -111,6 +111,28 @@
     <p>限定モデル続々入荷中！</p>
 </div>
 
+<!-- 最近みた商品 -->
+ @if(isset($viewedProducts) && $viewedProducts->count() > 0)
+ <div class="recently-viewed">
+    <h2 class="recently-title">最近見た商品</h2>
+    <div class="recently-scroll">
+        @foreach($viewedProducts as $vp)
+        <a href="{{ route('products.show', $vp->id) }}" class="recently-card">
+            <div class="recently-img">
+                @if($vp->mainImage && $vp->mainImage->image_path)
+                    <img src="{{ asset('storage/' . $vp->mainImage->image_path) }}" alt="{{ $vp->product_name }}">
+                @else
+                    <img src="{{ asset('images/no-image.png') }}" alt="">
+                @endif
+            </div>
+            <div class="recently-name">{{ $vp->product_name }}</div>
+            <div class="recently-price">{{ number_format($vp->price) }}円</div>
+        </a>
+        @endforeach
+    </div>
+ </div>
+@endif
+
 <div class="product-list">
 @foreach($products as $product)
 <a href="{{ route('products.show', $product->id) }}"
