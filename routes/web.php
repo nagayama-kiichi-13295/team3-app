@@ -9,6 +9,8 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PaymentController;
+
 
 // モデル
 use Illuminate\Http\Request;
@@ -328,3 +330,14 @@ Route::post('/purchase/complete', function (Request $request) {
     return view('purchase.complete', compact('total'));
 
 })->name('purchase.complete');
+
+
+/*
+|--------------------------------------------------------------------------
+| 支払方法
+|--------------------------------------------------------------------------
+*/
+Route::get('/account/payment', [PaymentController::class, 'index']);
+Route::get('/account/payment/create', [PaymentController::class, 'create']);
+Route::post('/account/payment', [PaymentController::class, 'store']);
+Route::post('/account/payment/{id}/delete', [PaymentController::class, 'destroy']);
