@@ -7,70 +7,87 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 <style>
-/* 検索エリア */
+
+/* ===== 検索エリア ===== */
 .search-area {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px; /* ✅ 間隔広げた */
+    gap: 20px;
     margin: 20px auto;
-    width: 100%;
 }
 
-/* 検索入力 */
+/* ✅ 検索ボックス（小さく＆丸） */
 #searchInput {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 400px;
+    width: 500px;   /* ← ここを大きくするんだ */
+    padding: 8px 14px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 14px;
 }
 
-/* 価格エリア */
+
+#searchInput:focus {
+    border-color: #333;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* ===== 価格 ===== */
 .price-filter-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 250px;
-    box-sizing: border-box;
+    gap: 8px;
     font-size: 14px;
-    color: #333;
-    margin-right: 65px;
-}
-
-.price-input-container {
-    display: flex;
-    align-items: center;
-    gap: 4px;
 }
 
 .price-input {
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 85px;
-    text-align: right;
+    width: 80px;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
 }
 
-/* カテゴリ */
+/* ===== カテゴリ（タグボタン） ===== */
 .category-filter {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 25px 0;
 }
 
-.category-btn {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+/* チェックボックス非表示 */
+.category-tag input {
+    display: none;
+}
+
+/* ボタン見た目 */
+.category-tag span {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    background: #fff;
     cursor: pointer;
+    font-size: 14px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.category-btn.active {
-    background-color: #333;
-    color: #fff;
+/* ホバー */
+.category-tag span:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px);
 }
+
+/* ✅ 選択状態 */
+.category-tag input:checked + span {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
 </style>
 </head>
 
@@ -78,27 +95,35 @@
 
 <?= view('header')->render() ?>
 
-<!-- ✅ 検索エリア -->
+<!-- ✅ 検索 -->
 <div class="search-area">
-
-    <!-- ✅ ボタン削除 -->
     <input type="text" id="searchInput" placeholder="商品名を検索">
 
     <div class="price-filter-row">
-        <div class="price-input-container">
-            <input type="number" id="minPriceInput" class="price-input" placeholder="下限なし" min="0"> 円
-        </div>
-        <span>〜</span>
-        <div class="price-input-container">
-            <input type="number" id="maxPriceInput" class="price-input" placeholder="上限なし" min="0"> 円
-        </div>
+        <input type="number" id="minPriceInput" class="price-input" placeholder="下限">
+        〜
+        <input type="number" id="maxPriceInput" class="price-input" placeholder="上限">
     </div>
-
 </div>
 
+<!-- ✅ カテゴリ -->
 <div class="category-filter">
-    <button class="category-btn active" data-target="all">すべて</button>
-    <button class="category-btn" data-target="1">靴</button>
+
+    <label class="category-tag">
+        <input type="checkbox" class="category-check" value="1">
+        <span>靴</span>
+    </label>
+
+    <label class="category-tag">
+        <input type="checkbox" class="category-check" value="2">
+        <span>サンダル</span>
+    </label>
+
+    <label class="category-tag">
+        <input type="checkbox" class="category-check" value="3">
+        <span>ブーツ</span>
+    </label>
+
 </div>
 
 <div class="banner">
@@ -124,7 +149,7 @@
         </div>
 
         <div class="card-body">
-            <h3 style="color: black; margin: 5px 0;">{{ $product->product_name }}</h3>
+            <h3>{{ $product->product_name }}</h3>
             <div class="price">
                 {{ number_format($product->price) }}円
             </div>
@@ -138,29 +163,32 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    const buttons = document.querySelectorAll('.category-btn');
     const products = document.querySelectorAll('.product-item');
     const searchInput = document.getElementById('searchInput');
     const minPriceInput = document.getElementById('minPriceInput');
     const maxPriceInput = document.getElementById('maxPriceInput');
+    const categoryChecks = document.querySelectorAll('.category-check');
 
     function filterProducts() {
-
-        const activeBtn = document.querySelector('.category-btn.active');
-        const targetCategory = activeBtn ? activeBtn.getAttribute('data-target') : 'all';
 
         const searchText = searchInput.value.toLowerCase().trim();
         const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : null;
         const maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value) : null;
 
+        const selectedCategories = Array.from(categoryChecks)
+            .filter(c => c.checked)
+            .map(c => c.value);
+
         products.forEach(product => {
 
             const productCategory = product.getAttribute('data-category');
             const productPrice = parseInt(product.getAttribute('data-price'));
-
             const name = product.querySelector('h3').textContent.toLowerCase();
 
-            const matchCategory = (targetCategory === 'all' || productCategory === targetCategory);
+            const matchCategory =
+                selectedCategories.length === 0 ||
+                selectedCategories.includes(productCategory);
+
             const matchSearch = (searchText === '' || name.includes(searchText));
             const matchMin = (minPrice === null || productPrice >= minPrice);
             const matchMax = (maxPrice === null || productPrice <= maxPrice);
@@ -171,17 +199,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    buttons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            buttons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            filterProducts();
-        });
-    });
-
     searchInput.addEventListener('input', filterProducts);
     minPriceInput.addEventListener('input', filterProducts);
     maxPriceInput.addEventListener('input', filterProducts);
+
+    categoryChecks.forEach(check => {
+        check.addEventListener('change', filterProducts);
+    });
 
 });
 </script>
