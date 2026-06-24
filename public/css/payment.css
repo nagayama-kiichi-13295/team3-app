@@ -1,0 +1,57 @@
+body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
+.payment-page { width: 85%; max-width: 900px; margin: 40px auto; }
+.payment-page h1 { font-size: 22px; margin-bottom: 20px; }
+.payment-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+   gap: 20px;
+}
+.pay-cell { display: flex; flex-direction: column; gap: 8px; }
+.pay-card {
+   background: linear-gradient(135deg, #2c2c34, #16161a);
+   color: #fff;
+   border-radius: 14px;
+   padding: 22px;
+   min-height: 150px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+.pay-card.paypay { background: linear-gradient(135deg, #ff2d55, #d6002e); }
+.pay-brand, .pay-logo { font-size: 18px; font-weight: bold; letter-spacing: 1px; }
+.pay-logo { font-size: 24px; }
+.pay-number { font-size: 19px; letter-spacing: 2px; }
+.pay-bottom { display: flex; justify-content: space-between; font-size: 13px; color: #ccc; }
+.pay-delete {
+   align-self: flex-end;
+   background: none; border: none;
+   color: #c0392b; font-size: 14px; cursor: pointer; padding: 0;
+}
+.pay-delete:hover { text-decoration: underline; }
+.add-card {
+   align-items: center; justify-content: center;
+   border: 2px dashed #ccc; border-radius: 14px;
+   color: #888; text-decoration: none; min-height: 150px; gap: 8px;
+}
+.add-card:hover { border-color: #ff5a5f; color: #ff5a5f; }
+.add-card .plus { font-size: 32px; line-height: 1; }
+.form-card { background: white; border-radius: 12px; padding: 30px; max-width: 500px; }
+.form-card h1 { font-size: 20px; margin-bottom: 20px; }
+.field { margin-bottom: 16px; flex: 1; }
+.field label { display: block; font-weight: bold; margin-bottom: 6px; font-size: 14px; }
+.field input, .field select {
+   width: 100%; padding: 10px;
+   border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;
+}
+.field small { color: #888; font-size: 12px; }
+.field-row { display: flex; gap: 14px; }
+.form-card button[type="submit"] {
+   width: 100%; background: #ff5a5f; color: white; border: none;
+   padding: 12px; border-radius: 6px; font-size: 16px; cursor: pointer; margin-top: 6px;
+}
+.form-card button[type="submit"]:hover { background: #e63c3c; }
+.error { background: #ffeaea; color: #c0392b; padding: 12px 16px 12px 32px; border-radius: 6px; margin-bottom: 18px; }
+.status { background: #e8f5e9; color: #2e7d32; padding: 10px 14px; border-radius: 6px; margin-bottom: 18px; }
+.back { margin-top: 24px; }
+.back a { color: #555; font-size: 14px; text-decoration: none; }

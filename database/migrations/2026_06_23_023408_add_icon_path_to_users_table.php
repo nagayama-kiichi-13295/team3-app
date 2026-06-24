@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table -> string('icon_path') -> nullable('user_name');
+            $table -> string('icon_path') -> nullable() -> after('user_name');
         });
     }
 
