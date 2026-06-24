@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('card_holder')->nullable();
             $table->string('last4', 4)->nullable();
             $table->unsignedTinyInteger('exp_month')->nullable();
-            $table->unsignedTinyInteger('exp_year')->nullable();
+            $table->unsignedSmallInteger('exp_year')->nullable();
 
             // PayPay用
             $table->string('paypay_phone')->nullable();

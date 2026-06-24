@@ -272,7 +272,12 @@ Route::get('/purchase/form', function (Request $request) {
     $product = Product::findOrFail($request->product_id);
     $address = Address::where('user_id', auth()->id())->first();
 
-    return view('purchase.form', compact('product', 'address'));
+    // 登録済みお支払方法を取得
+    $payments = \App\Models\PaymentMethod::where('user_id', auth() -> id())
+        -> orderBy('id', 'desc')
+        -> get();
+
+    return view('purchase.form', compact('product', 'address', 'payments'));
 
 })->name('purchase.form');
 

@@ -69,7 +69,7 @@ class PaymentController extends Controller {
                 'paypay_phone' => 'required|regex:/^[0-9-]{10,13}$/',
             ], [
                 'paypay_phone.required' => 'PayPayに登録する電話番号を入力してください。',
-                'paypay_phone/regex' => '電話番号の形式が正しくありません。',
+                'paypay_phone.regex' => '電話番号の形式が正しくありません。',
             ]);
 
             PaymentMethod::create([

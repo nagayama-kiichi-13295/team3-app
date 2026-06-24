@@ -115,3 +115,47 @@ hr {
     border: none;
     border-top: 1px solid #eee;
 }
+
+.payment-select {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   margin: 10px 0 20px;
+}
+.payment-option {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   padding: 12px 14px;
+   cursor: pointer;
+   transition: 0.15s;
+}
+.payment-option:hover {
+   border-color: #ff5a5f;
+}
+.payment-option input {
+   margin: 0;
+   width: auto;
+}
+.pay-badge {
+   font-size: 12px;
+   font-weight: bold;
+   color: #fff;
+   padding: 3px 10px;
+   border-radius: 4px;
+}
+.pay-badge.card { background: #2c2c34; }
+.pay-badge.paypay { background: #ff2d55; }
+.no-payment {
+   background: #fff7f7;
+   border: 1px dashed #ff5a5f;
+   border-radius: 8px;
+   padding: 14px;
+   margin: 10px 0 20px;
+}
+.no-payment a {
+   color: #ff5a5f;
+   font-weight: bold;
+}

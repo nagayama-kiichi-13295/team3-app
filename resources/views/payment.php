@@ -22,9 +22,9 @@
         <div class="pay-cell">
 <?php if ($method->type === 'paypay'): ?>
             <div class="pay-card paypay">
-                <div class="pay-log">PayPay</div>
+                <div class="pay-logo">PayPay</div>
                 <div class="pay-number">連携番号 ***-****-<?= htmlspecialchars(substr(preg_replace('/\D/', '', $method->paypay_phone), -4)) ?></div>
-                <div class="pay-bottm"><span>PayPay残高</span><span>連携済み</span></div>
+                <div class="pay-bottom"><span>PayPay残高</span><span>連携済み</span></div>
             </div>
 <?php else: ?>
             <div class="pay-card"> 
@@ -32,7 +32,7 @@
                 <div class="pay-number">・・・・ ・・・・ ・・・・<?= htmlspecialchars($method->last4) ?></div>
                 <div class="pay-bottom">
                     <span><?= htmlspecialchars($method->card_holder) ?></span>
-                    <span><?= sprintf('%02d', $method->exp_month) ?><?= htmlspecialchars($method->exp_year) ?></span>
+                    <span><?= sprintf('%02d', $method->exp_month) ?>/<?= htmlspecialchars($method->exp_year) ?></span>
                 </div>
             </div>
 <?php endif; ?>

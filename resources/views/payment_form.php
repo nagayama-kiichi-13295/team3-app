@@ -28,12 +28,12 @@
                 <label>お支払方法の種類</label>
                 <select name="type" id="type" onchange="onTypeChange()">
                     <option value="card" <?= old('type') === 'paypay' ? '' : 'selected' ?>>クレジットカード</option>
-                    <option value="paypay" <?= old('type') === 'paypay' ? '' : 'selected' ?>>PayPay</option>
+                    <option value="paypay" <?= old('type') === 'paypay' ? 'selected' : '' ?>>PayPay</option>
                 </select>
             </div>
 
             <!-- カード用 -->
-             <div class="cardFields">
+             <div id="cardFields">
                 <div class="field">
                     <label>カードブランド</label>
                     <select name="card_brand">
@@ -90,8 +90,8 @@
 <script>
     function onTypeChange() {
         const type = document.getElementById('type').value;
-        document.getElementById('cardField').style.display = (type === 'card') ? 'block' : 'none';
-        document.getElementById('paypayField').style.display = (type === 'paypay') ? 'block' : 'none';
+        document.getElementById('cardFields').style.display = (type === 'card') ? 'block' : 'none';
+        document.getElementById('paypayFields').style.display = (type === 'paypay') ? 'block' : 'none';
     }
     onTypeChange();
 </script>
