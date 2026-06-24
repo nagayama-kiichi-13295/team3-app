@@ -177,6 +177,6 @@
 
     setInterval(() => moveHero(1), 5000); // 5秒ごとに自動で次へ
 </script>
-
+<?= view('footer')->render() ?>
 </body>
 </html>

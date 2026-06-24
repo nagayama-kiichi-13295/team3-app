@@ -23,19 +23,27 @@
 <?php if ($method->type === 'paypay'): ?>
             <div class="pay-card paypay">
                 <div class="pay-logo">PayPay</div>
-                <div class="pay-number">連携番号 ***-****-<?= htmlspecialchars(substr(preg_replace('/\D/', '', $method->paypay_phone), -4)) ?></div>
-                <div class="pay-bottom"><span>PayPay残高</span><span>連携済み</span></div>
+                <div class="pay-number">
+                    連携番号 ***-****-<?= htmlspecialchars(substr(preg_replace('/\D/', '', $method->paypay_phone), -4)) ?>
+                </div>
+                <div class="pay-bottom">
+                    <span>PayPay残高</span>
+                    <span>連携済み</span>
+                </div>
             </div>
 <?php else: ?>
             <div class="pay-card"> 
                 <div class="pay-brand"><?= htmlspecialchars($method->card_brand) ?></div>
-                <div class="pay-number">・・・・ ・・・・ ・・・・<?= htmlspecialchars($method->last4) ?></div>
+                <div class="pay-number">
+                    ・・・・ ・・・・ ・・・・<?= htmlspecialchars($method->last4) ?>
+                </div>
                 <div class="pay-bottom">
                     <span><?= htmlspecialchars($method->card_holder) ?></span>
                     <span><?= sprintf('%02d', $method->exp_month) ?>/<?= htmlspecialchars($method->exp_year) ?></span>
                 </div>
             </div>
 <?php endif; ?>
+
             <form action="/account/payment/<?= $method->id ?>/delete" method="post"
                 onsubmit="return confirm('このお支払方法を削除しますか？');">
                 <?= csrf_field() ?>
@@ -44,10 +52,13 @@
         </div>
 <?php endforeach; ?>
 
-        <a href="/account/payment/create" class="pay-cell add-card">
+        <!-- ✅ ここ修正（redirectつける） -->
+        <a href="/account/payment/create?redirect=<?= urlencode($_SERVER['HTTP_REFERER'] ?? '') ?>"
+           class="pay-cell add-card">
             <span class="plus">+</span>
             <span>お支払方法を追加</span>
         </a>
+
     </div>
 
     <p class="back"><a href="/account">アカウントサービスに戻る</a></p>

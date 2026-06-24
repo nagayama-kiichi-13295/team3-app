@@ -7,13 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\PaymentMethod;
 
 class PaymentController extends Controller {
+
     public function index() {
         if (!Auth::check()) return redirect('/login');
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        $methods = PaymentMethod::where('user_id', $user->id)->orderBy('id', 'desc')->get();
+        $methods = PaymentMethod::where('user_id', $user->id)
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('payment', ['methods' => $methods]);
     }
@@ -25,18 +28,22 @@ class PaymentController extends Controller {
 
     public function store(Request $request) {
         if (!Auth::check()) return redirect('login');
+
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
+        // 種類チェック
         $request->validate([
             'type' => 'required|in:card,paypay',
-        ],[
+        ], [
             'type.required' => 'お支払方法を選んでください。',
             'type.in' => 'お支払方法の選択が正しくありません。',
         ]);
 
+        // ===== カード =====
         if ($request->input('type') === 'card') {
-            $validated = $request -> validate([
+
+            $validated = $request->validate([
                 'card_brand' => 'required|in:VISA,Mastercard,JCB,AMEX,その他',
                 'card_number' => 'required|regex:/^[0-9 -]{12,23}$/',
                 'card_holder' => 'required|max:50',
@@ -51,8 +58,8 @@ class PaymentController extends Controller {
                 'exp_year.required' => '有効期限(年)を入力してください。',
                 'exp_year.min' => '有効期限が過去になっています。',
             ]);
-            
-            // 下4桁だけ取り出す。
+
+            // 数字だけ抽出
             $digits = preg_replace('/\D/', '', $request->input('card_number'));
 
             PaymentMethod::create([
@@ -64,7 +71,10 @@ class PaymentController extends Controller {
                 'exp_month' => $validated['exp_month'],
                 'exp_year' => $validated['exp_year'],
             ]);
-        } else { // paypay
+
+        // ===== PayPay =====
+        } else {
+
             $validated = $request->validate([
                 'paypay_phone' => 'required|regex:/^[0-9-]{10,13}$/',
             ], [
@@ -79,22 +89,35 @@ class PaymentController extends Controller {
             ]);
         }
 
-        return redirect('/account/payment')->with('status', 'お支払方法を追加しました。');
+        // ✅ ===== ここが今回の核心 =====
+        $redirect = $request->input('redirect');
+
+        if (!empty($redirect)) {
+            return redirect($redirect)
+                ->with('status', 'お支払方法を追加しました。');
+        }
+
+        // fallback
+        return redirect('/account/payment')
+            ->with('status', 'お支払方法を追加しました。');
     }
 
     public function destroy($id) {
         if (!Auth::check()) return redirect('/login');
 
-        $method = $this -> findOwned($id);
-        $method -> delete();
+        $method = $this->findOwned($id);
+        $method->delete();
 
-        return redirect('/account/payment') -> with('status', 'お支払方法を削除しました。');
+        return redirect('/account/payment')
+            ->with('status', 'お支払方法を削除しました。');
     }
 
     public function findOwned($id) {
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        return PaymentMethod::where('id', $id)->where('user_id', $user->id)->firstOrFail();
+        return PaymentMethod::where('id', $id)
+            ->where('user_id', $user->id)
+            ->firstOrFail();
     }
 }
