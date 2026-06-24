@@ -128,39 +128,20 @@
             <div class="price">
                 {{ number_format($product->price) }}円
             </div>
+            
+            <div class="card-rating">
+                @if($product->reviews_count > 0)
+                    ★ {{ round($product->reviews_avg_star, 1) }} ({{ $product->reviews_count }})
+                @else
+                    <span class="no-rating">レビューなし</span>
+                @endif
+            </div>
         </div>
     </div>
 
 </a>
 @endforeach
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-
-    const products = document.querySelectorAll('.product-item');
-    const minPriceInput = document.getElementById('minPriceInput');
-    const maxPriceInput = document.getElementById('maxPriceInput');
-
-    function filterProducts() {
-        const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : null;
-        const maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value) : null;
-
-        products.forEach(product => {
-            const productPrice = parseInt(product.getAttribute('data-price'));
-
-            const matchMin = (minPrice === null || productPrice >= minPrice);
-            const matchMax = (maxPrice === null || productPrice <= maxPrice);
-
-            product.style.display = (matchMin && matchMax) ? 'inline-block' : 'none';
-        });
-    }
-
-    minPriceInput.addEventListener('input', filterProducts);
-    maxPriceInput.addEventListener('input', filterProducts);
-
-});
-</script>
 
 <script>
     let heroIndex = 0;

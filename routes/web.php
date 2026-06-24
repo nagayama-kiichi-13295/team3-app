@@ -20,6 +20,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Favorite;
+use App\Models\Review;
 
 
 /*
@@ -76,7 +77,10 @@ Route::get('/api/zipcode', [AddressController::class, 'lookupZip']);
 */
 Route::get('/', function () {
 
-    $products = Product::all();
+    $products = Product::with('mainImage')
+        ->withCount('reviews')
+        ->withAvg('reviews', 'star')
+        ->get();
 
     // ✅ 閲覧履歴取得
     $viewedIds = session()->get('viewed_products', []);
@@ -159,6 +163,33 @@ Route::get('/orders', function () {
     return view('orders', compact('orders'));
 
 })->name('orders');
+
+
+/*
+|--------------------------------------------------------------------------
+| レビュー投稿
+|--------------------------------------------------------------------------
+*/
+Route::post('/products/{id}/review', function (Request $request, $id) {
+    
+    if (!Auth::check()) return redirect('/login');
+
+    $request->validate([
+        'star' => 'required|integer|between:1,5',
+        'comment' => 'nullable|max:1000',
+    ], [
+        'star.required' => '星の数を選んでください。',
+    ]);
+
+    // 同じ人の同じ省へのレビューは上書き
+    Review::updateOrCreate(
+        ['user_id' => auth()->id(), 'product_id' => $id],
+        ['star' => $request->star, 'comment' => $request->comment]
+    );
+
+    return redirect('/products/' . $id)->with('status', 'レビューを投稿しました。');
+    
+})->name('review.store');
 
 
 /*

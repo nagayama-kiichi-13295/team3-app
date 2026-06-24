@@ -13,7 +13,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('mainImage')->get();
+        $products = Product::with('mainImage')
+            ->withCount('reviews')
+            ->withAvg('reviews', 'star')
+            ->get();
 
         return view('products.index', compact('products'));
     }

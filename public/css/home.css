@@ -272,3 +272,15 @@ header{
    background: #ddd;
    border-radius: 3px;
 }
+
+.card-rating { 
+    padding: 0 16px 14px;
+    font-size: 13px; 
+    color: #ffb400;
+    font-weight: bold;
+}
+
+.card-rating .no-rating {
+    color: #bbb;
+    font-weight: normal;
+}
