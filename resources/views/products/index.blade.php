@@ -108,12 +108,11 @@
 
 <!-- ✅ 検索 -->
 <div class="search-area">
-    <input type="text" id="searchInput" placeholder="商品名を検索">
-
     <div class="price-filter-row">
         <input type="number" id="minPriceInput" class="price-input" placeholder="下限">
         〜
         <input type="number" id="maxPriceInput" class="price-input" placeholder="上限">
+        <span>円</span>
     </div>
 </div>
 
@@ -175,48 +174,25 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const products = document.querySelectorAll('.product-item');
-    const searchInput = document.getElementById('searchInput');
     const minPriceInput = document.getElementById('minPriceInput');
     const maxPriceInput = document.getElementById('maxPriceInput');
-    const categoryChecks = document.querySelectorAll('.category-check');
 
     function filterProducts() {
-
-        const searchText = searchInput.value.toLowerCase().trim();
         const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : null;
         const maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value) : null;
 
-        const selectedCategories = Array.from(categoryChecks)
-            .filter(c => c.checked)
-            .map(c => c.value);
-
         products.forEach(product => {
-
-            const productCategory = product.getAttribute('data-category');
             const productPrice = parseInt(product.getAttribute('data-price'));
-            const name = product.querySelector('h3').textContent.toLowerCase();
 
-            const matchCategory =
-                selectedCategories.length === 0 ||
-                selectedCategories.includes(productCategory);
-
-            const matchSearch = (searchText === '' || name.includes(searchText));
             const matchMin = (minPrice === null || productPrice >= minPrice);
             const matchMax = (maxPrice === null || productPrice <= maxPrice);
 
-            product.style.display = (matchCategory && matchSearch && matchMin && matchMax)
-                ? 'inline-block'
-                : 'none';
+            product.style.display = (matchMin && matchMax) ? 'inline-block' : 'none';
         });
     }
 
-    searchInput.addEventListener('input', filterProducts);
     minPriceInput.addEventListener('input', filterProducts);
     maxPriceInput.addEventListener('input', filterProducts);
-
-    categoryChecks.forEach(check => {
-        check.addEventListener('change', filterProducts);
-    });
 
 });
 </script>

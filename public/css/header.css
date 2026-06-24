@@ -201,3 +201,93 @@ header {
 .search-btn:hover {
    background: #e63c3c;
 }
+
+.search-body {
+   display: flex;
+   gap: 24px;
+   align-items: flex-start;
+}
+/* 左サイドバー */
+.search-sidebar {
+   width: 220px;
+   flex-shrink: 0;
+   background: white;
+   border: 1px solid #eee;
+   border-radius: 10px;
+   padding: 18px;
+}
+.filter-block {
+   margin-bottom: 22px;
+}
+.filter-block h3 {
+   font-size: 15px;
+   margin-bottom: 10px;
+   padding-bottom: 6px;
+   border-bottom: 1px solid #eee;
+}
+.search-sidebar select {
+   width: 100%;
+   padding: 8px;
+   border: 1px solid #ccc;
+   border-radius: 6px;
+}
+.price-range {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+}
+.price-range input {
+   width: 100%;
+   padding: 7px;
+   border: 1px solid #ccc;
+   border-radius: 6px;
+   min-width: 0;
+}
+.price-presets {
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+   margin-top: 12px;
+}
+.price-presets button {
+   background: none;
+   border: none;
+   text-align: left;
+   color: #0066c0;
+   font-size: 13px;
+   cursor: pointer;
+   padding: 2px 0;
+}
+.price-presets button:hover {
+   text-decoration: underline;
+}
+.apply-btn {
+   width: 100%;
+   background: #ff5a5f;
+   color: white;
+   border: none;
+   padding: 10px;
+   border-radius: 6px;
+   cursor: pointer;
+   font-size: 14px;
+}
+.apply-btn:hover {
+   background: #e63c3c;
+}
+/* 右メイン */
+.search-main {
+   flex: 1;
+   min-width: 0;
+}
+.sort-bar {
+   display: flex;
+   justify-content: flex-end;
+   margin-bottom: 16px;
+}
+.sort-bar select {
+   padding: 8px 12px;
+   border: 1px solid #ccc;
+   border-radius: 6px;
+   background: white;
+   cursor: pointer;
+}

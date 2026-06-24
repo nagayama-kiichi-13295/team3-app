@@ -36,6 +36,8 @@ class ProductController extends Controller
         $keyword = $request->input('keyword');
         $categoryId = $request->input('category');
         $sort = $request->input('sort');
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
 
         $query = Product::with('mainImage');
 
@@ -47,6 +49,14 @@ class ProductController extends Controller
         // カテゴリー絞り込み
         if (!empty($categoryId)) {
             $query->where('category_id', $categoryId);
+        }
+
+        // 価格の下限・上限
+        if ($minPrice!== null && $minPrice !== '') {
+            $query->where('price', '>=', (int)$minPrice);
+        }
+        if ($maxPrice !== null && $maxPrice !== '') {
+            $query->where('price', '<=', (int)$maxPrice);
         }
 
         // 並び替え
@@ -67,6 +77,8 @@ class ProductController extends Controller
             'keyword' => $keyword,
             'categoryId' => $categoryId,
             'sort' => $sort,
+            'minPrice' => $minPrice,
+            'maxPrice' => $maxPrice,
         ]);
     }
 }
