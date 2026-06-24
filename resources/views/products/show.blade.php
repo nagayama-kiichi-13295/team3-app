@@ -49,6 +49,10 @@
             <button type="button" id="plusBtn">+</button>
         </div>
 
+        <button type="button" id="favBtn" class="fav-btn" data-id="{{ $product->id }}" style="margin-bottom: 15px; padding: 10px; width: 100%; cursor: pointer;">
+            {{ $isFavorite ? '★ お気に入り済み' : '☆ お気に入り' }}
+        </button>
+
         <!-- ✅ ✅ 購入（数量送るようにする） -->
         <form action="{{ route('purchase.form') }}" method="GET">
             <input type="hidden" name="product_id" value="{{ $product->id }}">

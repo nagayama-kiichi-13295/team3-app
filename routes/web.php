@@ -358,4 +358,58 @@ Route::get('/contact', function () {
 Route::post('/contact/send', [ContactController::class, 'send'])
    ->name('contact.send');
 
-   Route::view('/terms', 'terms');
+/*
+|--------------------------------------------------------------------------
+| フッターリンク用のルーティング（シンプル版）
+|--------------------------------------------------------------------------
+*/
+
+// 利用規約 (terms.blade.php)
+Route::view('/terms', 'terms')->name('terms');
+
+// プライバシーポリシー (privacy.blade.php)
+Route::view('/privacy', 'privacy')->name('privacy');
+
+// 特定商取引法に基づく表記 (tokushoho.blade.php)
+Route::view('/tokushoho', 'tokushoho')->name('tokushoho');
+
+/* |--------------------------------------------------------------------------
+| お気に入り一覧表示（ログイン必須）
+|--------------------------------------------------------------------------
+*/
+Route::get('/favorites', function () {
+    if (!Auth::check()) return redirect('/login');
+
+    // 自分が登録したお気に入りを商品情報・メイン画像付きで最新順に取得
+    $favorites = Favorite::with('product.mainImage')
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->get();
+
+    return view('favorites', compact('favorites'));
+})->name('favorites.index');
+
+// 👇 【ここから追記】非同期（JavaScript）用のお気に入り登録・解除ルート
+Route::post('/favorite/toggle', function (\Illuminate\Http\Request $request) {
+    if (!Auth::check()) return response()->json(['error' => 'Unauthorized'], 401);
+
+    $userId = auth()->id();
+    $productId = $request->input('product_id');
+
+    // すでにお気に入り登録されているか確認
+    $favorite = \App\Models\Favorite::where('user_id', $userId)->where('product_id', $productId)->first();
+
+    if ($favorite) {
+        // 登録されていれば削除（お気に入り解除）
+        $favorite->delete();
+        return response()->json(['status' => 'removed']);
+    } else {
+        // 登録されていなければ新規作成（お気に入り登録）
+        \App\Models\Favorite::create([
+            'user_id' => $userId,
+            'product_id' => $productId,
+        ]);
+        return response()->json(['status' => 'added']);
+    }
+});
+   

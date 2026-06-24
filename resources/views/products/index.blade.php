@@ -99,6 +99,37 @@
     overflow: hidden;
 }
 
+/* 💡 既存の .card-body h3 などの下あたりに貼り付けてください */
+.product-item {
+    position: relative; /* 💡 これが抜けていると、z-indexが効きません */
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+}
+
+.ajax-fav-btn {
+    position: absolute !important; /* 💡 最優先で絶対配置にする */
+    top: 15px;
+    right: 15px;
+    z-index: 999 !important; /* 💡 カード（aタグ）よりも圧倒的に手前に出す */
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+}
+
+.ajax-fav-btn:hover {
+    background: #fff;
+    transform: scale(1.05);
+}
 </style>
 </head>
 
@@ -106,7 +137,6 @@
 
 <?= view('header')->render() ?>
 
-<!-- ✅ 検索 -->
 <div class="search-area">
     <input type="text" id="searchInput" placeholder="商品名を検索">
 
@@ -117,7 +147,6 @@
     </div>
 </div>
 
-<!-- ✅ カテゴリ -->
 <div class="category-filter">
 
     <label class="category-tag">
@@ -144,44 +173,51 @@
 
 <div class="product-list">
 @foreach($products as $product)
-<a href="{{ route('products.show', $product->id) }}"
-   class="product-item"
-   data-category="{{ $product->category_id }}"
-   data-price="{{ $product->price }}"
-   style="text-decoration:none; color:black; display:inline-block;">
+<div style="position: relative; display: inline-block; margin: 10px;">
 
-    <div class="card">
-        <div class="image">
-            @if($product->mainImage && $product->mainImage->image_path)
-                <img src="{{ asset('storage/' . $product->mainImage->image_path) }}" style="width:100%; height:100%; object-fit:cover;">
-            @else
-                <img src="{{ asset('images/no-image.png') }}" style="width:100%; height:100%; object-fit:cover;">
-            @endif
-        </div>
+    <button type="button" class="ajax-fav-btn" data-id="{{ $product->id }}">
+        {{ Auth::check() && \App\Models\Favorite::where('user_id', auth()->id())->where('product_id', $product->id)->exists() ? '★' : '☆' }}
+    </button>
 
-        <div class="card-body">
-            <h3>{{ $product->product_name }}</h3>
-            <div class="price">
-                {{ number_format($product->price) }}円
+    <a href="{{ route('products.show', $product->id) }}"
+       class="product-item"
+       data-category="{{ $product->category_id }}"
+       data-price="{{ $product->price }}"
+       style="margin: 0; display: block;">
+
+        <div class="card">
+            <div class="image">
+                @if($product->mainImage && $product->mainImage->image_path)
+                    <img src="{{ asset('storage/' . $product->mainImage->image_path) }}" style="width:100%; height:100%; object-fit:cover;">
+                @else
+                    <img src="{{ asset('images/no-image.png') }}" style="width:100%; height:100%; object-fit:cover;">
+                @endif
+            </div>
+
+            <div class="card-body">
+                <h3>{{ $product->product_name }}</h3>
+                <div class="price">
+                    {{ number_format($product->price) }}円
+                </div>
             </div>
         </div>
-    </div>
+    </a>
 
-</a>
+</div>
 @endforeach
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    const products = document.querySelectorAll('.product-item');
+    // 💡 調整：製品アイテム自体ではなく、外側の親divを非表示にするため、クラスではなく親要素を基準にします
+    const products = document.querySelectorAll('.product-list > div');
     const searchInput = document.getElementById('searchInput');
     const minPriceInput = document.getElementById('minPriceInput');
     const maxPriceInput = document.getElementById('maxPriceInput');
     const categoryChecks = document.querySelectorAll('.category-check');
 
     function filterProducts() {
-
         const searchText = searchInput.value.toLowerCase().trim();
         const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : null;
         const maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value) : null;
@@ -191,34 +227,59 @@ document.addEventListener('DOMContentLoaded', function() {
             .map(c => c.value);
 
         products.forEach(product => {
-
-            const productCategory = product.getAttribute('data-category');
-            const productPrice = parseInt(product.getAttribute('data-price'));
+            const productItem = product.querySelector('.product-item');
+            const productCategory = productItem.getAttribute('data-category');
+            const productPrice = parseInt(productItem.getAttribute('data-price'));
             const name = product.querySelector('h3').textContent.toLowerCase();
 
-            const matchCategory =
-                selectedCategories.length === 0 ||
-                selectedCategories.includes(productCategory);
-
+            const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(productCategory);
             const matchSearch = (searchText === '' || name.includes(searchText));
             const matchMin = (minPrice === null || productPrice >= minPrice);
             const matchMax = (maxPrice === null || productPrice <= maxPrice);
 
-            product.style.display = (matchCategory && matchSearch && matchMin && matchMax)
-                ? 'inline-block'
-                : 'none';
+            // 💡 親のdivごと非表示にすることで、お気に入りボタンも一緒に消えます
+            product.style.display = (matchCategory && matchSearch && matchMin && matchMax) ? 'inline-block' : 'none';
         });
     }
 
     searchInput.addEventListener('input', filterProducts);
     minPriceInput.addEventListener('input', filterProducts);
     maxPriceInput.addEventListener('input', filterProducts);
+    categoryChecks.forEach(check => check.addEventListener('change', filterProducts));
 
-    categoryChecks.forEach(check => {
-        check.addEventListener('change', filterProducts);
+    // ✅ お気に入り非同期通信
+    document.querySelectorAll('.ajax-fav-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault(); 
+            e.stopPropagation(); 
+            const productId = this.dataset.id;
+            
+            fetch('/favorite/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ product_id: productId })
+            })
+            .then(res => {
+                if (res.status === 401) {
+                    location.href = "/login";
+                    return;
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data) {
+                    // ★ と ☆ をその場でパチッと切り替える
+                    this.innerText = data.status === 'added' ? '★' : '☆';
+                }
+            })
+            .catch(err => console.error("エラーが発生しました:", err));
+        });
     });
-
 });
+
 </script>
 <?= view('footer')->render() ?>
 </body>
