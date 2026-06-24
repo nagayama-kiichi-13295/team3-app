@@ -103,6 +103,13 @@
 
                     <div class="product-name"><?= htmlspecialchars($product->product_name) ?></div>
                     <div class="product-price">¥<?= number_format($product->price) ?></div>
+                    <div class="card-rating">
+<?php if ($product->reviews_count > 0): ?>
+                        ★ <?= round($product->reviews_avg_star, 1) ?>(<?= $product->reviews_count ?>)
+<?php else: ?>
+                        <span class="no-rating">レビューなし</span>
+<?php endif; ?>
+                    </div>
                 </a>
 <?php endforeach; ?>
             </div>

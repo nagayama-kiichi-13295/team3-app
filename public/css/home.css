@@ -236,6 +236,8 @@ header{
    color: inherit;
    scroll-snap-align: start;
    transition: 0.15s;
+   display: flex;
+   flex-direction: column;
 }
 .recently-card:hover {
    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -255,8 +257,13 @@ header{
    padding: 8px 10px 2px;
    font-size: 13px;
    line-height: 1.4;
-   height: 38px;
+   min-height: 36px;
    overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   -webkit-box-orient: vertical;
+   word-break: break-word;
+   flex-grow: 1;
 }
 .recently-price {
    padding: 0 10px 10px;

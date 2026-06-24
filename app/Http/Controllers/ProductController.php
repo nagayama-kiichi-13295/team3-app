@@ -42,7 +42,9 @@ class ProductController extends Controller
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
 
-        $query = Product::with('mainImage');
+        $query = Product::with('mainImage')
+            ->withCount('reviews')
+            ->withAvg('reviews', 'star');
 
         // キーワード(商品名の部分一致)
         if (!empty($keyword)) {
