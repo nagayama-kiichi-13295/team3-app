@@ -40,10 +40,7 @@
             {{ $product->description }}
         </p>
 
-        <!-- ✅ お気に入り -->
-        <button id="favBtn" data-id="{{ $product->id }}">
-            {{ $isFavorite ? '★ お気に入り済み' : '☆ お気に入り' }}
-        </button>
+
 
         <!-- ✅ 数量 -->
         <div class="quantity-box">

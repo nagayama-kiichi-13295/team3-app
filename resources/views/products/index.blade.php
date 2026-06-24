@@ -88,6 +88,17 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+.card-body h3 {
+    font-size: 14px;
+    line-height: 1.4;
+    height: 40px; /* ← 高さを固定 */
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* ← 最大2行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 </style>
 </head>
 
