@@ -23,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
 {
     View::share('user', Auth::user());
+    \Illuminate\Pagination\Paginator::useBootstrapFive();
 }
 }
