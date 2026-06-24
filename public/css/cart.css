@@ -193,3 +193,16 @@ input[type="number"] {
 .btn-continue:hover {
     color: #e60023;
 }
+
+.cart-summary {
+    position: relative;
+}
+ 
+.btn-checkout {
+    width: 200px;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+ 
+    transition: all 0.25s ease;
+}
