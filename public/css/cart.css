@@ -58,18 +58,18 @@ h1 {
 
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
-
-/* 画像 */
 .item-image {
     width: 120px;
     height: 120px;
+    overflow: hidden;
+    border-radius: 8px;
 }
 
 .item-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
+    display: block;
 }
 
 /* 商品情報 */
@@ -192,4 +192,17 @@ input[type="number"] {
 
 .btn-continue:hover {
     color: #e60023;
+}
+
+.cart-summary {
+    position: relative;
+}
+ 
+.btn-checkout {
+    width: 200px;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+ 
+    transition: all 0.25s ease;
 }

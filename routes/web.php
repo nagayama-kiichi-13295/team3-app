@@ -9,6 +9,8 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PaymentController;
+
 use App\Http\Controllers\ContactController;
 
 // モデル 
@@ -271,7 +273,12 @@ Route::get('/purchase/form', function (Request $request) {
     $product = Product::findOrFail($request->product_id);
     $address = Address::where('user_id', auth()->id())->first();
 
-    return view('purchase.form', compact('product', 'address'));
+    // 登録済みお支払方法を取得
+    $payments = \App\Models\PaymentMethod::where('user_id', auth() -> id())
+        -> orderBy('id', 'desc')
+        -> get();
+
+    return view('purchase.form', compact('product', 'address', 'payments'));
 
 })->name('purchase.form');
 
@@ -330,6 +337,16 @@ Route::post('/purchase/complete', function (Request $request) {
 
 })->name('purchase.complete');
 
+
+/*
+|--------------------------------------------------------------------------
+| 支払方法
+|--------------------------------------------------------------------------
+*/
+Route::get('/account/payment', [PaymentController::class, 'index']);
+Route::get('/account/payment/create', [PaymentController::class, 'create']);
+Route::post('/account/payment', [PaymentController::class, 'store']);
+Route::post('/account/payment/{id}/delete', [PaymentController::class, 'destroy']);
 /*
 |--------------------------------------------------------------------------
 |お問い合わせ

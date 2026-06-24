@@ -88,4 +88,58 @@
 </div>
 
 </body>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    const btn = document.querySelector(".btn-checkout");
+    const parent = document.querySelector(".cart-summary");
+ 
+    let escapeCount = 0;
+ 
+    btn.addEventListener("mouseover", () => {
+ 
+        // 5回までは逃げる
+        if (escapeCount < 5) {
+            escapeCount++;
+ 
+            const parentRect = parent.getBoundingClientRect();
+            const btnWidth = btn.offsetWidth;
+            const btnHeight = btn.offsetHeight;
+ 
+            const maxX = parentRect.width - btnWidth;
+            const maxY = parentRect.height - btnHeight;
+ 
+            // 現在位置
+            let currentX = btn.offsetLeft;
+            let currentY = btn.offsetTop;
+ 
+            // ランダム方向
+            let moveX = (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 100);
+            let moveY = (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 100);
+ 
+            let newX = currentX + moveX;
+            let newY = currentY + moveY;
+ 
+            // 範囲内に制限
+            newX = Math.max(0, Math.min(maxX, newX));
+            newY = Math.max(0, Math.min(maxY, newY));
+ 
+            btn.style.position = "absolute";
+            btn.style.left = newX + "px";
+            btn.style.top = newY + "px";
+ 
+            // テキスト変更
+            btn.textContent = `あと ${5 - escapeCount} 回…`;
+ 
+        } else {
+            // 解放
+            btn.style.position = "static";
+            btn.style.left = "";
+            btn.style.top = "";
+ 
+            btn.textContent = "購入手続きへ進む";
+        }
+    });
+});
+</script>
 </html>
