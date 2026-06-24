@@ -310,3 +310,5 @@ Route::post('/purchase/complete', function (Request $request) {
 Route::get('/orders', function () {
     return view('orders');
 });
+
+Route::view('/terms', 'terms');
