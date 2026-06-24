@@ -106,36 +106,6 @@
 
 <?= view('header')->render() ?>
 
-<!-- ✅ 検索 -->
-<div class="search-area">
-    <div class="price-filter-row">
-        <input type="number" id="minPriceInput" class="price-input" placeholder="下限">
-        〜
-        <input type="number" id="maxPriceInput" class="price-input" placeholder="上限">
-        <span>円</span>
-    </div>
-</div>
-
-<!-- ✅ カテゴリ -->
-<div class="category-filter">
-
-    <label class="category-tag">
-        <input type="checkbox" class="category-check" value="1">
-        <span>靴</span>
-    </label>
-
-    <label class="category-tag">
-        <input type="checkbox" class="category-check" value="2">
-        <span>サンダル</span>
-    </label>
-
-    <label class="category-tag">
-        <input type="checkbox" class="category-check" value="3">
-        <span>ブーツ</span>
-    </label>
-
-</div>
-
 <div class="banner">
     <h1>人気スニーカー特集</h1>
     <p>限定モデル続々入荷中！</p>
