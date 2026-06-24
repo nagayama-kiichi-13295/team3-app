@@ -9,8 +9,9 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ContactController;
 
-// モデル
+// モデル 
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Order;
@@ -328,3 +329,14 @@ Route::post('/purchase/complete', function (Request $request) {
     return view('purchase.complete', compact('total'));
 
 })->name('purchase.complete');
+
+/*
+|--------------------------------------------------------------------------
+|お問い合わせ
+|--------------------------------------------------------------------------
+*/
+Route::get('/contact', function () {
+   return view('contact');
+});
+Route::post('/contact/send', [ContactController::class, 'send'])
+   ->name('contact.send');
