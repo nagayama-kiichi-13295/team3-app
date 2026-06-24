@@ -33,39 +33,34 @@
     <div class="hero-track" id="heroTrack">
 
         <!-- ▼▼▼ スライド１: ここに画像か動画を入れる ▼▼▼ -->
-         <div class="hero-slide" style="background: #ffd9d9;">
-            <div class="hero-placeholder">
-                <p>サンプルバナー １</p>
-                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
-            </div>
+         <div class="hero-slide">
+            <img src="{{ asset('images/sample.jpg') }}" alt="新作">
          </div>
+
         <!-- ▼▼▼ スライド２: ここに画像か動画を入れる ▼▼▼ -->
-         <div class="hero-slide" style="background: #d9e8ff;">
-            <div class="hero-placeholder">
-                <p>サンプルバナー ２</p>
-                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
-            </div>
+         <div class="hero-slide">
+            <!-- 動画を入れる場合 -->
+            <video src="{{ asset('videos/perfect.mp4') }}" autoplay muted loop playsinline></video>
          </div>
+
         <!-- ▼▼▼ スライド３: ここに画像か動画を入れる ▼▼▼ -->
-         <div class="hero-slide" style="background: #d9ffe1;">
-            <div class="hero-placeholder">
-                <p>サンプルバナー ３</p>
-                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
-            </div>
+         <div class="hero-slide">
+            <img src="{{ asset('images/logo.png') }}" alt="新作">
          </div>
+
         <!-- ▼▼▼ スライド４: ここに画像か動画を入れる ▼▼▼ -->
-         <div class="hero-slide" style="background: #ffd9d9;">
-            <div class="hero-placeholder">
-                <p>サンプルバナー ４</p>
-                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
-            </div>
+         <div class="hero-slide">
+            <img src="{{ asset('images/sample.jpg') }}" alt="新作">
          </div>
+
         <!-- ▼▼▼ スライド５: ここに画像か動画を入れる ▼▼▼ -->
-         <div class="hero-slide" style="background: #d9e8ff;">
-            <div class="hero-placeholder">
-                <p>サンプルバナー ５</p>
-                <small>ここに画像か動画を入れる(推奨 1200×400)</small>
-            </div>
+         <div class="hero-slide">
+            <img src="{{ asset('images/kutu.webp') }}" alt="新作">
+         </div>
+
+        <!-- ▼▼▼ スライド６: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/kutu2.webp') }}" alt="新作">
          </div>
     </div>
     <div class="hero-fade"></div>
