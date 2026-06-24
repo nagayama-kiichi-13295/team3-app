@@ -80,7 +80,7 @@ Route::get('/', function () {
     $products = Product::with('mainImage')
         ->withCount('reviews')
         ->withAvg('reviews', 'star')
-        ->get();
+        ->paginate(12); // get() -> paginate(12)
 
     // ✅ 閲覧履歴取得
     $viewedIds = session()->get('viewed_products', []);

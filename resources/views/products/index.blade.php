@@ -143,6 +143,11 @@
 @endforeach
 </div>
 
+<!-- pagination -->
+ <div class="pagination">
+        {{ $products->links() }}
+ </div>
+
 <script>
     let heroIndex = 0;
     const heroTrack = document.getElementById('heroTrack');

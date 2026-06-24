@@ -291,3 +291,52 @@ header{
     color: #bbb;
     font-weight: normal;
 }
+
+/* ===== ページネーション ===== */
+.pagination {
+   margin: 28px auto;
+   display: flex;
+   justify-content: center;
+}
+.pagination ul {
+   display: flex;
+   list-style: none;
+   gap: 6px;
+   padding: 0;
+   margin: 0;
+   flex-wrap: wrap;
+}
+.pagination li { list-style: none; }
+.pagination .page-link,
+.pagination li a,
+.pagination li span {
+   display: block;
+   padding: 8px 14px;
+   border: 1px solid #ddd;
+   border-radius: 6px;
+   background: #fff;
+   color: #333;
+   text-decoration: none;
+   font-size: 14px;
+   line-height: 1;
+}
+.pagination .page-link:hover,
+.pagination li a:hover {
+   background: #fff0f0;
+   border-color: #ff5a5f;
+   color: #ff5a5f;
+}
+.pagination .active .page-link,
+.pagination .active span {
+   background: #ff5a5f;
+   border-color: #ff5a5f;
+   color: #fff;
+}
+.pagination .disabled .page-link,
+.pagination .disabled span {
+   color: #bbb;
+   background: #f7f7f7;
+}
+.pagination p { 
+    display: none;
+}
