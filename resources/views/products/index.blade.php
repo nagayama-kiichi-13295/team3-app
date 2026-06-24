@@ -7,115 +7,134 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 <style>
-    /* 検索エリア全体のレイアウト（中央寄せ＆2段組み） */
+
+/* ===== 検索エリア ===== */
+.search-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 20px auto;
+}
+
+/* ✅ 検索ボックス（小さく＆丸） */
+#searchInput {
+    width: 500px;   /* ← ここを大きくするんだ */
+    padding: 8px 14px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+
+#searchInput:focus {
+    border-color: #333;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* ===== 価格 ===== */
+.price-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.price-input {
+    width: 80px;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+/* ===== カテゴリ（タグボタン） ===== */
+.category-filter {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 25px 0;
+}
+
+/* チェックボックス非表示 */
+.category-tag input {
+    display: none;
+}
+
+/* ボタン見た目 */
+.category-tag span {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* ホバー */
+.category-tag span:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px);
+}
+
+/* ✅ 選択状態 */
+.category-tag input:checked + span {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.card-body h3 {
+    font-size: 14px;
+    line-height: 1.4;
+    height: 40px; /* ← 高さを固定 */
     
-    /* 検索バーとボタンを横並びに*/
-    .search-area {
-        display: flex;
-        justify-content: center; /* 横方向の真ん中に配置 */
-        align-items: center;     /* 上下の高さを揃える */
-        gap: 5px;                /* バーとボタンの間のすき間 */
-        margin: 20px auto;       /* 左右のマージンを auto にして中央寄せを確実にする */
-        width: 100%;             /* 横幅いっぱいに広げた上で中身を中央にする */
-        box-sizing: border-box;
-    }
-
-    /* ついでに見た目を少し整える場合（お好みで調整してください） */
-    #searchInput {
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 500px;            /* バーの幅 */
-    }
-
-
-    /* 検索ボタンのスタイリング */
-    #searchBtn {
-        padding: 8px 16px;
-        background-color: #333;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    /* 2段目：価格入力エリア（幅を検索バーの250pxと完全に一致させる） */
-    .price-filter-row {
-        display: flex;
-        justify-content: space-between; /* 両端に広げて間を「〜」にする */
-        align-items: center;
-        width: 250px;            /* 💡 検索バーと同じ250pxに指定 */
-        box-sizing: border-box;
-        font-size: 14px;
-        color: #333;
-        /* 右側の検索ボタンの幅（約60px）の分だけ左に寄るのを防ぐため、ボタンの幅+gapの分の右余白を作る */
-        margin-right: 65px; 
-    }
-
-    /* 価格の入力欄1つあたりのスタイル */
-    .price-input-container {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    .price-input {
-        padding: 8px 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 85px;             /* 2つ並べて250pxに収まる幅に調整 */
-        text-align: right;       /* 数字を右寄せ */
-        box-sizing: border-box;
-    }
-
-    /* カテゴリボタンのスタイリング */
-    .category-filter {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin: 20px 0;
-    }
-    .category-btn {
-        padding: 8px 16px;
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-    .category-btn.active {
-        background-color: #333;
-        color: #fff;
-        border-color: #333;
-    }
-
-    
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* ← 最大2行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
 </style>
 </head>
+
 <body>
 
 <?= view('header')->render() ?>
 
+<!-- ✅ 検索 -->
 <div class="search-area">
-    <div class="search-row">
-        <input type="text" id="searchInput" placeholder="商品名を検索"><button id="searchBtn">検索</button>
-    </div>
-    
+    <input type="text" id="searchInput" placeholder="商品名を検索">
+
     <div class="price-filter-row">
-        <div class="price-input-container">
-            <input type="number" id="minPriceInput" class="price-input" placeholder="下限なし" min="0"> 円
-        </div>
-        <span>〜</span>
-        <div class="price-input-container">
-            <input type="number" id="maxPriceInput" class="price-input" placeholder="上限なし" min="0"> 円
-        </div>
+        <input type="number" id="minPriceInput" class="price-input" placeholder="下限">
+        〜
+        <input type="number" id="maxPriceInput" class="price-input" placeholder="上限">
     </div>
 </div>
 
+<!-- ✅ カテゴリ -->
 <div class="category-filter">
-    <button class="category-btn active" data-target="all">すべて</button>
-    <button class="category-btn" data-target="1">靴</button>
+
+    <label class="category-tag">
+        <input type="checkbox" class="category-check" value="1">
+        <span>靴</span>
+    </label>
+
+    <label class="category-tag">
+        <input type="checkbox" class="category-check" value="2">
+        <span>サンダル</span>
+    </label>
+
+    <label class="category-tag">
+        <input type="checkbox" class="category-check" value="3">
+        <span>ブーツ</span>
+    </label>
+
 </div>
 
 <div class="banner">
@@ -125,10 +144,10 @@
 
 <div class="product-list">
 @foreach($products as $product)
-<a href="{{ route('products.show', $product->id) }}" 
-   class="product-item" 
-   data-category="{{ $product->category_id }}" 
-   data-price="{{ $product->price }}" 
+<a href="{{ route('products.show', $product->id) }}"
+   class="product-item"
+   data-category="{{ $product->category_id }}"
+   data-price="{{ $product->price }}"
    style="text-decoration:none; color:black; display:inline-block;">
 
     <div class="card">
@@ -141,72 +160,64 @@
         </div>
 
         <div class="card-body">
-            <h3 style="color: black !important; margin: 5px 0;">{{ $product->product_name }}</h3>
+            <h3>{{ $product->product_name }}</h3>
             <div class="price">
                 {{ number_format($product->price) }}円
             </div>
         </div>
     </div>
+
 </a>
 @endforeach
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.category-btn');
+
     const products = document.querySelectorAll('.product-item');
     const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
     const minPriceInput = document.getElementById('minPriceInput');
     const maxPriceInput = document.getElementById('maxPriceInput');
+    const categoryChecks = document.querySelectorAll('.category-check');
 
     function filterProducts() {
-        const activeBtn = document.querySelector('.category-btn.active');
-        const targetCategory = activeBtn ? activeBtn.getAttribute('data-target') : 'all';
-        
-        const searchText = searchInput.value.toLowerCase().replace(/[  ]+/g, ' ').trim();
-        
-        const minPrice = minPriceInput.value ? parseInt(minPriceInput.value, 10) : null;
-        const maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value, 10) : null;
+
+        const searchText = searchInput.value.toLowerCase().trim();
+        const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : null;
+        const maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value) : null;
+
+        const selectedCategories = Array.from(categoryChecks)
+            .filter(c => c.checked)
+            .map(c => c.value);
 
         products.forEach(product => {
-            const productCategory = String(product.getAttribute('data-category') || '').trim();
-            const targetCategoryStr = String(targetCategory).trim();
-            const productPrice = parseInt(product.getAttribute('data-price') || '0', 10);
 
-            const h3Element = product.querySelector('h3');
-            if (!h3Element) return;
+            const productCategory = product.getAttribute('data-category');
+            const productPrice = parseInt(product.getAttribute('data-price'));
+            const name = product.querySelector('h3').textContent.toLowerCase();
 
-            const productName = h3Element.textContent.toLowerCase().replace(/\s+/g, ' ').trim();
+            const matchCategory =
+                selectedCategories.length === 0 ||
+                selectedCategories.includes(productCategory);
 
-            const matchCategory = (targetCategoryStr === 'all' || productCategory === targetCategoryStr);
-            const matchSearch = (searchText === '' || productName.includes(searchText));
-            const matchMinPrice = (minPrice === null || productPrice >= minPrice);
-            const matchMaxPrice = (maxPrice === null || productPrice <= maxPrice);
+            const matchSearch = (searchText === '' || name.includes(searchText));
+            const matchMin = (minPrice === null || productPrice >= minPrice);
+            const matchMax = (maxPrice === null || productPrice <= maxPrice);
 
-            if (matchCategory && matchSearch && matchMinPrice && matchMaxPrice) {
-                product.style.display = 'inline-block';
-            } else {
-                product.style.display = 'none';
-            }
+            product.style.display = (matchCategory && matchSearch && matchMin && matchMax)
+                ? 'inline-block'
+                : 'none';
         });
     }
-
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            buttons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            filterProducts();
-        });
-    });
 
     searchInput.addEventListener('input', filterProducts);
     minPriceInput.addEventListener('input', filterProducts);
     maxPriceInput.addEventListener('input', filterProducts);
 
-    if (searchBtn) {
-        searchBtn.addEventListener('click', filterProducts);
-    }
+    categoryChecks.forEach(check => {
+        check.addEventListener('change', filterProducts);
+    });
+
 });
 </script>
 <?= view('footer')->render() ?>

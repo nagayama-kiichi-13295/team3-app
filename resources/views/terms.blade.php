@@ -107,47 +107,106 @@
         この利用規約（以下，「本規約」といいます。）は，Sneaker Market（以下，「当サイト」といいます。）が提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
     </p>
 
-    <h2 class="terms-section-title">第1条（適用）</h2>
+    <h2 class="terms-section-title">第1条</h2>
     <p class="terms-text">
-        本規約は，ユーザーと当サイトとの間の本サービスの利用に関わる一切の関係に適用されるものとします。
+        まず利用規約を読みましょう。
     </p>
 
-    <h2 class="terms-section-title">第2条（利用登録）</h2>
+    <h2 class="terms-section-title">第2条</h2>
     <p class="terms-text">
-        本サービスにおいては，登録希望者が本規約に同意の上，当サイトの定める方法によって利用登録を申請し，当サイトがこれを承認することによって，利用登録が完了するものとします。
+        米二合食べれない方はブラウザを閉じてください。
     </p>
 
-    <h2 class="terms-section-title">第3条（売買契約）</h2>
+    <h2 class="terms-section-title">第3条</h2>
     <p class="terms-text">
-        1. 本サービスにおいては，ユーザーが当サイトに対して購入の申し込みをし，当サイトが当該申し込みを承諾した旨の通知を送付した時点で，売買契約が成立するものとします。
+       ユーザー投稿によるレビューは個人の感想です。
     </p>
-    <p class="terms-text">
-        2. 当サイトは，ユーザーが以下のいずれかの事由に該当する場合には，当該売買契約を解除することができるものとします。
-    </p>
-    <ul class="terms-list">
-        <li>ユーザーが本規約に違反した場合</li>
-        <li>届け先不明や長期不在により商品の引き渡しが完了しない場合</li>
-        <li>その他，当サイトとユーザーとの信頼関係が損なわれたと認める場合</li>
-    </ul>
 
-    <h2 class="terms-section-title">第4条（禁止事項）</h2>
+    <h2 class="terms-section-title">第4条</h2>
     <p class="terms-text">
-        ユーザーは，本サービスの利用にあたり，以下の行為をしてはならないものとします。
-    </p>
-    <ul class="terms-list">
-        <li>法令または公序良俗に違反する行為</li>
-        <li>犯罪行為に関連する行為</li>
-        <li>当サイトのサーバーまたはネットワークの機能を破壊したり，妨害したりする行為</li>
-        <li>当サイトのサービスの運営を妨害するおそれのある行為</li>
-        <li>他のユーザーに関する個人情報等を収集または蓄積する行為</li>
-        <li>不正アクセスをし，またはこれを試みる行為</li>
-        <li>他のユーザーに成りすます行為</li>
-    </ul>
+        パスワードを忘れた場合、まず自分の人生を見直してください。</p>
 
-    <h2 class="terms-section-title">第5条（免責事項）</h2>
+    <h2 class="terms-section-title">第5条</h2>
     <p class="terms-text">
-        当サイトは、本サービスに事実上または法律上の瑕疵（安全性、信頼性、正確性、完全性、有効性、特定の目的への適合性、セキュリティなどに関する欠陥、エラーやバグ、権利侵害などを含みます。）がないことを明示的にも黙示的にも保証しておりません。
+        靴のサイズはALL27cmです。
     </p>
+
+    <h2 class="terms-section-title">第6条</h2>
+     <p class="terms-text">
+        本サイトを利用する方は月謝で5000円お支払いいただきます。
+    </p>
+
+    <h2 class="terms-section-title">第7条</h2>
+     <p class="terms-text">
+        本サイトを利用する者は、最低1足はスニーカーを愛している必要があります。
+    </p>
+
+    <h2 class="terms-section-title">第8条</h2>
+     <p class="terms-text">
+        NIKEは取り扱っておりません。
+    </p>
+
+    <h2 class="terms-section-title">第9条</h2>
+     <p class="terms-text">
+        価格設定についてのお問い合わせは受け付けておりません。
+    </p>
+
+    <h2 class="terms-section-title">第10条</h2>
+     <p class="terms-text">
+        商品画像より実物の方がカッコいいことはほぼありません。
+    </p>
+
+    <h2 class="terms-section-title">第11条</h2>
+     <p class="terms-text">
+        衝動買いは文化です。否定しません。
+    </p>
+
+    <h2 class="terms-section-title">第12条</h2>
+     <p class="terms-text">
+        カートに入れただけでは購入した気にならないでください。
+    </p>
+
+    <h2 class="terms-section-title">第13条</h2>
+     <p class="terms-text">
+       この文章の中に1つくらい嘘があります。
+    </p>
+
+    <h2 class="terms-section-title">第14条</h2>
+     <p class="terms-text">
+        Wi-Fiが遅い時はルーターに優しく話しかけてください。
+    </p>
+
+    <h2 class="terms-section-title">第15条</h2>
+     <p class="terms-text">
+        エレベーターの「閉」ボタンは気持ちの問題です。
+    </p>
+
+    <h2 class="terms-section-title">第16条</h2>
+     <p class="terms-text">
+        目覚ましを止めた記憶がない場合、それはもう起きています。
+    </p>
+
+    <h2 class="terms-section-title">第17条</h2>
+     <p class="terms-text">
+        道に迷ったら、とりあえずそれっぽい顔をして歩いてください。
+    </p>
+
+    <h2 class="terms-section-title">第18条</h2>
+     <p class="terms-text">
+        一度受け入れた規約は、忘れても有効です。
+    </p>
+
+    <h2 class="terms-section-title">第19条</h2>
+     <p class="terms-text">
+       正しい利用者など存在せず、ただ適応する者がいるだけです。
+    </p>
+
+    <h2 class="terms-section-title">第20条</h2>
+     <p class="terms-text">
+        この規約を最後まで読んだあなたは、かなり暇であることが確認されました。
+    </p>
+
+
 </div>
 
 <?= view('footer')->render() ?>

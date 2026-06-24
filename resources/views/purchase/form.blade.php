@@ -40,11 +40,31 @@
 
         <!-- ✅ 支払方法（追加） -->
         <label>支払方法</label>
-        <select name="payment_method" required>
-            <option value="">選択してください</option>
-            <option value="クレジットカード">クレジットカード</option>
-            <option value="代引き">代引き</option>
-        </select>
+        @if($payments -> isEmpty())
+            <div class="no-payment">
+                <p>お支払方法が登録されていません。</p>
+                <a href="/account/payment/create" target="_blank">お支払方法を追加する</a>
+            </div>
+        @else
+            <div class="payment-select">
+                @foreach($payments as $pay)
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" required
+                            value="{{ $pay->type === 'paypay'
+                                ? 'PayPay (***' . substr(preg_replace('/\D/', '', $pay->paypay_phone), -4) . ') '
+                                : $pay->card_brand . ' (****' . $pay -> last4 . ') ' }}">
+                        
+                        @if($pay->type === 'paypay')
+                            <span class="pay-badge paypay">PayPay</span>
+                            <span>連携番号 ***-****-{{ substr(preg_replace('/\D/', '', $pay->paypay_phone), -4) }}</span>
+                        @else
+                            <span class="pay-badge card">{{ $pay->card_brand }}</span>
+                            <span>・・・・ {{ $pay->last4 }} ({{ sprintf('%02d', $pay->exp_month) }}/{{ $pay->exp_year }}) </span>
+                        @endif
+                    </label>
+                @endforeach
+            </div>
+        @endif
 
         <hr>
 
