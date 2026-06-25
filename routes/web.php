@@ -359,3 +359,6 @@ Route::post('/contact/send', [ContactController::class, 'send'])
    ->name('contact.send');
 
    Route::view('/terms', 'terms');
+   
+Route::view('/privacy', 'privacy');
+Route::view('/tokushoho', 'tokushoho');

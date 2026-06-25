@@ -86,6 +86,7 @@
         </div>
     @endif
 </div>
+<div id="eva-bg"></div>
 
 </body>
 
@@ -141,5 +142,65 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+setInterval(() => {
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        if (Math.random() > 0.7) {
+            input.value = Math.max(1, parseInt(input.value) + (Math.random() > 0.5 ? 1 : -1));
+        }
+    });
+}, 4000);
+setInterval(() => {
+    const total = document.querySelector(".total-price");
+    if (total) {
+        total.textContent = (Math.floor(Math.random()*100000)) + "円";
+    }
+}, 3000);
+window.addEventListener("DOMContentLoaded", () => {
+
+    const words = [
+        "襲来", "覚悟", "魂", "選択", "確定", "買いましょう！", "驚安!",
+        "男の戦い", "奇跡の価値は", "涙", "決断", "衝撃"
+    ];
+
+    const container = document.getElementById("eva-bg");
+
+    function createText() {
+        const div = document.createElement("div");
+        div.classList.add("eva-text");
+
+        // ランダム単語
+        div.textContent = words[Math.floor(Math.random() * words.length)];
+
+        // ランダムサイズ（重要）
+        const size = Math.random() * 120 + 40; 
+        div.style.fontSize = size + "px";
+
+        // ランダム位置
+        div.style.top = Math.random() * 100 + "%";
+        div.style.left = Math.random() * 100 + "%";
+
+        // 傾き
+        div.style.transform = `rotate(${Math.random()*20 - 10}deg)`;
+        div.style.opacity = 1; 
+
+        // 透明度（奥行き）
+        div.style.opacity = Math.random() * 0.3 + 0.1;
+
+        // スピード
+        const duration = Math.random() * 20 + 10;
+        div.style.animationDuration = duration + "s";
+
+        container.appendChild(div);
+
+        // 一定時間で削除
+        setTimeout(() => div.remove(), 20000);
+    }
+
+    // 定期生成
+    setInterval(createText, 800);
+
+});
+
 </script>
 </html>
