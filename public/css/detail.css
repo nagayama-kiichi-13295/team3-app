@@ -435,3 +435,50 @@ html {
    color: #ff5a5f;
    font-size: 14px;
 }
+
+.cart-btn {
+    border: none;
+    outline: none;
+    box-shadow: none; /* ✅ 完全に消す */
+}
+
+/* ===== 通知 ===== */
+.cart-message {
+    position: fixed;
+    top: -100px;              /* ✅ 最初は画面外 */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+
+    border: 1px solid #ddd;
+    padding: 14px 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+    transition: 0.4s ease;
+    z-index: 999;
+}
+
+/* 表示状態 */
+.cart-message.show {
+    top: 80px;   /* ✅ 下にスライド */
+}
+
+/* ボタン */
+.view-cart-btn {
+    background: #ff5a5f;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.view-cart-btn:hover {
+    background: #e84c4c;
+}
