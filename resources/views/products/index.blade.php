@@ -43,7 +43,7 @@
 
         <!-- ▼▼▼ スライド６: ここに画像か動画を入れる ▼▼▼ -->
         <div class="hero-slide">
-            <img src="{{ asset('images/logo.png') }}">
+            <img src="{{ asset('images/kutu6.jpg') }}">
         </div>
 
         <!-- ▼▼▼ スライド７: ここに画像か動画を入れる ▼▼▼ -->
