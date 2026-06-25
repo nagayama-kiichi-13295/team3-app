@@ -2,12 +2,10 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>お問い合わせ</title>
-
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/contacts.css">
+    <title>よくある質問</title>
 </head>
-
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/faq.css">
 <body>
 
 <?php use Illuminate\Support\Facades\Auth; ?>
@@ -42,7 +40,6 @@
                 <a href="/orders">購入した商品</a>
                 <a href="/history">閲覧した商品</a>
                 <a href="/contact">お問い合わせ</a>
-                <a href="/faq">よくある質問</a>
 
                 <form action="/logout" method="POST">
                     <?= csrf_field() ?>
@@ -57,61 +54,32 @@
 <?php endif; ?>
     </div>
 </header>
-
 <div class="container">
-    <h1>お問い合わせ</h1>
+  <h1>よくある質問</h1>
 
-    @if(session('success'))
-        <div class="success">
-            {{ session('success') }}
+    <h2>FAQ</h2>
+
+    @foreach($faqs as $faq)
+        <div class="faq-item">
+            <h3>Q. {{ $faq->keyword }}</h3>
+            <p>A. {{ $faq->answer }}</p>
         </div>
-    @endif
+    @endforeach
 
-    @if($errors->any())
-        <div class="error">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <h2>お問い合わせの回答</h2>
+
+    @foreach($contacts as $contact)
+        <div class="faq-item">
+            <h3>Q. {{ $contact->message }}</h3>
+            <p>A. {{ $contact->answer }}</p>
         </div>
-    @endif
+    @endforeach
 
-    <form action="{{ route('contact.send') }}" method="POST">
-        @csrf
-
-        <label>名前</label>
-        <input type="text" name="name" value="{{ old('name') }}">
-
-        <label>メールアドレス</label>
-        <input type="email" name="email" value="{{ old('email') }}">
-
-        <label>お問い合わせ内容</label>
-        <textarea name="message">{{ old('message') }}</textarea>
-
-        <button type="submit">送信</button>
-    </form>
 </div>
-
 <script>
 function toggleAccountMenu() {
-    document.getElementById("accountMenu").classList.toggle("open");
+    document.getElementById('accountMenu').classList.toggle('open');
 }
-
-document.addEventListener("click", function(e) {
-    const account = document.querySelector(".account");
-    const menu = document.getElementById("accountMenu");
-
-    if (menu && account && !account.contains(e.target)) {
-        menu.classList.remove("open");
-    }
-});
 </script>
-@if(isset($faqAnswer))
-<div class="faq-box">
-    <h3>参考回答</h3>
-    <p>{{ $faqAnswer->answer }}</p>
-</div>
-@endif
 </body>
 </html>

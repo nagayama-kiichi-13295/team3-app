@@ -1,0 +1,45 @@
+body{
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#8e0e00,#1f1c18);
+    margin:0;
+    min-height:100vh;
+}
+
+.container{
+    width:800px;
+    max-width:90%;
+    margin:50px auto;
+    background:#fff;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+h2{
+    margin-top:30px;
+    color:#444;
+    border-bottom:2px solid #eee;
+    padding-bottom:10px;
+}
+
+.faq-item{
+    margin:20px 0;
+    padding:15px;
+    background:#f9f9f9;
+    border-radius:8px;
+}
+
+.faq-item h3{
+    margin:0 0 10px;
+    color:#ff6a6a;
+}
+
+.faq-item p{
+    margin:0;
+    color:#333;
+}

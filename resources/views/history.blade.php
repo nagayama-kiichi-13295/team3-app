@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>閲覧履歴</title>
 
-    <link rel="stylesheet" href="{{ asset('css/history.css') }}">
-</head>
+   
+</head> <link rel="stylesheet" href="{{ asset('css/history.css') }}">
 
 <body>
 

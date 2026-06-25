@@ -10,7 +10,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PaymentController;
-
 use App\Http\Controllers\ContactController;
 
 // モデル 
@@ -20,7 +19,20 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Favorite;
+use App\Models\Contact;
+use App\Models\Faq;
 
+ Route::get('/faq', function () {
+
+    $faqs = Faq::whereIn('id', [8, 9, 10, 11])
+        ->where('keyword', '!=', '')
+        ->where('answer', '!=', '')
+        ->get();
+
+    $contacts = Contact::whereNotNull('answer')->get();
+
+    return view('faq', compact('faqs', 'contacts'));
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -29,13 +41,12 @@ use App\Models\Favorite;
 */
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register/confirm', [AuthController::class, 'confirmRegister']);
 Route::post('/register/back', [AuthController::class, 'backRegister']);
-
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +78,6 @@ Route::post('/account/addresses/{id}', [AddressController::class, 'update']);
 Route::post('/account/addresses/{id}/delete', [AddressController::class, 'destroy']);
 
 Route::get('/api/zipcode', [AddressController::class, 'lookupZip']);
-
 
 /*
 |--------------------------------------------------------------------------
