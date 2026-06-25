@@ -1,6 +1,7 @@
 <?php use Illuminate\Support\Facades\Auth; ?>
 <?php /** @var \App\Models\User|null $user */ ?>
 <?php $user = Auth::user(); ?>
+<?php $headerCategories = \App\Models\Category::all(); ?>
 
 <link rel="stylesheet" href="/css/header.css">
 
@@ -9,6 +10,19 @@
         <img src="/images/logo.png" alt="Sneaker Market" class="logo-img">
         <span>Sneaker Market</span>
     </a>
+
+    <!-- 検索バー -->
+     <form class="search-bar" action="/search" method="get">
+        <select name="category" class="search-category">
+            <option value="">すべて</option>
+<?php foreach ($headerCategories as $cat): ?>
+            <option value="<?= $cat -> id ?>"><?= htmlspecialchars($cat->category_name) ?></option>
+<?php endforeach; ?>
+        </select>
+        <input type="text" name="keyword" class="search-input" placeholder="商品を検索"
+            value="<?= htmlspecialchars(request('keyword') ?? '') ?>">
+        <button type="submit" class="search-btn">🔍</button>
+     </form>
 
     <div class="menu">
         <a href="/">ホーム</a>
@@ -26,8 +40,9 @@
             <div class="account-menu" id="accountMenu">
                 <div class="account-menu-header"><?= htmlspecialchars($user -> user_name) ?>さん</div>
                 <a href="/account">アカウントサービス</a>
-                <a href="/orders">購入した商品</a>
                 <a href="/history">閲覧した商品</a>
+                <a href="/favorites">お気に入りした商品</a>
+                <a href="/orders">購入した商品</a>
                 <a href="/contact">お問い合わせ</a>
                 <form action="/logout" method="post">
                     <?= csrf_field() ?>

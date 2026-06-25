@@ -101,6 +101,6 @@
             });
     }
 </script>
-    
+    <?= view('footer')->render() ?>
 </body>
 </html>
