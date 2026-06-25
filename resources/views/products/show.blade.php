@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>{{ $product->product_name }}</title>
@@ -11,56 +12,138 @@
 
 <body>
 
-<?= view('header')->render() ?>
+    <?= view('header')->render() ?>
 
-<!-- ✅ 通知 -->
-<div id="cart-message" class="cart-message" style="display:none;">
-    <span id="cart-message-text"></span>
-    <a href="/cart" class="view-cart-btn">カートを見る</a>
-</div>
-
-<div class="detail-container">
-
-    <!-- 左 -->
-    <div class="detail-left">
-        <img class="main-image"
-             src="{{ asset('storage/' . $product->images->first()->image_path) }}">
+    <!-- ✅ 通知 -->
+    <div id="cart-message" class="cart-message" style="display:none;">
+        <span id="cart-message-text"></span>
+        <a href="/cart" class="view-cart-btn">カートを見る</a>
     </div>
 
-    <!-- 右 -->
-    <div class="detail-right">
+    <div class="detail-container">
 
-        <h1>{{ $product->product_name }}</h1>
+        <!-- 左 -->
+        <div class="detail-left">
+            <img class="main-image"
+                src="{{ asset('storage/' . $product->images->first()->image_path) }}">
+        </div>
 
-        <p class="price">
-            ¥{{ number_format($product->price) }}
-        </p>
+        <!-- 右 -->
+        <div class="detail-right">
 
-        <p class="description">
-            {{ $product->description }}
-        </p>
+            <h1>{{ $product->product_name }}</h1>
+
+            <!-- 商品の下に平均星 -->
+            @if($product->reviewCount() > 0)
+            <a href="#reviews" class="title-rating">
+                @php $avg = $product -> averageRating(); @endphp
+                <span class="title-stars">
+                    @for($i = 1; $i <= 5; $i++) {{ $i <= round($avg) ? '★' : '☆' }}@endfor
+                        </span>
+                        <span class="title-avg">{{ $avg }}</span>
+                        <span class="title-count">({{ $product->reviewCount() }}件) </span>
+            </a>
+            @endif
+
+            <p class="description">
+                {{ $product->description }}
+            </p>
+
+            <!-- 購入ボックス -->
+            <div class="buy-box">
+                <p class="price">
+                    ¥{{ number_format($product->price) }}
+                </p>
+
+                <!-- ✅ 数量 -->
+                <div class="quantity-box">
+                    <button type="button" id="minusBtn">-</button>
+                    <input type="number" id="quantity" value="1" min="1">
+                    <button type="button" id="plusBtn">+</button>
+                </div>
+
+                <!-- ✅ ✅ 購入（数量送るようにする） -->
+                <form action="{{ route('purchase.form') }}" method="GET">
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="hidden" name="quantity" id="buy-quantity" value="1">
+                    <button type="submit" class="buy-btn">購入する</button>
+                </form>
+
+                <!-- ✅ カート -->
+                <button class="cart-btn" data-id="{{ $product->id }}">
+                    カートに追加
+                </button>
+            </div>
+
+            <!-- 戻る -->
+            <a href="/" class="back-btn">← 一覧へ戻る</a>
+        </div>
+    </div>
+
+    <!-- 横いっぱいのセクション -->
+    <div class="detail-sections">
+
+        <!-- 関連商品 -->
+        @if($viewedProducts->count() > 0)
+        <section class="product-row-section">
+            <h2 class="row-title">関連商品</h2>
+            <div class="row-scroll">
+                @foreach($relatedProducts as $rp)
+                <a href="{{ route('products.show', $rp->id) }}" class="row-card">
+                    <div class="row-img">
+                        @if($rp->mainImage && $rp->mainImage->image_path)
+                            <img src="{{ asset('storage/' . $rp->mainImage->image_path) }}" alt="{{ $rp->product_name }}">
+                        @else
+                            <img src="{{ asset('images/no-image.png') }}" alt="">
+                        @endif
+                    </div>
+                    <div class="row-name">{{ $rp->product_name }}</div>
+                    <div class="row-price">{{ number_format($rp->price) }}円</div>
+                </a>
+                @endforeach
+            </div>
+            <h2 class="row-title">最近見た商品</h2>
+            <div class="row-scroll">
+                @foreach($viewedProducts as $vp)
+                <a href="{{ route('products.show', $vp->id) }}" class="row-card">
+                    <div class="row-img">
+                        @if($vp->mainImage && $vp->mainImage->image_path)
+                        <img src="{{ asset('storage/' . $vp->mainImage->image_path) }}" alt="{{ $vp->product_name }}">
+
+                        @else
+                        <img src="{{ asset('images/no-image.png') }}" alt="">
+                        @endif
+                    </div>
+                    <div class="row-name">{{ $vp->product_name }}</div>
+                    <div class="row-price">{{ number_format($vp->price) }}円</div>
+                </a>
+                @endforeach
+            </div>
+        </section>
+        @endif
 
         <!-- レビューセクション -->
-        <div class="review-section">
+        <div class="review-section" id="reviews">
             <h2>カスタマーレビュー</h2>
 
             @if($product->reviewCount() > 0)
-                <div class="review-summary">
-                    <span class="review-stars">
-                        @php $avg = $product->averageRating(); @endphp
-                        @for($i = 1; $i <= 5; $i++){{ $i <= round($avg) ? '★' : '☆' }}@endfor 
-                    </span>
-                    <span class="review-avg">{{ $avg }}</span>
-                    <span class="review-count"> ({{ $product->reviewCount() }}件) </span>
-                </div>
+            <div class="review-summary">
+                <span class="review-stars">
+                    @php $avg = $product->averageRating(); @endphp
+                    @for($i = 1; $i <= 5; $i++){{ $i <= round($avg) ? '★' : '☆' }}@endfor
+                </span>
+                
+                <span class="review-avg">{{ $avg }}</span>
+                <span class="review-count"> ({{ $product->reviewCount() }}件) </span>
+            </div>
             @else
-                <p class="no-review">まだレビューがありません。</p>
+            <p class="no-review">まだレビューがありません。</p>
             @endif
             <!-- 投稿フォーム(ログイン時のみ) -->
-             @auth
-             @if(session('status'))
-                 <p class="review-posted">{{ session('status') }}</p>
-             @endif
+            @auth
+            @if(session('status'))
+            <p class="review-posted">{{ session('status') }}</p>
+            @endif
             <form action="{{ route('review.store', $product->id) }}" method="POST" class="review-form">
                 @csrf
                 <label>評価</label>
@@ -79,145 +162,117 @@
             @endauth
 
             <!-- レビュー一覧 -->
-             <div class="review-list">
+            <div class="review-list">
                 @foreach($product->reviews as $review)
                 <div class="review-item">
                     <div class="review-item-head">
                         <span class="review-item-stars">
                             @for($i = 1; $i <= 5; $i++){{ $i <= $review->star ? '★' : '☆' }}@endfor
-                        </span>
-                        <span class="review-item-name">{{ $review->user->user_name ?? '匿名' }}</span>
+                                </span>
+                                <span class="review-item-name">{{ $review->user->user_name ?? '匿名' }}</span>
                     </div>
                     @if($review->comment)
-                        <p class="review-item-comment">{{ $review->comment }}</p>
-                    @endif 
+                    <p class="review-item-comment">{{ $review->comment }}</p>
+                    @endif
                 </div>
                 @endforeach
-             </div>
+            </div>
         </div>
-
-        <!-- ✅ 数量 -->
-        <div class="quantity-box">
-            <button type="button" id="minusBtn">-</button>
-            <input type="number" id="quantity" value="1" min="1">
-            <button type="button" id="plusBtn">+</button>
-        </div>
-
-        <!-- ✅ ✅ 購入（数量送るようにする） -->
-        <form action="{{ route('purchase.form') }}" method="GET">
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
-            <input type="hidden" name="quantity" id="buy-quantity" value="1">
-            <button type="submit" class="buy-btn">購入する</button>
-        </form>
-
-        <!-- ✅ カート -->
-        <button class="cart-btn" data-id="{{ $product->id }}">
-            カートに追加
-        </button>
-
-        <!-- 戻る -->
-        <a href="/" class="back-btn">← 一覧へ戻る</a>
 
     </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
-    const csrf = document.querySelector('meta[name="csrf-token"]').content;
-    const quantityInput = document.getElementById('quantity');
-    const buyQuantity = document.getElementById('buy-quantity');
-    const cartBtn = document.querySelector('.cart-btn');
-    const favBtn = document.getElementById('favBtn');
+            const csrf = document.querySelector('meta[name="csrf-token"]').content;
+            const quantityInput = document.getElementById('quantity');
+            const buyQuantity = document.getElementById('buy-quantity');
+            const cartBtn = document.querySelector('.cart-btn');
+            const favBtn = document.getElementById('favBtn');
+            const messageBox = document.getElementById('cart-message');
+            const messageText = document.getElementById('cart-message-text');
 
-    const messageBox = document.getElementById('cart-message');
-    const messageText = document.getElementById('cart-message-text');
+            // ✅ 数量＋
+            document.getElementById('plusBtn').onclick = () => {
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+                buyQuantity.value = quantityInput.value;
+            };
 
-    // ✅ 数量＋
-    document.getElementById('plusBtn').onclick = () => {
-        quantityInput.value = parseInt(quantityInput.value) + 1;
-        buyQuantity.value = quantityInput.value;
-    };
+            // ✅ 数量−
+            document.getElementById('minusBtn').onclick = () => {
+                if (quantityInput.value > 1) {
+                    quantityInput.value--;
+                    buyQuantity.value = quantityInput.value;
+                }
+            };
 
-    // ✅ 数量−
-    document.getElementById('minusBtn').onclick = () => {
-        if (quantityInput.value > 1) {
-            quantityInput.value--;
-            buyQuantity.value = quantityInput.value;
-        }
-    };
+            // ✅ 手入力対応（重要）
+            quantityInput.addEventListener('input', () => {
+                let val = parseInt(quantityInput.value) || 1;
+                if (val < 1) val = 1;
+                quantityInput.value = val;
+                buyQuantity.value = val;
+            });
 
-    // ✅ 手入力対応（重要）
-    quantityInput.addEventListener('input', () => {
-        let val = parseInt(quantityInput.value) || 1;
-        if (val < 1) val = 1;
-        quantityInput.value = val;
-        buyQuantity.value = val;
-    });
+            // ✅ カート
+            cartBtn.onclick = function() {
+                fetch('/cart/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrf
+                        },
+                        body: JSON.stringify({
+                            product_id: this.dataset.id,
+                            quantity: quantityInput.value
+                        })
+                    })
+                    .then(res => {
+                        if (res.status === 401) {
+                            location.href = "/login";
+                            return;
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        if (!data) return;
+                        messageText.innerText = data.message;
+                        messageBox.style.display = "flex";
+                        setTimeout(() => {
+                            messageBox.style.display = "none";
+                        }, 3000);
+                    });
+            };
 
-    // ✅ カート
-    cartBtn.onclick = function() {
-        fetch('/cart/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrf
-            },
-            body: JSON.stringify({
-                product_id: this.dataset.id,
-                quantity: quantityInput.value
-            })
-        })
-        .then(res => {
-            if (res.status === 401) {
-                location.href = "/login";
-                return;
-            }
-            return res.json();
-        })
-        .then(data => {
-            if (!data) return;
-
-            messageText.innerText = data.message;
-            messageBox.style.display = "flex";
-
-            setTimeout(() => {
-                messageBox.style.display = "none";
-            }, 3000);
+            // ✅ お気に入り
+            favBtn.onclick = function() {
+                fetch('/favorite/toggle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrf
+                        },
+                        body: JSON.stringify({
+                            product_id: this.dataset.id
+                        })
+                    })
+                    .then(res => {
+                        if (res.status === 401) {
+                            location.href = "/login";
+                            return;
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        if (!data) return;
+                        favBtn.innerText =
+                            data.status === 'added' ?
+                            '★ お気に入り済み' :
+                            '☆ お気に入り';
+                    });
+            };
         });
-    };
-
-    // ✅ お気に入り
-    favBtn.onclick = function() {
-        fetch('/favorite/toggle', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrf
-            },
-            body: JSON.stringify({
-                product_id: this.dataset.id
-            })
-        })
-        .then(res => {
-            if (res.status === 401) {
-                location.href = "/login";
-                return;
-            }
-            return res.json();
-        })
-        .then(data => {
-            if (!data) return;
-
-            favBtn.innerText =
-                data.status === 'added'
-                ? '★ お気に入り済み'
-                : '☆ お気に入り';
-        });
-    };
-
-});
-</script>
-
+    </script>
 </body>
+
 </html>

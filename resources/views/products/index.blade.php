@@ -60,7 +60,7 @@
 
         <!-- ▼▼▼ スライド６: ここに画像か動画を入れる ▼▼▼ -->
          <div class="hero-slide">
-            <img src="{{ asset('images/kutu2.webp') }}" alt="新作">
+            <img src="{{ asset('images/kutu3.jpg') }}" alt="新作">
          </div>
     </div>
     <div class="hero-fade"></div>

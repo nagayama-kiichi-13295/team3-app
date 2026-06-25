@@ -21,7 +21,7 @@ use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Favorite;
 use App\Models\Review;
-
+use PHPUnit\Framework\Constraint\Count;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,7 +108,7 @@ Route::get('/search', [ProductController::class, 'search']) -> name('search');
 */
 Route::get('/products/{id}', function ($id) {
 
-    $product = Product::with('images')->findOrFail($id);
+    $product = Product::with(['images', 'reviews.user'])->findOrFail($id);
 
     // ✅ 閲覧履歴保存
     $viewed = session()->get('viewed_products', []);
@@ -124,7 +124,26 @@ Route::get('/products/{id}', function ($id) {
             ->exists();
     }
 
-    return view('products.show', compact('product', 'isFavorite'));
+    // 関連商品(同じカテゴリ・自分以外)
+    $relatedProducts = Product::with('mainImage')
+        ->where('category_id', $product->category_id)
+        ->where('id', '!=', $product->id)
+        ->withCount('reviews')
+        ->withAvg('reviews', 'star')
+        ->take(6)
+        ->get();
+
+    // 最近見た商品(今見ている商品は除く)
+    $viewedIds = array_values(array_diff($viewed, [$product->id]));
+    $viewedProducts = Product::with('mainImage')
+        ->whereIn('id', $viewedIds)
+        ->get()
+        ->sortBy(fn($p) => array_search($p->id, $viewedIds))
+        ->values();
+
+    return view('products.show', compact(
+        'product', 'isFavorite', 'relatedProducts', 'viewedProducts'
+    ));
 
 })->name('products.show');
 
