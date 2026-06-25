@@ -127,5 +127,6 @@
        document.querySelector('input[name="max_price"]').value = max;
    }
 </script>
+<?= view('footer')->render() ?>
 </body>
 </html>

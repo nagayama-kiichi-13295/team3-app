@@ -95,11 +95,9 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
    text-align: center;
    color: #888;
    border-radius: 10px;
-}
-.pagination {
+}.pagination {
    margin: 28px 0;
    display: flex;
-   justify-content: center;
    justify-content: center;
 }
 
@@ -117,7 +115,6 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
    list-style: none;
 }
 
-.pagination .page.link,
 .pagination li a,
 .pagination li span {
    display: block;
@@ -131,31 +128,59 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
    line-height: 1;
 }
 
-.pagination .page-link:hover,
-.pagination li a :hover {
+.pagination li a:hover {
    background: #fff0f0;
    border-color: #ff5a5f;
    color: #ff5a5f;
 }
 
-/* 現在のぺージ */
-.pagination .active .page-link,
+/* 現在ページ */
 .pagination .active span {
    background: #ff5a5f;
    border-color: #ff5a5f;
    color: #fff;
 }
 
-/* 無効(前へ/次へが押せない時) */
-.pagination .disabled .page-link,
+/* 無効 */
 .pagination .disabled span {
    color: #bbb;
    background: #f7f7f7;
 }
 
-.pagination p { 
+.pagination p {
     display: none;
 }
+
+
+.pagination {
+    margin: 28px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.pagination div {
+    display: flex;
+    gap: 6px;
+}
+
+/* Showing消す */
+.pagination p,
+nav p {
+    display: none;
+}
+
+/* 上のナビ完全削除 */
+.pagination nav > div:first-child {
+    display: none;
+}
+
 
 .back { margin-top: 20px; }
 .back a { color: #555; text-decoration: none; }
