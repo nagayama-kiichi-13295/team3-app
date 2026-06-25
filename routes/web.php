@@ -234,30 +234,66 @@ Route::delete('/cart/remove/{id}', function ($id) {
 
 /*
 |--------------------------------------------------------------------------
-| お気に入り
+| お気に入り一覧表示（モデル完全不要版）
 |--------------------------------------------------------------------------
 */
-Route::post('/favorite/toggle', function (Request $request) {
+Route::get('/favorites', function () {
+    if (!Auth::check()) return redirect('/login');
 
+    // DBから直接お気に入りデータと商品データを結合（JOIN）して取得します
+    $favorites = \Illuminate\Support\Facades\DB::table('favorites')
+        ->join('products', 'favorites.product_id', '=', 'products.id')
+        ->leftJoin('product_images', function($join) {
+            // メイン画像を取得（ここでは最初の1枚、あるいは特定の条件を結合）
+            $join->on('products.id', '=', 'product_images.product_id');
+        })
+        ->where('favorites.user_id', auth()->id())
+        ->select('products.*', 'product_images.image_path') // 必要な商品情報と画像パスを抽出
+        ->orderBy('favorites.id', 'desc')
+        ->get();
+
+    return view('favorites', compact('favorites'));
+})->name('favorites.index');
+
+
+/*
+|--------------------------------------------------------------------------
+| お気に入り非同期通信（モデル完全不要版）
+|--------------------------------------------------------------------------
+*/
+Route::post('/favorite/toggle', function (\Illuminate\Http\Request $request) {
     if (!Auth::check()) {
         return response()->json(['redirect' => '/login'], 401);
     }
 
-    $favorite = Favorite::where('user_id', auth()->id())
-        ->where('product_id', $request->product_id)
+    $userId = auth()->id();
+    $productId = $request->input('product_id');
+
+    // DBファサードで直接テーブルからレコードを検索
+    $favorite = \Illuminate\Support\Facades\DB::table('favorites')
+        ->where('user_id', $userId)
+        ->where('product_id', $productId)
         ->first();
 
     if ($favorite) {
-        $favorite->delete();
+        // すでに登録されていれば削除（DB直接操作なのでfillableエラーは起きません）
+        \Illuminate\Support\Facades\DB::table('favorites')
+            ->where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->delete();
+            
         return response()->json(['status' => 'removed']);
+    } else {
+        // 登録されていなければ新規挿入
+        \Illuminate\Support\Facades\DB::table('favorites')->insert([
+            'user_id' => $userId,
+            'product_id' => $productId,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        
+        return response()->json(['status' => 'added']);
     }
-
-    Favorite::create([
-        'user_id' => auth()->id(),
-        'product_id' => $request->product_id
-    ]);
-
-    return response()->json(['status' => 'added']);
 });
 
 
@@ -373,43 +409,5 @@ Route::view('/privacy', 'privacy')->name('privacy');
 // 特定商取引法に基づく表記 (tokushoho.blade.php)
 Route::view('/tokushoho', 'tokushoho')->name('tokushoho');
 
-/* |--------------------------------------------------------------------------
-| お気に入り一覧表示（ログイン必須）
-|--------------------------------------------------------------------------
-*/
-Route::get('/favorites', function () {
-    if (!Auth::check()) return redirect('/login');
 
-    // 自分が登録したお気に入りを商品情報・メイン画像付きで最新順に取得
-    $favorites = Favorite::with('product.mainImage')
-        ->where('user_id', auth()->id())
-        ->latest()
-        ->get();
 
-    return view('favorites', compact('favorites'));
-})->name('favorites.index');
-
-// 👇 【ここから追記】非同期（JavaScript）用のお気に入り登録・解除ルート
-Route::post('/favorite/toggle', function (\Illuminate\Http\Request $request) {
-    if (!Auth::check()) return response()->json(['error' => 'Unauthorized'], 401);
-
-    $userId = auth()->id();
-    $productId = $request->input('product_id');
-
-    // すでにお気に入り登録されているか確認
-    $favorite = \App\Models\Favorite::where('user_id', $userId)->where('product_id', $productId)->first();
-
-    if ($favorite) {
-        // 登録されていれば削除（お気に入り解除）
-        $favorite->delete();
-        return response()->json(['status' => 'removed']);
-    } else {
-        // 登録されていなければ新規作成（お気に入り登録）
-        \App\Models\Favorite::create([
-            'user_id' => $userId,
-            'product_id' => $productId,
-        ]);
-        return response()->json(['status' => 'added']);
-    }
-});
-   

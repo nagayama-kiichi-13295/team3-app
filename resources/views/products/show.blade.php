@@ -13,7 +13,6 @@
 
 <?= view('header')->render() ?>
 
-<!-- ✅ 通知 -->
 <div id="cart-message" class="cart-message" style="display:none;">
     <span id="cart-message-text"></span>
     <a href="/cart" class="view-cart-btn">カートを見る</a>
@@ -21,13 +20,11 @@
 
 <div class="detail-container">
 
-    <!-- 左 -->
     <div class="detail-left">
         <img class="main-image"
              src="{{ asset('storage/' . $product->images->first()->image_path) }}">
     </div>
 
-    <!-- 右 -->
     <div class="detail-right">
 
         <h1>{{ $product->product_name }}</h1>
@@ -41,31 +38,26 @@
         </p>
 
 
-
-        <!-- ✅ 数量 -->
         <div class="quantity-box">
             <button type="button" id="minusBtn">-</button>
             <input type="number" id="quantity" value="1" min="1">
             <button type="button" id="plusBtn">+</button>
         </div>
 
-        <button type="button" id="favBtn" class="fav-btn" data-id="{{ $product->id }}" style="margin-bottom: 15px; padding: 10px; width: 100%; cursor: pointer;">
-            {{ $isFavorite ? '★ お気に入り済み' : '☆ お気に入り' }}
+        <button type="button" class="detail-fav-btn" data-id="{{ $product->id }}">
+            {{ Auth::check() && \App\Models\Favorite::where('user_id', auth()->id())->where('product_id', $product->id)->exists() ? '★ お気に入りから外す' : '☆ お気に入りに追加' }}
         </button>
 
-        <!-- ✅ ✅ 購入（数量送るようにする） -->
         <form action="{{ route('purchase.form') }}" method="GET">
             <input type="hidden" name="product_id" value="{{ $product->id }}">
             <input type="hidden" name="quantity" id="buy-quantity" value="1">
             <button type="submit" class="buy-btn">購入する</button>
         </form>
 
-        <!-- ✅ カート -->
         <button class="cart-btn" data-id="{{ $product->id }}">
             カートに追加
         </button>
 
-        <!-- 戻る -->
         <a href="/" class="back-btn">← 一覧へ戻る</a>
 
     </div>
@@ -78,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const quantityInput = document.getElementById('quantity');
     const buyQuantity = document.getElementById('buy-quantity');
     const cartBtn = document.querySelector('.cart-btn');
-    const favBtn = document.getElementById('favBtn');
 
     const messageBox = document.getElementById('cart-message');
     const messageText = document.getElementById('cart-message-text');
@@ -137,34 +128,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // ✅ お気に入り
-    favBtn.onclick = function() {
-        fetch('/favorite/toggle', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrf
-            },
-            body: JSON.stringify({
-                product_id: this.dataset.id
+    // 💡 詳細画面用のお気に入り非同期通信処理（完全に一から作成・統合版）
+    document.querySelectorAll('.detail-fav-btn').forEach(btn => {
+        btn.onclick = function(e) {
+            e.preventDefault();
+            
+            const productId = this.dataset.id;
+            
+            fetch('/favorite/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrf
+                },
+                body: JSON.stringify({ product_id: productId })
             })
-        })
-        .then(res => {
-            if (res.status === 401) {
-                location.href = "/login";
-                return;
-            }
-            return res.json();
-        })
-        .then(data => {
-            if (!data) return;
-
-            favBtn.innerText =
-                data.status === 'added'
-                ? '★ お気に入り済み'
-                : '☆ お気に入り';
-        });
-    };
+            .then(res => {
+                if (!res.ok) {
+                    if (res.status === 401) {
+                        location.href = "/login";
+                        return;
+                    }
+                    throw new Error(`サーバーエラー: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data && data.status) {
+                    // ボタンのテキストをその場で切り替え
+                    this.innerText = data.status === 'added' ? '★ お気に入りから外す' : '☆ お気に入りに追加';
+                }
+            })
+            .catch(err => {
+                console.error("【お気に入り通信エラー】:", err.message);
+            });
+        };
+    });
 
 });
 </script>

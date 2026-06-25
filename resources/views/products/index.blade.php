@@ -173,7 +173,7 @@
 
 <div class="product-list">
 @foreach($products as $product)
-<div style="position: relative; display: inline-block; margin: 10px;">
+<div style="position: relative; display: inline-block; margin: 10px; z-index: 1;">
 
     <button type="button" class="ajax-fav-btn" data-id="{{ $product->id }}">
         {{ Auth::check() && \App\Models\Favorite::where('user_id', auth()->id())->where('product_id', $product->id)->exists() ? '★' : '☆' }}
@@ -183,7 +183,7 @@
        class="product-item"
        data-category="{{ $product->category_id }}"
        data-price="{{ $product->price }}"
-       style="margin: 0; display: block;">
+       style="margin: 0; display: block; z-index: 0;">
 
         <div class="card">
             <div class="image">
@@ -210,13 +210,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // 💡 調整：製品アイテム自体ではなく、外側の親divを非表示にするため、クラスではなく親要素を基準にします
     const products = document.querySelectorAll('.product-list > div');
     const searchInput = document.getElementById('searchInput');
     const minPriceInput = document.getElementById('minPriceInput');
     const maxPriceInput = document.getElementById('maxPriceInput');
     const categoryChecks = document.querySelectorAll('.category-check');
 
+    // 1. 検索・絞り込みの関数（安全ガード付き）
     function filterProducts() {
         const searchText = searchInput.value.toLowerCase().trim();
         const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : null;
@@ -228,26 +228,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         products.forEach(product => {
             const productItem = product.querySelector('.product-item');
+            if (!productItem) return; // aタグがない場合はスキップ
+
             const productCategory = productItem.getAttribute('data-category');
             const productPrice = parseInt(productItem.getAttribute('data-price'));
-            const name = product.querySelector('h3').textContent.toLowerCase();
+            
+            const h3Element = product.querySelector('h3');
+            const name = h3Element ? h3Element.textContent.toLowerCase() : '';
 
             const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(productCategory);
             const matchSearch = (searchText === '' || name.includes(searchText));
             const matchMin = (minPrice === null || productPrice >= minPrice);
             const matchMax = (maxPrice === null || productPrice <= maxPrice);
 
-            // 💡 親のdivごと非表示にすることで、お気に入りボタンも一緒に消えます
             product.style.display = (matchCategory && matchSearch && matchMin && matchMax) ? 'inline-block' : 'none';
         });
     }
 
-    searchInput.addEventListener('input', filterProducts);
-    minPriceInput.addEventListener('input', filterProducts);
-    maxPriceInput.addEventListener('input', filterProducts);
+    // イベントリスナーの登録
+    if (searchInput) searchInput.addEventListener('input', filterProducts);
+    if (minPriceInput) minPriceInput.addEventListener('input', filterProducts);
+    if (maxPriceInput) maxPriceInput.addEventListener('input', filterProducts);
     categoryChecks.forEach(check => check.addEventListener('change', filterProducts));
 
-    // ✅ お気に入り非同期通信
+    // 2. お気に入り非同期通信（カッコの閉じを厳密に修正）
     document.querySelectorAll('.ajax-fav-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault(); 
@@ -263,23 +267,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({ product_id: productId })
             })
             .then(res => {
-                if (res.status === 401) {
-                    location.href = "/login";
-                    return;
+                if (!res.ok) {
+                    if (res.status === 401) {
+                        location.href = "/login";
+                        return;
+                    }
+                    throw new Error(`サーバーエラー: ステータスコード ${res.status}`);
                 }
                 return res.json();
             })
             .then(data => {
-                if (data) {
-                    // ★ と ☆ をその場でパチッと切り替える
+                if (data && data.status) {
                     this.innerText = data.status === 'added' ? '★' : '☆';
                 }
             })
-            .catch(err => console.error("エラーが発生しました:", err));
-        });
-    });
-});
+            .catch(err => {
+                console.error("【通信エラー】:", err.message);
+            });
+        }); // 👈 btn.addEventListener の閉じ
+    }); // 👈 forEach の閉じ
 
+}); // 👈 DOMContentLoaded の閉じ
 </script>
 <?= view('footer')->render() ?>
 </body>

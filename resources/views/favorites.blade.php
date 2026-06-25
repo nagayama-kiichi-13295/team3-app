@@ -32,6 +32,20 @@
             clear: both;
             width: 100%;
         }
+
+        /* 💡 ここから下を追加してください */
+        .product-card {
+            z-index: 1; /* ベースとなる階層を設定 */
+        }
+
+        .product-info {
+            position: relative;
+            z-index: 2; /* リンクの階層をボタンより下にする */
+        }
+
+        .remove-fav-btn {
+            z-index: 10 !important; /* 「✕」ボタンを確実に一番手前に浮かせる */
+        }
     </style>
 </head>
 <body>
@@ -42,35 +56,35 @@
     <h1 class="fav-title">お気に入り商品</h1>
     
     @if($favorites->isEmpty())
-        <div class="empty-message">
-            <p>お気に入り登録された商品はありません。</p>
-            <a href="/" style="color: #1a1a1a; font-weight: bold;">ショッピングを続ける →</a>
-        </div>
-    @else
-        <div class="product-grid">
-            @foreach($favorites as $fav)
-                @if($fav->product)
-                <div class="product-card" id="fav-card-{{ $fav->product->id }}">
-                    <button class="remove-fav-btn" data-id="{{ $fav->product->id }}" title="お気に入りから削除">✕</button>
-                    
-                    <a href="{{ route('products.show', $fav->product->id) }}" class="product-info">
-                        <div class="product-img-wrapper">
-                            @if($fav->product->mainImage && $fav->product->mainImage->image_path)
-                                <img src="{{ asset('storage/' . $fav->product->mainImage->image_path) }}" class="product-img">
-                            @else
-                                <img src="{{ asset('images/no-image.png') }}" class="product-img">
-                            @endif
-                        </div>
-                        <div class="product-info-body" style="padding-top: 10px;">
-                            <h3 class="product-name">{{ $fav->product->product_name }}</h3>
-                            <div class="product-price">¥{{ number_format($fav->product->price) }}</div>
-                        </div>
-                    </a>
-                </div>
-                @endif
-            @endforeach
-        </div>
-    @endif
+    <div class="empty-message">
+        <p>お気に入り登録された商品はありません。</p>
+        <a href="/" style="color: #1a1a1a; font-weight: bold;">ショッピングを続ける →</a>
+    </div>
+@else
+    <div class="product-grid">
+        @foreach($favorites as $fav)
+            {{-- $fav 自体が商品の情報を持っているので「->product」は不要になります --}}
+            <div class="product-card" id="fav-card-{{ $fav->id }}">
+                <button class="remove-fav-btn" data-id="{{ $fav->id }}" title="お気に入りから削除">✕</button>
+                
+                <a href="{{ route('products.show', $fav->id) }}" class="product-info">
+                    <div class="product-img-wrapper">
+                        {{-- 画像パスの判定もシンプルになります --}}
+                        @if(!empty($fav->image_path))
+                            <img src="{{ asset('storage/' . $fav->image_path) }}" class="product-img">
+                        @else
+                            <img src="{{ asset('images/no-image.png') }}" class="product-img">
+                        @endif
+                    </div>
+                    <div class="product-info-body" style="padding-top: 10px;">
+                        <h3 class="product-name">{{ $fav->product_name }}</h3>
+                        <div class="product-price">¥{{ number_format($fav->price) }}</div>
+                    </div>
+                </a>
+            </div>
+        @endforeach
+    </div>
+@endif
 </div>
 
 <script>
