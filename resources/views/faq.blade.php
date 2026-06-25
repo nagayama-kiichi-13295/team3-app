@@ -59,12 +59,12 @@
 
     <h2>FAQ</h2>
 
-    @foreach($faqs as $faq)
-        <div class="faq-item">
-            <h3>Q. {{ $faq->keyword }}</h3>
-            <p>A. {{ $faq->answer }}</p>
-        </div>
-    @endforeach
+@foreach($faqs as $faq)
+    <div class="faq-item">
+        <h3>Q. {{ $faq->keyword }}</h3>
+        <p>A. {{ $faq->answer }}</p>
+    </div>
+@endforeach
 
 
     <h2>お問い合わせの回答</h2>
@@ -72,6 +72,7 @@
     @foreach($contacts as $contact)
         <div class="faq-item">
             <h3>Q. {{ $contact->message }}</h3>
+            <p>{{ $contact->name }}</p>
             <p>A. {{ $contact->answer }}</p>
         </div>
     @endforeach
@@ -83,5 +84,6 @@ function toggleAccountMenu() {
     document.getElementById('accountMenu').classList.toggle('open');
 }
 </script>
+<?= view('footer')->render() ?>
 </body>
 </html>
