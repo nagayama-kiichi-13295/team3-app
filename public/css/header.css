@@ -10,13 +10,13 @@ body {
 }
 
 header {
-    background: white;
+    background: #111;
     height: 100px;
     padding: 0px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
 }
 
@@ -26,7 +26,7 @@ header {
    gap: 10px;
    font-size: 28px;
    font-weight: bold;
-   color: #ff5a5f;
+   color: #c8ff00;
    text-decoration: none;
 }
 
@@ -45,7 +45,7 @@ header {
 .menu a {
    text-decoration: none;
    color: #333;
-   margin-left: 0;
+   margin-left: 20px;
    font-size: 15px;
 }
 
