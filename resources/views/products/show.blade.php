@@ -280,5 +280,7 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 
+<?= view('footer')->render() ?>
+
 </body>
 </html>

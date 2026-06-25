@@ -40,8 +40,9 @@
             <div class="account-menu" id="accountMenu">
                 <div class="account-menu-header"><?= htmlspecialchars($user -> user_name) ?>さん</div>
                 <a href="/account">アカウントサービス</a>
-                <a href="/orders">購入した商品</a>
                 <a href="/history">閲覧した商品</a>
+                <a href="/favorites">お気に入りした商品</a>
+                <a href="/orders">購入した商品</a>
                 <a href="/contact">お問い合わせ</a>
                 <form action="/logout" method="post">
                     <?= csrf_field() ?>
