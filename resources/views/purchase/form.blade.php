@@ -42,6 +42,11 @@
 
         @if($payments->isEmpty())
             <p>支払方法がありません</p>
+
+            <a href="{{ route('payment.create') }}" class="add-payment-btn">
+                支払方法を追加する
+            </a>
+
         @else
             @foreach($payments as $pay)
                 <label>

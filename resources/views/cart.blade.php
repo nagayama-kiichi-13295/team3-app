@@ -89,6 +89,121 @@
         </div>
     @endif
 </div>
-<?= view('footer')->render() ?>
+<?= view('footer')->render() ?><div id="eva-bg"></div>
+
 </body>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    const btn = document.querySelector(".btn-checkout");
+    const parent = document.querySelector(".cart-summary");
+ 
+    let escapeCount = 0;
+ 
+    btn.addEventListener("mouseover", () => {
+ 
+        // 5回までは逃げる
+        if (escapeCount < 5) {
+            escapeCount++;
+ 
+            const parentRect = parent.getBoundingClientRect();
+            const btnWidth = btn.offsetWidth;
+            const btnHeight = btn.offsetHeight;
+ 
+            const maxX = parentRect.width - btnWidth;
+            const maxY = parentRect.height - btnHeight;
+ 
+            // 現在位置
+            let currentX = btn.offsetLeft;
+            let currentY = btn.offsetTop;
+ 
+            // ランダム方向
+            let moveX = (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 100);
+            let moveY = (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 100);
+ 
+            let newX = currentX + moveX;
+            let newY = currentY + moveY;
+ 
+            // 範囲内に制限
+            newX = Math.max(0, Math.min(maxX, newX));
+            newY = Math.max(0, Math.min(maxY, newY));
+ 
+            btn.style.position = "absolute";
+            btn.style.left = newX + "px";
+            btn.style.top = newY + "px";
+ 
+            // テキスト変更
+            btn.textContent = `あと ${5 - escapeCount} 回…`;
+ 
+        } else {
+            // 解放
+            btn.style.position = "static";
+            btn.style.left = "";
+            btn.style.top = "";
+ 
+            btn.textContent = "購入手続きへ進む";
+        }
+    });
+});
+
+setInterval(() => {
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        if (Math.random() > 0.7) {
+            input.value = Math.max(1, parseInt(input.value) + (Math.random() > 0.5 ? 1 : -1));
+        }
+    });
+}, 4000);
+setInterval(() => {
+    const total = document.querySelector(".total-price");
+    if (total) {
+        total.textContent = (Math.floor(Math.random()*100000)) + "円";
+    }
+}, 3000);
+window.addEventListener("DOMContentLoaded", () => {
+
+    const words = [
+        "襲来", "覚悟", "魂", "選択", "確定", "買いましょう！", "驚安!",
+        "男の戦い", "奇跡の価値は", "涙", "決断", "衝撃"
+    ];
+
+    const container = document.getElementById("eva-bg");
+
+    function createText() {
+        const div = document.createElement("div");
+        div.classList.add("eva-text");
+
+        // ランダム単語
+        div.textContent = words[Math.floor(Math.random() * words.length)];
+
+        // ランダムサイズ（重要）
+        const size = Math.random() * 120 + 40; 
+        div.style.fontSize = size + "px";
+
+        // ランダム位置
+        div.style.top = Math.random() * 100 + "%";
+        div.style.left = Math.random() * 100 + "%";
+
+        // 傾き
+        div.style.transform = `rotate(${Math.random()*20 - 10}deg)`;
+        div.style.opacity = 1; 
+
+        // 透明度（奥行き）
+        div.style.opacity = Math.random() * 0.3 + 0.1;
+
+        // スピード
+        const duration = Math.random() * 20 + 10;
+        div.style.animationDuration = duration + "s";
+
+        container.appendChild(div);
+
+        // 一定時間で削除
+        setTimeout(() => div.remove(), 20000);
+    }
+
+    // 定期生成
+    setInterval(createText, 800);
+
+});
+
+</script>
 </html>
