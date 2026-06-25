@@ -37,7 +37,61 @@
             {{ $product->description }}
         </p>
 
+        <!-- レビューセクション -->
+        <div class="review-section">
+            <h2>カスタマーレビュー</h2>
 
+            @if($product->reviewCount() > 0)
+                <div class="review-summary">
+                    <span class="review-stars">
+                        @php $avg = $product->averageRating(); @endphp
+                        @for($i = 1; $i <= 5; $i++){{ $i <= round($avg) ? '★' : '☆' }}@endfor 
+                    </span>
+                    <span class="review-avg">{{ $avg }}</span>
+                    <span class="review-count"> ({{ $product->reviewCount() }}件) </span>
+                </div>
+            @else
+                <p class="no-review">まだレビューがありません。</p>
+            @endif
+            <!-- 投稿フォーム(ログイン時のみ) -->
+             @auth
+             @if(session('status'))
+                 <p class="review-posted">{{ session('status') }}</p>
+             @endif
+            <form action="{{ route('review.store', $product->id) }}" method="POST" class="review-form">
+                @csrf
+                <label>評価</label>
+                <select name="star" required>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+                <textarea name="comment" placeholder="商品の感想を書く(任意)" rows="3"></textarea>
+                <button type="submit">レビューを投稿</button>
+            </form>
+            @else
+            <p class="review-login"><a href="/login">ログイン</a>するとレビューを投稿できます。</p><br>
+            @endauth
+
+            <!-- レビュー一覧 -->
+             <div class="review-list">
+                @foreach($product->reviews as $review)
+                <div class="review-item">
+                    <div class="review-item-head">
+                        <span class="review-item-stars">
+                            @for($i = 1; $i <= 5; $i++){{ $i <= $review->star ? '★' : '☆' }}@endfor
+                        </span>
+                        <span class="review-item-name">{{ $review->user->user_name ?? '匿名' }}</span>
+                    </div>
+                    @if($review->comment)
+                        <p class="review-item-comment">{{ $review->comment }}</p>
+                    @endif 
+                </div>
+                @endforeach
+             </div>
+        </div>
         <div class="quantity-box">
             <button type="button" id="minusBtn">-</button>
             <input type="number" id="quantity" value="1" min="1">

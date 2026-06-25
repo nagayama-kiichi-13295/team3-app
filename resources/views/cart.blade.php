@@ -19,15 +19,17 @@
         </div>
     @else
         <div class="cart-content">
-            <div class="cart-items" style="border-bottom: 1px solid #ddd; padding-bottom: 20 px; margin-bottom: 20px;">
+            <div class="cart-items" style="border-bottom: 1px solid #ddd; padding-bottom: 20px; margin-bottom: 20px;">
                 @foreach($cartItems as $item)
                 <div class="cart-item">
 
                     <div class="item-image">
                         @if($item['product']->mainImage && $item['product']->mainImage->image_path)
-                            <img src="{{ asset('storage/' . $item['product']->mainImage->image_path) }}" alt="{{ $item['product']->name }}" style="width: 200px; height: 200px; object-fit: cover;">
+                            <img src="{{ asset('storage/' . $item['product']->mainImage->image_path) }}"
+                                 style="width:200px;height:200px;object-fit:cover;">
                         @else
-                            <img src="{{ asset('images/no-image.png') }}" alt="No Image" style="width: 100px; height: 100px; object-fit: cover;">
+                            <img src="{{ asset('images/no-image.png') }}"
+                                 style="width:100px;height:100px;object-fit:cover;">
                         @endif
                     </div>
 
@@ -57,7 +59,7 @@
                 @endforeach
             </div>
 
-            <!-- ✅ 注文内容 -->
+            <!-- 注文内容 -->
             <div class="cart-summary">
                
                 <h2>注文内容</h2>
@@ -72,11 +74,12 @@
                     <span class="total-price">{{ number_format($totalPrice) }}円</span>
                 </div>
 
-                <!-- ✅ ここが重要（修正ポイント） -->
+                <!-- ✅ 🔥ここが修正ポイント -->
                 @if(!empty($cartItems))
-                    <a href="/purchase/form?product_id={{ $cartItems[0]['product']->id }}" class="btn-checkout">
-                        購入手続きへ進む
-                    </a>
+<a href="/purchase/form?product_id={{ $cartItems[0]['product']->id }}&quantity={{ $cartItems[0]['quantity'] }}"
+   class="btn-checkout">
+    購入手続きへ進む
+</a>
                 @endif
 
                 <a href="/" class="btn-continue">ショッピングを続ける</a>
@@ -88,58 +91,4 @@
 </div>
 
 </body>
-
-<script>
-window.addEventListener("DOMContentLoaded", () => {
-    const btn = document.querySelector(".btn-checkout");
-    const parent = document.querySelector(".cart-summary");
- 
-    let escapeCount = 0;
- 
-    btn.addEventListener("mouseover", () => {
- 
-        // 5回までは逃げる
-        if (escapeCount < 5) {
-            escapeCount++;
- 
-            const parentRect = parent.getBoundingClientRect();
-            const btnWidth = btn.offsetWidth;
-            const btnHeight = btn.offsetHeight;
- 
-            const maxX = parentRect.width - btnWidth;
-            const maxY = parentRect.height - btnHeight;
- 
-            // 現在位置
-            let currentX = btn.offsetLeft;
-            let currentY = btn.offsetTop;
- 
-            // ランダム方向
-            let moveX = (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 100);
-            let moveY = (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 100);
- 
-            let newX = currentX + moveX;
-            let newY = currentY + moveY;
- 
-            // 範囲内に制限
-            newX = Math.max(0, Math.min(maxX, newX));
-            newY = Math.max(0, Math.min(maxY, newY));
- 
-            btn.style.position = "absolute";
-            btn.style.left = newX + "px";
-            btn.style.top = newY + "px";
- 
-            // テキスト変更
-            btn.textContent = `あと ${5 - escapeCount} 回…`;
- 
-        } else {
-            // 解放
-            btn.style.position = "static";
-            btn.style.left = "";
-            btn.style.top = "";
- 
-            btn.textContent = "購入手続きへ進む";
-        }
-    });
-});
-</script>
 </html>
