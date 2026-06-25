@@ -242,3 +242,14 @@ input[type="number"] {
     transition: all 0.25s ease;
 }
 
+/* ヘッダー全体 */
+header {
+    position: relative;
+    z-index: 1000;
+}
+
+/* ドロップダウン */
+.account-menu {
+    position: absolute;  /* or fixedでもOK */
+    z-index: 2000;       /* ✅ これが重要 */
+}

@@ -19,6 +19,9 @@ use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Favorite;
 use App\Models\Review;
+
+use App\Models\PaymentMethod;
+
 use PHPUnit\Framework\Constraint\Count;
 
 /*
@@ -500,3 +503,16 @@ Route::get('/orders', function () {
    
 Route::view('/privacy', 'privacy');
 Route::view('/tokushoho', 'tokushoho');
+
+Route::get('/payment', function () {
+    return view('payment');
+})->name('payment.create');
+
+
+Route::get('/payment', function () {
+
+    $methods = PaymentMethod::where('user_id', Auth::id())->get();
+
+    return view('payment', compact('methods'));
+
+})->name('payment.create');
