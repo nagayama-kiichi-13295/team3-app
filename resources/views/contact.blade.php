@@ -42,8 +42,9 @@
                 <a href="/orders">購入履歴</a>
                 <a href="/history">閲覧履歴</a>
                 <a href="/contact">お問い合わせ</a>
+                <a href="/faq">よくある質問</a>
 
-                <form action="/logout" method="post">
+                <form action="/logout" method="POST">
                     <?= csrf_field() ?>
                     <button type="submit" class="logout-btn">
                         ログアウト
@@ -119,7 +120,12 @@ document.addEventListener("click", function(e) {
     }
 });
 </script>
-
+@if(isset($faqAnswer))
+<div class="faq-box">
+    <h3>参考回答</h3>
+    <p>{{ $faqAnswer->answer }}</p>
+</div>
+@endif
 <?= view('footer')->render() ?>
 </body>
 </html>

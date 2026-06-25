@@ -17,12 +17,11 @@ body {
     background: white;
     padding: 30px;
     border-radius: 10px;
-
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 /* タイトル */
-h2 {
+.form-container h2 {
     margin-bottom: 20px;
     font-size: 20px;
 }
@@ -42,16 +41,16 @@ h2 {
 }
 
 /* ===== フォーム ===== */
-label {
+.form-container label {
     display: block;
     margin-top: 15px;
     margin-bottom: 5px;
     font-size: 14px;
 }
 
-/* ✅ input & select 共通化 */
-input,
-select {
+/* ✅ 範囲限定（ここ重要） */
+.form-container input,
+.form-container select {
     width: 100%;
     padding: 10px;
     border-radius: 6px;
@@ -60,18 +59,18 @@ select {
 }
 
 /* フォーカス */
-input:focus,
-select:focus {
+.form-container input:focus,
+.form-container select:focus {
     border-color: #e60023;
     outline: none;
 }
 
-/* ✅ 数量小さくしたい場合 */
-input[name="quantity"] {
+/* 数量 */
+.form-container input[name="quantity"] {
     width: 100px;
 }
 
-/* ✅ エラー表示 */
+/* ===== エラー ===== */
 .error-box {
     background: #ffecec;
     border: 1px solid #ff4d4d;
@@ -85,8 +84,8 @@ input[name="quantity"] {
     font-size: 13px;
 }
 
-/* ===== ✅ スニダン風ボタン ===== */
-button {
+/* ===== ボタン（限定） ===== */
+.form-container button {
     width: 100%;
     padding: 14px;
     margin-top: 20px;
@@ -104,24 +103,26 @@ button {
     box-shadow: 0 4px 10px rgba(230,0,35,0.3);
 }
 
-button:hover {
+.form-container button:hover {
     background: #c4001d;
     transform: scale(1.02);
 }
 
-/* ✅ セパレーター */
+/* 区切り */
 hr {
     margin: 20px 0;
     border: none;
     border-top: 1px solid #eee;
 }
 
+/* ===== 支払方法 ===== */
 .payment-select {
    display: flex;
    flex-direction: column;
    gap: 10px;
    margin: 10px 0 20px;
 }
+
 .payment-option {
    display: flex;
    align-items: center;
@@ -132,13 +133,16 @@ hr {
    cursor: pointer;
    transition: 0.15s;
 }
+
 .payment-option:hover {
    border-color: #ff5a5f;
 }
+
 .payment-option input {
    margin: 0;
    width: auto;
 }
+
 .pay-badge {
    font-size: 12px;
    font-weight: bold;
@@ -146,8 +150,10 @@ hr {
    padding: 3px 10px;
    border-radius: 4px;
 }
+
 .pay-badge.card { background: #2c2c34; }
 .pay-badge.paypay { background: #ff2d55; }
+
 .no-payment {
    background: #fff7f7;
    border: 1px dashed #ff5a5f;
@@ -155,6 +161,7 @@ hr {
    padding: 14px;
    margin: 10px 0 20px;
 }
+
 .no-payment a {
    color: #ff5a5f;
    font-weight: bold;

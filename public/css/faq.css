@@ -1,0 +1,66 @@
+body {
+    font-family: sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+}
+
+/* コンテナ */
+.container {
+    width: 800px;
+    max-width: 90%;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* タイトル */
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 22px;
+}
+
+/* セクション */
+h2 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+/* FAQカード */
+.faq-item {
+    margin-bottom: 15px;
+    padding: 15px 18px;
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 8px;
+
+    transition: 0.2s;
+}
+
+/* hoverで少し浮かせる */
+.faq-item:hover {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* 質問 */
+.faq-item h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    color: #e60023;  /* 赤（統一カラー） */
+}
+
+/* 回答 */
+.faq-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+}

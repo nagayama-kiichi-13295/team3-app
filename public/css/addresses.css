@@ -49,24 +49,52 @@ body {
    padding-top: 12px;
 }
 .edit-link {
+   background: none;
    color: #0066c0;
    text-decoration: none;
-   font-size: 14px;
-}
-.edit-link:hover {
-   text-decoration: underline;
-}
-.card-actions form {
-   margin: 0;
-}
-.delete-link {
-   background: none;
-   border: none;
-   color: #c0392b;
    font-size: 14px;
    cursor: pointer;
    padding: 0;
 }
+.edit-link:hover {
+   text-decoration: underline;
+
+}
+.card-actions {
+   display: flex;
+   align-items: center;
+   gap: 14px;
+   margin-top: 16px;
+   border-top: 1px solid #f0f0f0;
+   padding-top: 12px;
+}
+
+
+.delete-link {
+   background: none;
+   border: none;
+   outline: none;   /* ←これ重要 */
+   box-shadow: none;
+
+   color: #c0392b;
+   font-size: 14px;
+   cursor: pointer;
+   padding: 0;
+
+   display: inline-flex;     /* ←追加 */
+   align-items: center;      /* ←追加 */
+}
+
+
+.edit-link {
+   display: inline-flex;
+   align-items: center;
+   height: 20px;
+   padding: 4px 6px;
+}
+
+
+
 .delete-link:hover {
    text-decoration: underline;
 }

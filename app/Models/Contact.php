@@ -6,6 +6,7 @@ class Contact extends Model
    protected $fillable = [
        'name',
        'email',
-       'message'
+       'message',
+       'answer'
    ];
 }
