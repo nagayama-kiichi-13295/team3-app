@@ -67,7 +67,7 @@
             <button class="buy-btn">購入する</button>
         </form>
 
-        <!-- ✅ 戻る -->
+        <!-- ✅ 戻るa -->
         <button onclick="history.back()" class="back-btn">
             戻る
         </button>
