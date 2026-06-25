@@ -394,7 +394,7 @@ Route::get('/purchase/form', function (Request $request) {
 
     if (!Auth::check()) return redirect('/login');
 
-    $product = Product::findOrFail($request->product_id);
+    $product = Product::with('mainImage')->findOrFail($request->product_id);
     $address = Address::where('user_id', auth()->id())->first();
 
     $payments = \App\Models\PaymentMethod::where('user_id', auth()->id())
@@ -423,7 +423,7 @@ Route::post('/purchase/buyconfirm', function (Request $request) {
         'quantity' => 'required|integer|min:1'
     ]);
 
-    $product = Product::findOrFail($request->product_id);
+    $product = Product::with('mainImage')->findOrFail($request->product_id);
 
     $quantity = (int)$request->quantity;
     $total = $product->price * $quantity;

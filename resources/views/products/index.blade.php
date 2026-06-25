@@ -23,7 +23,7 @@
         </div>
         <!-- ▼▼▼ スライド２: ここに画像か動画を入れる ▼▼▼ -->
         <div class="hero-slide">
-            <video src="{{ asset('videos/perfect.mp4') }}" autoplay muted loop></video>
+            <img src="{{ asset('images/kutu3.jpg') }}" alt="新作">
         </div>
 
         <!-- ▼▼▼ スライド３: ここに画像か動画を入れる ▼▼▼ -->
