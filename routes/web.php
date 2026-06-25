@@ -6,21 +6,18 @@ use Illuminate\Support\Facades\Auth;
 // コントローラ
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MypageController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PaymentController;
-
 use App\Http\Controllers\ContactController;
 
-// モデル 
+// モデル
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Favorite;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +33,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register/confirm', [AuthController::class, 'confirmRegister']);
 Route::post('/register/back', [AuthController::class, 'backRegister']);
 
-
 /*
 |--------------------------------------------------------------------------
 | マイページ
@@ -44,7 +40,6 @@ Route::post('/register/back', [AuthController::class, 'backRegister']);
 */
 Route::get('/mypage', [MypageController::class, 'show'])
     ->middleware('auth');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -68,34 +63,29 @@ Route::post('/account/addresses/{id}/delete', [AddressController::class, 'destro
 
 Route::get('/api/zipcode', [AddressController::class, 'lookupZip']);
 
-
 /*
 |--------------------------------------------------------------------------
-| 商品一覧（閲覧履歴表示）
+| 商品一覧
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
 
     $products = Product::all();
-
-    // ✅ 閲覧履歴取得
     $viewedIds = session()->get('viewed_products', []);
     $viewedProducts = Product::whereIn('id', $viewedIds)->get();
 
     return view('products.index', compact('products', 'viewedProducts'));
 });
 
-
 /*
 |--------------------------------------------------------------------------
-| 商品詳細（閲覧履歴保存）
+| 商品詳細
 |--------------------------------------------------------------------------
 */
 Route::get('/products/{id}', function ($id) {
 
     $product = Product::with('images')->findOrFail($id);
 
-    // ✅ 閲覧履歴保存
     $viewed = session()->get('viewed_products', []);
     $viewed = array_diff($viewed, [$id]);
     array_unshift($viewed, $id);
@@ -110,45 +100,7 @@ Route::get('/products/{id}', function ($id) {
     }
 
     return view('products.show', compact('product', 'isFavorite'));
-
 })->name('products.show');
-
-
-/*
-|--------------------------------------------------------------------------
-| ✅ 閲覧履歴ページ（ここ追加）
-|--------------------------------------------------------------------------
-*/
-Route::get('/history', function () {
-
-    if (!Auth::check()) return redirect('/login');
-
-    $viewedIds = session()->get('viewed_products', []);
-    $viewedProducts = Product::whereIn('id', $viewedIds)->get();
-
-    return view('history', compact('viewedProducts'));
-
-})->name('history');
-
-
-/*
-|--------------------------------------------------------------------------
-| ✅ 注文履歴
-|--------------------------------------------------------------------------
-*/
-Route::get('/orders', function () {
-
-    if (!Auth::check()) return redirect('/login');
-
-    $orders = Order::with('orderItems.product.mainImage')
-        ->where('user_id', auth()->id())
-        ->latest()
-        ->get();
-
-    return view('orders', compact('orders'));
-
-})->name('orders');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -168,8 +120,7 @@ Route::get('/cart', function () {
 
         foreach ($products as $product) {
             $quantity = $cart[$product->id];
-            $subtotal = $product->price * $quantity;
-            $totalPrice += $subtotal;
+            $totalPrice += $product->price * $quantity;
 
             $cartItems[] = [
                 'product' => $product,
@@ -181,46 +132,28 @@ Route::get('/cart', function () {
     return view('cart', compact('cartItems', 'totalPrice'));
 });
 
-
 /*
 |--------------------------------------------------------------------------
 | カート操作
 |--------------------------------------------------------------------------
 */
-Route::post('/cart/add', function (Request $request) {
-
-    if (!Auth::check()) {
-        return response()->json(['redirect' => '/login'], 401);
-    }
-
-    $productId = $request->product_id;
-    $quantity = max(1, (int)$request->quantity);
-
-    $cart = session()->get('cart', []);
-    $cart[$productId] = ($cart[$productId] ?? 0) + $quantity;
-
-    session()->put('cart', $cart);
-
-    return response()->json([
-        'success' => true,
-        'message' => $quantity . '個 カートに追加しました！'
-    ]);
-});
-
-
 Route::patch('/cart/update/{id}', function (Request $request, $id) {
+
     $cart = session()->get('cart', []);
 
     if (isset($cart[$id])) {
-        $cart[$id] = max(1, (int)$request->input('quantity'));
-        session()->put('cart', $cart);
+        $cart[$id] = max(1, (int)$request->quantity);
     }
 
+    session()->put('cart', $cart);
+
     return redirect('/cart');
+
 })->name('cart.update');
 
 
 Route::delete('/cart/remove/{id}', function ($id) {
+
     $cart = session()->get('cart', []);
 
     if (isset($cart[$id])) {
@@ -229,37 +162,8 @@ Route::delete('/cart/remove/{id}', function ($id) {
     }
 
     return redirect('/cart');
+
 })->name('cart.remove');
-
-
-/*
-|--------------------------------------------------------------------------
-| お気に入り
-|--------------------------------------------------------------------------
-*/
-Route::post('/favorite/toggle', function (Request $request) {
-
-    if (!Auth::check()) {
-        return response()->json(['redirect' => '/login'], 401);
-    }
-
-    $favorite = Favorite::where('user_id', auth()->id())
-        ->where('product_id', $request->product_id)
-        ->first();
-
-    if ($favorite) {
-        $favorite->delete();
-        return response()->json(['status' => 'removed']);
-    }
-
-    Favorite::create([
-        'user_id' => auth()->id(),
-        'product_id' => $request->product_id
-    ]);
-
-    return response()->json(['status' => 'added']);
-});
-
 
 /*
 |--------------------------------------------------------------------------
@@ -273,12 +177,18 @@ Route::get('/purchase/form', function (Request $request) {
     $product = Product::findOrFail($request->product_id);
     $address = Address::where('user_id', auth()->id())->first();
 
-    // 登録済みお支払方法を取得
-    $payments = \App\Models\PaymentMethod::where('user_id', auth() -> id())
-        -> orderBy('id', 'desc')
-        -> get();
+    $payments = \App\Models\PaymentMethod::where('user_id', auth()->id())
+        ->orderBy('id', 'desc')
+        ->get();
 
-    return view('purchase.form', compact('product', 'address', 'payments'));
+    $quantity = $request->input('quantity', 1);
+
+    return view('purchase.form', compact(
+        'product',
+        'address',
+        'payments',
+        'quantity'
+    ));
 
 })->name('purchase.form');
 
@@ -295,8 +205,13 @@ Route::post('/purchase/buyconfirm', function (Request $request) {
 
     $product = Product::findOrFail($request->product_id);
 
+    $quantity = (int)$request->quantity;
+    $total = $product->price * $quantity;
+
     return view('purchase.buyconfirm', [
         'product' => $product,
+        'quantity' => $quantity,
+        'total' => $total,
         'data' => $request->all()
     ]);
 
@@ -307,16 +222,6 @@ Route::post('/purchase/complete', function (Request $request) {
 
     $product = Product::findOrFail($request->product_id);
     $quantity = max(1, (int)$request->quantity);
-
-    if (!Address::where('user_id', auth()->id())->exists()) {
-        Address::create([
-            'user_id' => auth()->id(),
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-        ]);
-    }
-
     $total = $product->price * $quantity;
 
     $order = Order::create([
@@ -333,29 +238,27 @@ Route::post('/purchase/complete', function (Request $request) {
 
     session()->forget('cart');
 
-    return view('purchase.complete', compact('total'));
+    return view('purchase.complete', [
+        'total' => $total,
+        'product' => $product // ✅ これがさっきのエラー修正
+    ]);
 
 })->name('purchase.complete');
 
-
 /*
 |--------------------------------------------------------------------------
-| 支払方法
+| 注文履歴
 |--------------------------------------------------------------------------
 */
-Route::get('/account/payment', [PaymentController::class, 'index']);
-Route::get('/account/payment/create', [PaymentController::class, 'create']);
-Route::post('/account/payment', [PaymentController::class, 'store']);
-Route::post('/account/payment/{id}/delete', [PaymentController::class, 'destroy']);
-/*
-|--------------------------------------------------------------------------
-|お問い合わせ
-|--------------------------------------------------------------------------
-*/
-Route::get('/contact', function () {
-   return view('contact');
-});
-Route::post('/contact/send', [ContactController::class, 'send'])
-   ->name('contact.send');
+Route::get('/orders', function () {
 
-   Route::view('/terms', 'terms');
+    if (!Auth::check()) return redirect('/login');
+
+    $orders = Order::with('orderItems.product.mainImage')
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->get();
+
+    return view('orders', compact('orders'));
+
+})->name('orders');
