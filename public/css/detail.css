@@ -199,7 +199,17 @@ body {
 }
 
 
-.review-section { margin-top: 40px; border-top: 1px solid #eee; padding-top: 24px; }
+/* ===== ✅ レビュー位置だけ修正（デザイン変えない） ===== */
+.review-section {
+    max-width: 1200px;   /* ✅ 上と同じ幅 */
+    width: 100%;
+    margin: 60px auto 0; /* ✅ 中央に配置 */
+    padding: 0 80px;     /* ✅ 上と同じ余白 */
+    box-sizing: border-box;
+
+    border-top: 1px solid #eee;
+    padding-top: 24px;
+}
 .review-section h2 { font-size: 20px; margin-bottom: 16px; }
 .review-summary { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
 .review-stars { color: #ffb400; font-size: 22px; letter-spacing: 2px; }

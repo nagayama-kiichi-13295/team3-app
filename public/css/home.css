@@ -1,154 +1,127 @@
-/* ===== Amazon風 自動スライドバナー ===== */
+/* ================= 共通 ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background: #f5f5f5;
+}
+
+/* ================= ヘッダー ================= */
+header {
+    background: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ff5a5f;
+}
+
+.menu a {
+    text-decoration: none;
+    color: black;
+    margin-left: 20px;
+}
+
+/* ================= スライダー ================= */
 .hero-banner {
-   position: relative;
-   width: 92%;
-   max-width: 1200px;
-   margin: 20px auto 0px;
-   margin-left: auto;
-   margin-right: auto;
-   overflow: hidden;
-   border-radius: 12px;
-   z-index: 1;
+    position: relative;
+    width: 92%;
+    max-width: 1200px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 12px;
+    z-index: 1;
 }
 
 .hero-track {
-   display: flex;
-   transition: transform 0.5s ease;
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.hero-slide {
+    min-width: 100%;
+    height: 430px;
+}
+
+.hero-slide img,
+.hero-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .hero-fade {
     position: absolute;
-    left: 0;
-    right: 0;
     bottom: 0;
+    width: 100%;
     height: 120px;
     background: linear-gradient(
         to bottom,
-        rgba(34,34,34,0) 0,
-        rgba(34,34,34,0.7) 60%,
-        #222222 100% 
+        rgba(34,34,34,0),
+        rgba(34,34,34,0.7),
+        #222
     );
-    pointer-events: none;
     z-index: 3;
 }
 
-.hero-slide {
-   min-width: 100%;
-   height: 430px;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-}
-.hero-placeholder { text-align: center; color: #555; }
-.hero-placeholder p { font-size: 24px; font-weight: bold; margin-bottom: 8px; }
-.hero-slide img,
-.hero-slide video {
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-}
-.hero-arrow {
-   position: absolute;
-   top: 50%;
-   transform: translateY(-50%);
-   background: rgba(0,0,0,0.4);
-   color: white;
-   border: none;
-   width: 44px;
-   height: 44px;
-   font-size: 28px;
-   border-radius: 50%;
-   cursor: pointer;
-   line-height: 1;
-}
-.hero-arrow:hover { background: rgba(0,0,0,0.65); }
-.hero-arrow.prev { left: 14px; }
-.hero-arrow.next { right: 14px; }
-.hero-dots {
-   position: absolute;
-   bottom: 14px;
-   left: 0; right: 0;
-   display: flex;
-   justify-content: center;
-   gap: 8px;
-}
-.hero-dots button {
-   width: 10px; height: 10px;
-   border-radius: 50%;
-   border: none;
-   background: rgba(255,255,255,0.6);
-   cursor: pointer;
-   padding: 0;
-}
-.hero-dots button.active { background: white; }
-
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family: sans-serif;
-    background:#f5f5f5;
-}
-
-header{
-    background:white;
-    padding:15px 30px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-.logo{
-    font-size:28px;
-    font-weight:bold;
-    color:#ff5a5f;
-}
-
-.menu a{
-    text-decoration:none;
-    color:black;
-    margin-left:20px;
-}
-
-.search-area{
-    width:92%;
+/* ================= カテゴリ（✅位置修正） ================= */
+.category-filter {
+    width: 92%;
     max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    margin:30px auto;
-}
-
-.search-area input{
-    width:100%;
-    padding:15px;
-    border-radius:8px;
-    border:1px solid #ccc;
-}
-
-.banner{
-    width:92%;
-    max-width: 1200px;
-    margin: -60px auto 20px;
-    margin-left: auto;
-    margin-right: auto;
-    background:#222;
-    color:white;
-    text-align:center;
-    padding:60px;
-    border-radius:10px;
+    margin: 10px auto 20px;   /* ← ✅位置安定 */
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
     position: relative;
-    z-index: 2;
+    z-index: 5;
 }
 
+.category-tag input {
+    display: none;
+}
+
+.category-tag span {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+}
+
+.category-tag input:checked + span {
+    background: #111;
+    color: white;
+}
+
+/* ================= バナー ================= */
+.banner {
+    width: 92%;
+    max-width: 1200px;
+    margin: 20px auto;   /* ✅ 重なり解消 */
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 60px;
+    border-radius: 10px;
+}
+
+/* ================= セクション ================= */
+/* ✅ 共通タイトル（おすすめ商品と完全統一） */
 .section-title {
     width: 92%;
     max-width: 1200px;
-    margin: 30px auto 0;
+    margin: 40px auto 10px;   /* ← 上下余白揃える */
     font-size: 22px;
     font-weight: bold;
     color: #222;
@@ -156,196 +129,167 @@ header{
     border-bottom: 2px solid #ff5a5f;
 }
 
-.product-list{
-    width:92%;
+
+/* ================= 商品 ================= */
+.product-list {
+    width: 92%;
     max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    margin:30px auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
-    gap:24px;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
 }
 
-.card{
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 1px 4px rgba(0,0,0,0.06);
-    transition:0.18s ease;
-    height: 100%;
+.product-item {
+    display: block;
+    color: black;
+    text-decoration: none;
+    position: relative;
 }
 
-.card:hover{
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.image{
-    height:230px;
-    background: #f7f7f7;
-}
-
-.card-body{
-    padding:14px 16px 18px;
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.2s;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-body h3 {
     font-size: 14px;
-    line-height: 1.5;
-    height: 42px;
-    margin-bottom: 8px;
+    line-height: 1.4;
+
+    height: 40px;              /* ✅ 高さ固定（重要） */
     overflow: hidden;
-    display: -webkit-box;
+
+    display: -webkit-box;      /* ✅ 2行制限 */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    color: #222;
 }
 
-.price{
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* ✅ 画像安定 */
+.image {
+    height: 230px;
+    overflow: hidden;
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 14px;
+}
+
+.price {
     color: #ff5a5f;
-    font-weight:bold;
-    font-size: 18px;
-}
-
-/* ===== 最近見た商品 ===== */
-.recently-viewed {
-    width:92%;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.recently-title {
-   font-size: 20px;
-   margin-bottom: 14px;
-}
-.recently-scroll {
-   display: flex;
-   gap: 14px;
-   overflow-x: auto;
-   padding-bottom: 10px;     /* スクロールバーぶんの余白 */
-   scroll-snap-type: x proximity;
-}
-.recently-card {
-   flex: 0 0 160px;          /* 幅160pxで固定、横に並ぶ */
-   background: white;
-   border: 1px solid #eee;
-   border-radius: 10px;
-   overflow: hidden;
-   text-decoration: none;
-   color: inherit;
-   scroll-snap-align: start;
-   transition: 0.15s;
-   display: flex;
-   flex-direction: column;
-}
-.recently-card:hover {
-   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-   transform: translateY(-2px);
-}
-.recently-img {
-   width: 100%;
-   height: 140px;
-   background: #fafafa;
-}
-.recently-img img {
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-}
-.recently-name {
-   padding: 8px 10px 2px;
-   font-size: 13px;
-   line-height: 1.4;
-   min-height: 36px;
-   overflow: hidden;
-   display: -webkit-box;
-   -webkit-line-clamp: 2;
-   -webkit-box-orient: vertical;
-   word-break: break-word;
-   flex-grow: 1;
-}
-.recently-price {
-   padding: 0 10px 10px;
-   font-weight: bold;
-   color: #ff5a5f;
-   font-size: 14px;
-}
-/* スクロールバーを細く（任意） */
-.recently-scroll::-webkit-scrollbar {
-   height: 6px;
-}
-.recently-scroll::-webkit-scrollbar-thumb {
-   background: #ddd;
-   border-radius: 3px;
-}
-
-.card-rating { 
-    padding: 0 16px 14px;
-    font-size: 13px; 
-    color: #ffb400;
     font-weight: bold;
 }
 
-.card-rating .no-rating {
-    color: #bbb;
-    font-weight: normal;
+/* ================= 最近見た商品（✅カード化） ================= */
+.recently-viewed {
+    width: 92%;
+    max-width: 1200px;
+    margin: 20px auto;
 }
 
-/* ===== ページネーション ===== */
+.recently-scroll {
+    display: grid;   /* ✅ ←横スクロールやめる */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+/* ✅ 商品カード風 */
+.recently-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: black;
+    display: block;
+    transition: 0.2s;
+}
+
+.recently-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.recently-img {
+    height: 150px;
+    overflow: hidden;
+}
+
+.recently-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recently-name {
+    font-size: 13px;
+    padding: 8px;
+}
+
+.recently-price {
+    color: #ff5a5f;
+    font-weight: bold;
+    padding: 0 8px 10px;
+}
+
+/* ================= ページネーション（✅完全修正） ================= */
 .pagination {
-   margin: 50px auto 60px ; /* ← 上を広げる */
-   display: flex;
-   justify-content: center;
+    width: 92%;
+    max-width: 1200px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
 }
+
+/* 余計な文章削除 */
+.pagination p {
+    display: none;
+}
+
+/* 一覧 */
 .pagination ul {
-   display: flex;
-   list-style: none;
-   gap: 6px;
-   padding: 0;
-   margin: 0;
-   flex-wrap: wrap;
+    display: flex;
+    gap: 6px;
+    list-style: none;
 }
-.pagination li { list-style: none; }
-.pagination .page-link,
+
+/* ボタン */
 .pagination li a,
 .pagination li span {
-   display: block;
-   padding: 8px 14px;
-   border: 1px solid #ddd;
-   border-radius: 6px;
-   background: #fff;
-   color: #333;
-   text-decoration: none;
-   font-size: 14px;
-   line-height: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
 }
-.pagination .page-link:hover,
-.pagination li a:hover {
-   background: #fff0f0;
-   border-color: #ff5a5f;
-   color: #ff5a5f;
-}
-.pagination .active .page-link,
+
+/* current */
 .pagination .active span {
-   background: #ff5a5f;
-   border-color: #ff5a5f;
-   color: #fff;
+    background: #ff5a5f;
+    color: white;
+    border-color: #ff5a5f;
 }
-.pagination .disabled .page-link,
-.pagination .disabled span {
-   color: #bbb;
-   background: #f7f7f7;
-}
-.pagination p { 
-    display: none;
-}/* 「Previous」「Next」の文字だけ消す */
+
+/* 矢印 */
 .pagination a[rel="prev"],
 .pagination a[rel="next"] {
     font-size: 0;
 }
 
-/* 矢印だけ残す（← →） */
 .pagination a[rel="prev"]::after {
     content: "‹";
     font-size: 14px;
@@ -356,10 +300,90 @@ header{
     font-size: 14px;
 }
 
-.pagination a[rel="prev"],
-.pagination a[rel="next"] {
-    font-size: 0;
+.image {
+    position: relative; /* ✅ 基準になる */
+}
+
+/* お気に入り */
+.ajax-fav-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+/* ===== ボタン位置 ===== */
+.image,
+.recently-img {
+    position: relative;
+}
+
+.ajax-fav-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 20;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+}
+
+/* ===== 最近見た商品カード化 ===== */
+.recently-scroll {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+    gap: 16px;
+}
+
+.recently-card {
+    display: block;
+}
+
+/* ===== pagination整形 ===== */
+.pagination p {
+    display: none;
+}
+
+.pagination ul {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    gap: 6px;
+    list-style: none;
+}
+
+.pagination li a,
+.pagination li span {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+}
+
+/* 上のナビ完全削除 */
+.pagination nav > div:first-child {
+    display: none;
+}
+
+/* 商品リンクの見た目リセット */
+.product-item a,
+.product-item {
+    text-decoration: none;  /* ✅ 下線消す */
+    color: inherit;         /* ✅ 青文字消す */
+}
+
+/* 念のためh3内リンクも */
+.card-body a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
