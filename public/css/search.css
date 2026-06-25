@@ -1,0 +1,161 @@
+body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
+.search-page { width: 90%; max-width: 1100px; margin: 30px auto; }
+.search-head {
+   display: flex;
+   align-items: baseline;
+   gap: 12px;
+   margin-bottom: 16px;
+}
+.search-head h1 { font-size: 22px; }
+.result-count { color: #888; font-size: 14px; }
+.filter-bar {
+   display: flex;
+   gap: 12px;
+   margin-bottom: 20px;
+}
+.filter-bar select {
+   padding: 8px 12px;
+   border: 1px solid #ccc;
+   border-radius: 6px;
+   background: white;
+   cursor: pointer;
+}
+.product-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+   gap: 18px;
+}
+.product-card {
+   background: white;
+   border-radius: 10px;
+   overflow: hidden;
+   text-decoration: none;
+   color: inherit;
+   border: 1px solid #eee;
+   transition: 0.15s;
+   display: flex;
+   flex-direction: column;
+}
+.product-card:hover {
+   box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+   transform: translateY(-2px);
+}
+.product-img {
+   width: 100%;
+   height: 180px;
+   background: #fafafa;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.product-img img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+.no-img { 
+   color: #bbb;
+   font-size: 14px;
+}
+
+.product-name {
+   padding: 12px 12px 4px;
+   font-size: 14px;
+   line-height: 1.4;
+   min-height: 40px;
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   -webkit-box-orient: vertical;
+   word-break: break-word;
+   flex-grow: 1;
+}
+.product-price {
+   padding: 0 12px 14px;
+   font-weight: bold;
+   color: #ff5a5f;
+   font-size: 16px;
+}
+
+.card-rating {
+   padding: 0 12px 14px;
+   font-size: 13px;
+   color: #ffb400;
+   font-weight: bold;
+}
+
+.card-rating .no-rating {
+   color: #bbb;
+   font-weight: normal;
+}
+
+.no-result {
+   background: white;
+   padding: 40px;
+   text-align: center;
+   color: #888;
+   border-radius: 10px;
+}
+.pagination {
+   margin: 28px 0;
+   display: flex;
+   justify-content: center;
+   justify-content: center;
+}
+
+.pagination ul,
+.pagination .pagination {
+   display: flex;
+   list-style: none;
+   gap: 6px;
+   padding: 0;
+   margin: 0;
+   flex-wrap: wrap;
+}
+
+.pagination li {
+   list-style: none;
+}
+
+.pagination .page.link,
+.pagination li a,
+.pagination li span {
+   display: block;
+   padding: 8px 14px;
+   border: 1px solid #ddd;
+   border-radius: 6px;
+   background: #fff;
+   color: #333;
+   text-decoration: none;
+   font-size: 14px;
+   line-height: 1;
+}
+
+.pagination .page-link:hover,
+.pagination li a :hover {
+   background: #fff0f0;
+   border-color: #ff5a5f;
+   color: #ff5a5f;
+}
+
+/* 現在のぺージ */
+.pagination .active .page-link,
+.pagination .active span {
+   background: #ff5a5f;
+   border-color: #ff5a5f;
+   color: #fff;
+}
+
+/* 無効(前へ/次へが押せない時) */
+.pagination .disabled .page-link,
+.pagination .disabled span {
+   color: #bbb;
+   background: #f7f7f7;
+}
+
+.pagination p { 
+    display: none;
+}
+
+.back { margin-top: 20px; }
+.back a { color: #555; text-decoration: none; }

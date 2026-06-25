@@ -161,7 +161,7 @@ h2 {
     letter-spacing: 3px;
 }
 
-input {
+.right input {
     width: 100%;
     padding: 14px;
     margin-bottom: 25px;
@@ -170,6 +170,7 @@ input {
     border: 1px solid #444;
     color: #fff;
 }
+
 
 input:focus {
     border-color: red;

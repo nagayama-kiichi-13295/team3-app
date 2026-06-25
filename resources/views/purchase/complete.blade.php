@@ -15,31 +15,30 @@
 
     <div class="detail-right" style="width:100%; text-align:center;">
 
-        <!-- ✅ タイトル -->
-        <h1 style="color:lime;">✅ 購入完了</h1>
+        <!-- タイトル -->
+        <h1 style="color:black;">✅ 購入完了</h1>
 
         <p style="margin-top:20px;">
             ご購入ありがとうございました！
         </p>
 
-        <!-- ✅ 合計金額 -->
+        <!-- 合計金額 -->
         <p style="font-size:20px; color:red; margin-top:20px;">
             合計金額：¥{{ number_format($total) }}
         </p>
 
         <hr style="margin:30px 0;">
 
-        <!-- ✅ ボタンエリア -->
         <div style="display:flex; flex-direction:column; gap:10px;">
 
-            <!-- 一覧へ戻る -->
-            <a href="/" class="buy-btn" style="text-align:center;">
+            <!-- ✅ 商品一覧へ -->
+            <a href="/" class="buy-btn">
                 商品一覧へ戻る
             </a>
 
-            <!-- カートへ -->
-            <a href="/cart" class="cart-btn" style="text-align:center;">
-                カートを見る
+            <!-- ✅ 🔥 購入した商品を見る（追加） -->
+            <a href="/products/{{ $product->id }}" class="cart-btn">
+                購入した商品を見る
             </a>
 
         </div>
@@ -47,6 +46,7 @@
     </div>
 
 </div>
+<?= view('footer')->render() ?>
 
 </body>
 </html>

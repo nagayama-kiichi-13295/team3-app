@@ -146,6 +146,6 @@
         document.getElementById('loginBtn').disabled = !document.getElementById('agree').checked;
     }
 </script>
-
+<?= view('footer')->render() ?>
 </body>
 </html>

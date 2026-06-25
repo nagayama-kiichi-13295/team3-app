@@ -6,13 +6,12 @@ use Illuminate\Support\Facades\Auth;
 // コントローラ
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MypageController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ContactController;
 
-// モデル 
+// モデル
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Order;
@@ -22,17 +21,23 @@ use App\Models\Favorite;
 use App\Models\Contact;
 use App\Models\Faq;
 
- Route::get('/faq', function () {
+Route::get('/faq', function () {
 
     $faqs = Faq::whereIn('id', [8, 9, 10, 11])
         ->where('keyword', '!=', '')
         ->where('answer', '!=', '')
         ->get();
 
-    $contacts = Contact::whereNotNull('answer')->get();
+    $contacts = Contact::whereNotNull('answer')->get(); // ←これ追加
 
     return view('faq', compact('faqs', 'contacts'));
 });
+
+use App\Models\Review;
+
+use App\Models\PaymentMethod;
+
+use PHPUnit\Framework\Constraint\Count;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +60,6 @@ Route::post('/register/back', [AuthController::class, 'backRegister']);
 */
 Route::get('/mypage', [MypageController::class, 'show'])
     ->middleware('auth');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -81,35 +85,45 @@ Route::get('/api/zipcode', [AddressController::class, 'lookupZip']);
 
 /*
 |--------------------------------------------------------------------------
-| 商品一覧（閲覧履歴表示）
+| 商品一覧
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
 
-    $products = Product::all();
-
-    // ✅ 閲覧履歴取得
+    $products = Product::with('mainImage')
+        ->withCount('reviews')
+        ->withAvg('reviews', 'star')
+        ->paginate(12); // get() -> paginate(12)
     $viewedIds = session()->get('viewed_products', []);
-    $viewedProducts = Product::whereIn('id', $viewedIds)->get();
-
+    $viewedProducts = Product::with('mainImage')
+        ->whereIn('id', $viewedIds)
+        ->get()
+        ->sortBy(function ($p) use ($viewedIds) {
+            return array_search($p->id, $viewedIds); // セッションの並び順(最近見た順)
+        })
+        ->values();
     return view('products.index', compact('products', 'viewedProducts'));
 });
-
+/*
+|--------------------------------------------------------------------------
+| 検索バー
+|--------------------------------------------------------------------------
+*/
+Route::get('/search', [ProductController::class, 'search']) -> name('search');
 
 /*
 |--------------------------------------------------------------------------
-| 商品詳細（閲覧履歴保存）
+| 商品詳細
 |--------------------------------------------------------------------------
 */
 Route::get('/products/{id}', function ($id) {
 
-    $product = Product::with('images')->findOrFail($id);
+    $product = Product::with(['images', 'reviews.user'])->findOrFail($id);
 
-    // ✅ 閲覧履歴保存
     $viewed = session()->get('viewed_products', []);
     $viewed = array_diff($viewed, [$id]);
     array_unshift($viewed, $id);
-    $viewed = array_slice($viewed, 0, 5);
+    $viewed = array_slice($viewed, 0, 15);
     session()->put('viewed_products', $viewed);
 
     $isFavorite = false;
@@ -119,8 +133,26 @@ Route::get('/products/{id}', function ($id) {
             ->exists();
     }
 
-    return view('products.show', compact('product', 'isFavorite'));
+    // 関連商品(同じカテゴリ・自分以外)
+    $relatedProducts = Product::with('mainImage')
+        ->where('category_id', $product->category_id)
+        ->where('id', '!=', $product->id)
+        ->withCount('reviews')
+        ->withAvg('reviews', 'star')
+        ->take(6)
+        ->get();
 
+    // 最近見た商品(今見ている商品は除く)
+    $viewedIds = array_values(array_diff($viewed, [$product->id]));
+    $viewedProducts = Product::with('mainImage')
+        ->whereIn('id', $viewedIds)
+        ->get()
+        ->sortBy(fn($p) => array_search($p->id, $viewedIds))
+        ->values();
+
+    return view('products.show', compact(
+        'product', 'isFavorite', 'relatedProducts', 'viewedProducts'
+    ));
 })->name('products.show');
 
 
@@ -162,6 +194,33 @@ Route::get('/orders', function () {
 
 /*
 |--------------------------------------------------------------------------
+| レビュー投稿
+|--------------------------------------------------------------------------
+*/
+Route::post('/products/{id}/review', function (Request $request, $id) {
+    
+    if (!Auth::check()) return redirect('/login');
+
+    $request->validate([
+        'star' => 'required|integer|between:1,5',
+        'comment' => 'nullable|max:1000',
+    ], [
+        'star.required' => '星の数を選んでください。',
+    ]);
+
+    // 同じ人の同じ省へのレビューは上書き
+    Review::updateOrCreate(
+        ['user_id' => auth()->id(), 'product_id' => $id],
+        ['star' => $request->star, 'comment' => $request->comment]
+    );
+
+    return redirect('/products/' . $id)->with('status', 'レビューを投稿しました。');
+    
+})->name('review.store');
+
+
+/*
+|--------------------------------------------------------------------------
 | カート表示
 |--------------------------------------------------------------------------
 */
@@ -178,8 +237,7 @@ Route::get('/cart', function () {
 
         foreach ($products as $product) {
             $quantity = $cart[$product->id];
-            $subtotal = $product->price * $quantity;
-            $totalPrice += $subtotal;
+            $totalPrice += $product->price * $quantity;
 
             $cartItems[] = [
                 'product' => $product,
@@ -191,46 +249,28 @@ Route::get('/cart', function () {
     return view('cart', compact('cartItems', 'totalPrice'));
 });
 
-
 /*
 |--------------------------------------------------------------------------
 | カート操作
 |--------------------------------------------------------------------------
 */
-Route::post('/cart/add', function (Request $request) {
-
-    if (!Auth::check()) {
-        return response()->json(['redirect' => '/login'], 401);
-    }
-
-    $productId = $request->product_id;
-    $quantity = max(1, (int)$request->quantity);
-
-    $cart = session()->get('cart', []);
-    $cart[$productId] = ($cart[$productId] ?? 0) + $quantity;
-
-    session()->put('cart', $cart);
-
-    return response()->json([
-        'success' => true,
-        'message' => $quantity . '個 カートに追加しました！'
-    ]);
-});
-
-
 Route::patch('/cart/update/{id}', function (Request $request, $id) {
+
     $cart = session()->get('cart', []);
 
     if (isset($cart[$id])) {
-        $cart[$id] = max(1, (int)$request->input('quantity'));
-        session()->put('cart', $cart);
+        $cart[$id] = max(1, (int)$request->quantity);
     }
 
+    session()->put('cart', $cart);
+
     return redirect('/cart');
+
 })->name('cart.update');
 
 
 Route::delete('/cart/remove/{id}', function ($id) {
+
     $cart = session()->get('cart', []);
 
     if (isset($cart[$id])) {
@@ -239,35 +279,107 @@ Route::delete('/cart/remove/{id}', function ($id) {
     }
 
     return redirect('/cart');
+
 })->name('cart.remove');
+
+/*
+|--------------------------------------------------------------------------
+| ✅ カート追加（これ追加）
+|--------------------------------------------------------------------------
+*/
+Route::post('/cart/add', function (Request $request) {
+
+    // ✅ JSONで受け取る（←これが重要）
+    $data = json_decode($request->getContent(), true);
+
+    $productId = $data['product_id'] ?? null;
+    $quantity  = (int)($data['quantity'] ?? 1);
+
+    if (!$productId) {
+        return response()->json(['message' => '商品IDエラー'], 400);
+    }
+
+    if ($quantity < 1) $quantity = 1;
+
+    $cart = session()->get('cart', []);
+
+    // ✅ 既にあれば加算
+    if (isset($cart[$productId])) {
+        $cart[$productId] += $quantity;
+    } else {
+        $cart[$productId] = $quantity;
+    }
+
+    session()->put('cart', $cart);
+
+    return response()->json([
+        'message' => 'カートに追加しました'
+    ]);
+});
 
 
 /*
 |--------------------------------------------------------------------------
-| お気に入り
+| お気に入り一覧表示（モデル完全不要版）
 |--------------------------------------------------------------------------
 */
-Route::post('/favorite/toggle', function (Request $request) {
+Route::get('/favorites', function () {
+    if (!Auth::check()) return redirect('/login');
 
+    // DBから直接お気に入りデータと商品データを結合（JOIN）して取得します
+    $favorites = \Illuminate\Support\Facades\DB::table('favorites')
+        ->join('products', 'favorites.product_id', '=', 'products.id')
+        ->leftJoin('product_images', function($join) {
+            // メイン画像を取得（ここでは最初の1枚、あるいは特定の条件を結合）
+            $join->on('products.id', '=', 'product_images.product_id');
+        })
+        ->where('favorites.user_id', auth()->id())
+        ->select('products.*', 'product_images.image_path') // 必要な商品情報と画像パスを抽出
+        ->orderBy('favorites.id', 'desc')
+        ->get();
+
+    return view('favorites', compact('favorites'));
+})->name('favorites.index');
+
+
+/*
+|--------------------------------------------------------------------------
+| お気に入り非同期通信（モデル完全不要版）
+|--------------------------------------------------------------------------
+*/
+Route::post('/favorite/toggle', function (\Illuminate\Http\Request $request) {
     if (!Auth::check()) {
         return response()->json(['redirect' => '/login'], 401);
     }
 
-    $favorite = Favorite::where('user_id', auth()->id())
-        ->where('product_id', $request->product_id)
+    $userId = auth()->id();
+    $productId = $request->input('product_id');
+
+    // DBファサードで直接テーブルからレコードを検索
+    $favorite = \Illuminate\Support\Facades\DB::table('favorites')
+        ->where('user_id', $userId)
+        ->where('product_id', $productId)
         ->first();
 
     if ($favorite) {
-        $favorite->delete();
+        // すでに登録されていれば削除（DB直接操作なのでfillableエラーは起きません）
+        \Illuminate\Support\Facades\DB::table('favorites')
+            ->where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->delete();
+            
         return response()->json(['status' => 'removed']);
+    } else {
+        // 登録されていなければ新規挿入
+        \Illuminate\Support\Facades\DB::table('favorites')->insert([
+            'user_id' => $userId,
+            'product_id' => $productId,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        
+        return response()->json(['status' => 'added']);
     }
-
-    Favorite::create([
-        'user_id' => auth()->id(),
-        'product_id' => $request->product_id
-    ]);
-
-    return response()->json(['status' => 'added']);
 });
 
 
@@ -283,12 +395,18 @@ Route::get('/purchase/form', function (Request $request) {
     $product = Product::findOrFail($request->product_id);
     $address = Address::where('user_id', auth()->id())->first();
 
-    // 登録済みお支払方法を取得
-    $payments = \App\Models\PaymentMethod::where('user_id', auth() -> id())
-        -> orderBy('id', 'desc')
-        -> get();
+    $payments = \App\Models\PaymentMethod::where('user_id', auth()->id())
+        ->orderBy('id', 'desc')
+        ->get();
 
-    return view('purchase.form', compact('product', 'address', 'payments'));
+    $quantity = $request->input('quantity', 1);
+
+    return view('purchase.form', compact(
+        'product',
+        'address',
+        'payments',
+        'quantity'
+    ));
 
 })->name('purchase.form');
 
@@ -305,8 +423,13 @@ Route::post('/purchase/buyconfirm', function (Request $request) {
 
     $product = Product::findOrFail($request->product_id);
 
+    $quantity = (int)$request->quantity;
+    $total = $product->price * $quantity;
+
     return view('purchase.buyconfirm', [
         'product' => $product,
+        'quantity' => $quantity,
+        'total' => $total,
         'data' => $request->all()
     ]);
 
@@ -317,16 +440,6 @@ Route::post('/purchase/complete', function (Request $request) {
 
     $product = Product::findOrFail($request->product_id);
     $quantity = max(1, (int)$request->quantity);
-
-    if (!Address::where('user_id', auth()->id())->exists()) {
-        Address::create([
-            'user_id' => auth()->id(),
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-        ]);
-    }
-
     $total = $product->price * $quantity;
 
     $order = Order::create([
@@ -343,14 +456,16 @@ Route::post('/purchase/complete', function (Request $request) {
 
     session()->forget('cart');
 
-    return view('purchase.complete', compact('total'));
+    return view('purchase.complete', [
+        'total' => $total,
+        'product' => $product // ✅ これがさっきのエラー修正
+    ]);
 
 })->name('purchase.complete');
 
-
 /*
 |--------------------------------------------------------------------------
-| 支払方法
+| 注文履歴
 |--------------------------------------------------------------------------
 */
 Route::get('/account/payment', [PaymentController::class, 'index']);
@@ -367,3 +482,52 @@ Route::get('/contact', function () {
 });
 Route::post('/contact/send', [ContactController::class, 'send'])
    ->name('contact.send');
+
+/*
+|--------------------------------------------------------------------------
+| フッターリンク用のルーティング（シンプル版）
+|--------------------------------------------------------------------------
+*/
+
+// 利用規約 (terms.blade.php)
+Route::view('/terms', 'terms')->name('terms');
+
+// プライバシーポリシー (privacy.blade.php)
+Route::view('/privacy', 'privacy')->name('privacy');
+
+// 特定商取引法に基づく表記 (tokushoho.blade.php)
+Route::view('/tokushoho', 'tokushoho')->name('tokushoho');
+
+
+
+
+Route::get('/orders', function () {
+
+    if (!Auth::check()) return redirect('/login');
+
+    $orders = Order::with('orderItems.product.mainImage')
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->get();
+
+    return view('orders', compact('orders'));
+
+})->name('orders');
+
+
+   
+Route::view('/privacy', 'privacy');
+Route::view('/tokushoho', 'tokushoho');
+
+Route::get('/payment', function () {
+    return view('payment');
+})->name('payment.create');
+
+
+Route::get('/payment', function () {
+
+    $methods = PaymentMethod::where('user_id', Auth::id())->get();
+
+    return view('payment', compact('methods'));
+
+})->name('payment.create');

@@ -15,7 +15,7 @@
 
 <header>
     <a href="/" class="logo">
-        <img src="/images/logo.png" alt="Sneaker Market" class="logo-img">
+        <img src="/images/logo.png" class="logo-img">
         <span>Sneaker Market</span>
     </a>
 
@@ -25,9 +25,9 @@
 
 <?php if ($user): ?>
         <div class="account">
-            <button class="account-icon" onclick="toggleAccountMenu()" aria-label="アカウントメニュー">
+            <button class="account-icon" onclick="toggleAccountMenu()">
 <?php if (!empty($user->icon_path)): ?>
-                <img src="<?= asset('storage/' . $user->icon_path) ?>" alt="アイコン">
+                <img src="<?= asset('storage/' . $user->icon_path) ?>">
 <?php else: ?>
                 <?= htmlspecialchars(mb_substr($user->user_name, 0, 1)) ?>
 <?php endif; ?>
@@ -38,9 +38,9 @@
                     <?= htmlspecialchars($user->user_name) ?>さん
                 </div>
 
-                <a href="/account">アカウントサービス</a>
-                <a href="/orders">購入した商品</a>
-                <a href="/history">閲覧した商品</a>
+                <a href="/account">アカウント</a>
+                <a href="/orders">購入履歴</a>
+                <a href="/history">閲覧履歴</a>
                 <a href="/contact">お問い合わせ</a>
                 <a href="/faq">よくある質問</a>
 
@@ -58,7 +58,10 @@
     </div>
 </header>
 
-<div class="container">
+
+<!-- ✅ ========= 本体（スニダン風） ========= -->
+<div class="contact-wrapper">
+
     <h1>お問い合わせ</h1>
 
     @if(session('success'))
@@ -77,21 +80,31 @@
         </div>
     @endif
 
-    <form action="{{ route('contact.send') }}" method="POST">
+    <form action="{{ route('contact.send') }}" method="POST" class="contact-form">
         @csrf
 
-        <label>名前</label>
-        <input type="text" name="name" value="{{ old('name') }}">
+        <div class="form-group">
+            <label>名前</label>
+            <input type="text" name="name" value="{{ old('name') }}">
+        </div>
 
-        <label>メールアドレス</label>
-        <input type="email" name="email" value="{{ old('email') }}">
+        <div class="form-group">
+            <label>メールアドレス</label>
+            <input type="email" name="email" value="{{ old('email') }}">
+        </div>
 
-        <label>お問い合わせ内容</label>
-        <textarea name="message">{{ old('message') }}</textarea>
+        <div class="form-group">
+            <label>お問い合わせ内容</label>
+            <textarea name="message">{{ old('message') }}</textarea>
+        </div>
 
-        <button type="submit">送信</button>
+        <button type="submit" class="send-btn">
+            送信する
+        </button>
     </form>
+
 </div>
+
 
 <script>
 function toggleAccountMenu() {
@@ -113,5 +126,6 @@ document.addEventListener("click", function(e) {
     <p>{{ $faqAnswer->answer }}</p>
 </div>
 @endif
+<?= view('footer')->render() ?>
 </body>
 </html>

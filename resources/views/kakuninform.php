@@ -39,6 +39,6 @@
 
     <button onclick="location.href='index.php'">トップページへ戻る</button>
 </div>
-
+<?= view('footer')->render() ?>
 </body>
 </html>

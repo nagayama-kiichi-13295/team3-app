@@ -66,6 +66,7 @@
         </div>
     @endforeach
 
+
     <h2>お問い合わせの回答</h2>
 
     @foreach($contacts as $contact)
@@ -74,6 +75,7 @@
             <p>A. {{ $contact->answer }}</p>
         </div>
     @endforeach
+
 
 </div>
 <script>
