@@ -53,5 +53,6 @@ function togglePassword() {
    pw.type = (pw.type === "password") ? "text" : "password";
 }
 </script>
+<?= view('footer')->render() ?>
 </body>
 </html>

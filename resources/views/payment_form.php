@@ -104,4 +104,5 @@ onTypeChange();
 </script>
 
 </body>
+<?= view('footer')->render() ?>
 </html>

@@ -28,6 +28,6 @@
     <p>名前：<?= htmlspecialchars($user -> user_name) ?></p>
     <p>メール：<?= htmlspecialchars($user -> email) ?></p>
 </div>
-
+<?= view('footer')->render() ?>
 </body>
 </html>

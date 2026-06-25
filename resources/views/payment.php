@@ -64,4 +64,5 @@
     <p class="back"><a href="/account">アカウントサービスに戻る</a></p>
 </div>
 </body>
+<?= view('footer')->render() ?>
 </html>

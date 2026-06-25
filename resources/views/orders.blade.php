@@ -68,6 +68,6 @@
         </div>
     @endif
 </div>
-
+<?= view('footer')->render() ?>
 </body>
 </html>
