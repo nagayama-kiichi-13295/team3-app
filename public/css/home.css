@@ -389,6 +389,23 @@ header {
     cursor: pointer;
 }
 
+/* ===== 最近見た商品カード化 ===== */
+.recently-scroll {
+    display: flex;
+    gap: 16px;
+
+    overflow-x: auto;   /* ←はみ出たらスクロール */
+    overflow-y: hidden;
+}
+
+.recently-card {
+    flex: 0 0 220px;    /* ✅ 幅固定 */
+}
+
+
+
+
+
 /* ===== pagination整形 ===== */
 .pagination p {
     display: none;
