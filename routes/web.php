@@ -18,6 +18,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Favorite;
+use App\Models\Review;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,12 +71,26 @@ Route::get('/api/zipcode', [AddressController::class, 'lookupZip']);
 */
 Route::get('/', function () {
 
-    $products = Product::all();
+    $products = Product::with('mainImage')
+        ->withCount('reviews')
+        ->withAvg('reviews', 'star')
+        ->paginate(12); // get() -> paginate(12)
     $viewedIds = session()->get('viewed_products', []);
-    $viewedProducts = Product::whereIn('id', $viewedIds)->get();
-
+    $viewedProducts = Product::with('mainImage')
+        ->whereIn('id', $viewedIds)
+        ->get()
+        ->sortBy(function ($p) use ($viewedIds) {
+            return array_search($p->id, $viewedIds); // セッションの並び順(最近見た順)
+        })
+        ->values();
     return view('products.index', compact('products', 'viewedProducts'));
 });
+/*
+|--------------------------------------------------------------------------
+| 検索バー
+|--------------------------------------------------------------------------
+*/
+Route::get('/search', [ProductController::class, 'search']) -> name('search');
 
 /*
 |--------------------------------------------------------------------------
@@ -89,7 +104,7 @@ Route::get('/products/{id}', function ($id) {
     $viewed = session()->get('viewed_products', []);
     $viewed = array_diff($viewed, [$id]);
     array_unshift($viewed, $id);
-    $viewed = array_slice($viewed, 0, 5);
+    $viewed = array_slice($viewed, 0, 15);
     session()->put('viewed_products', $viewed);
 
     $isFavorite = false;
@@ -101,6 +116,70 @@ Route::get('/products/{id}', function ($id) {
 
     return view('products.show', compact('product', 'isFavorite'));
 })->name('products.show');
+
+
+/*
+|--------------------------------------------------------------------------
+| ✅ 閲覧履歴ページ（ここ追加）
+|--------------------------------------------------------------------------
+*/
+Route::get('/history', function () {
+
+    if (!Auth::check()) return redirect('/login');
+
+    $viewedIds = session()->get('viewed_products', []);
+    $viewedProducts = Product::whereIn('id', $viewedIds)->get();
+
+    return view('history', compact('viewedProducts'));
+
+})->name('history');
+
+
+/*
+|--------------------------------------------------------------------------
+| ✅ 注文履歴
+|--------------------------------------------------------------------------
+*/
+Route::get('/orders', function () {
+
+    if (!Auth::check()) return redirect('/login');
+
+    $orders = Order::with('orderItems.product.mainImage')
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->get();
+
+    return view('orders', compact('orders'));
+
+})->name('orders');
+
+
+/*
+|--------------------------------------------------------------------------
+| レビュー投稿
+|--------------------------------------------------------------------------
+*/
+Route::post('/products/{id}/review', function (Request $request, $id) {
+    
+    if (!Auth::check()) return redirect('/login');
+
+    $request->validate([
+        'star' => 'required|integer|between:1,5',
+        'comment' => 'nullable|max:1000',
+    ], [
+        'star.required' => '星の数を選んでください。',
+    ]);
+
+    // 同じ人の同じ省へのレビューは上書き
+    Review::updateOrCreate(
+        ['user_id' => auth()->id(), 'product_id' => $id],
+        ['star' => $request->star, 'comment' => $request->comment]
+    );
+
+    return redirect('/products/' . $id)->with('status', 'レビューを投稿しました。');
+    
+})->name('review.store');
+
 
 /*
 |--------------------------------------------------------------------------

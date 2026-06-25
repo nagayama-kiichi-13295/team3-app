@@ -3,35 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>スニーカー販売サイト</title>
-
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+<link rel="icon" type="image/png" href="/images/logo.png">
 
 <style>
-
-/* ===== 検索エリア ===== */
-.search-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin: 20px auto;
-}
-
-/* ✅ 検索ボックス（小さく＆丸） */
-#searchInput {
-    width: 500px;   /* ← ここを大きくするんだ */
-    padding: 8px 14px;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    font-size: 14px;
-}
-
-
-#searchInput:focus {
-    border-color: #333;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
 /* ===== 価格 ===== */
 .price-filter-row {
     display: flex;
@@ -46,59 +21,6 @@
     border: 1px solid #ddd;
     border-radius: 6px;
 }
-
-/* ===== カテゴリ（タグボタン） ===== */
-.category-filter {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin: 25px 0;
-}
-
-/* チェックボックス非表示 */
-.category-tag input {
-    display: none;
-}
-
-/* ボタン見た目 */
-.category-tag span {
-    display: inline-block;
-    padding: 8px 18px;
-    border-radius: 999px;
-    border: 1px solid #ddd;
-    background: #fff;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-/* ホバー */
-.category-tag span:hover {
-    background: #f5f5f5;
-    transform: translateY(-2px);
-}
-
-/* ✅ 選択状態 */
-.category-tag input:checked + span {
-    background: #111;
-    color: #fff;
-    border-color: #111;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.card-body h3 {
-    font-size: 14px;
-    line-height: 1.4;
-    height: 40px; /* ← 高さを固定 */
-    
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* ← 最大2行 */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
 </style>
 </head>
 
@@ -106,41 +28,78 @@
 
 <?= view('header')->render() ?>
 
-<!-- ✅ 検索 -->
-<div class="search-area">
-    <input type="text" id="searchInput" placeholder="商品名を検索">
+<!-- 自動スライドAmazon風バナー -->
+ <div class="hero-banner">
+    <div class="hero-track" id="heroTrack">
 
-    <div class="price-filter-row">
-        <input type="number" id="minPriceInput" class="price-input" placeholder="下限">
-        〜
-        <input type="number" id="maxPriceInput" class="price-input" placeholder="上限">
+        <!-- ▼▼▼ スライド１: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/sample.jpg') }}" alt="新作">
+         </div>
+
+        <!-- ▼▼▼ スライド２: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <!-- 動画を入れる場合 -->
+            <video src="{{ asset('videos/perfect.mp4') }}" autoplay muted loop playsinline></video>
+         </div>
+
+        <!-- ▼▼▼ スライド３: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/logo.png') }}" alt="新作">
+         </div>
+
+        <!-- ▼▼▼ スライド４: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/sample.jpg') }}" alt="新作">
+         </div>
+
+        <!-- ▼▼▼ スライド５: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/kutu.webp') }}" alt="新作">
+         </div>
+
+        <!-- ▼▼▼ スライド６: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/kutu2.webp') }}" alt="新作">
+         </div>
     </div>
-</div>
+    <div class="hero-fade"></div>
 
-<!-- ✅ カテゴリ -->
-<div class="category-filter">
+    <button class="hero-arrow prev" onclick="moveHero(-1)" aria-label="前へ"><</button>
+    <button class="hero-arrow next" onclick="moveHero(1)" aria-label="次へ">></button>
+    
+    <div class="hero-dots" id="heroDots"></div>
+ </div>
 
-    <label class="category-tag">
-        <input type="checkbox" class="category-check" value="1">
-        <span>靴</span>
-    </label>
-
-    <label class="category-tag">
-        <input type="checkbox" class="category-check" value="2">
-        <span>サンダル</span>
-    </label>
-
-    <label class="category-tag">
-        <input type="checkbox" class="category-check" value="3">
-        <span>ブーツ</span>
-    </label>
-
-</div>
 
 <div class="banner">
     <h1>人気スニーカー特集</h1>
     <p>限定モデル続々入荷中！</p>
 </div>
+
+<!-- 最近みた商品 -->
+ @if(isset($viewedProducts) && $viewedProducts->count() > 0)
+ <div class="recently-viewed">
+    <h2 class="recently-title">最近見た商品</h2>
+    <div class="recently-scroll">
+        @foreach($viewedProducts as $vp)
+        <a href="{{ route('products.show', $vp->id) }}" class="recently-card">
+            <div class="recently-img">
+                @if($vp->mainImage && $vp->mainImage->image_path)
+                    <img src="{{ asset('storage/' . $vp->mainImage->image_path) }}" alt="{{ $vp->product_name }}">
+                @else
+                    <img src="{{ asset('images/no-image.png') }}" alt="">
+                @endif
+            </div>
+            <div class="recently-name">{{ $vp->product_name }}</div>
+            <div class="recently-price">{{ number_format($vp->price) }}円</div>
+        </a>
+        @endforeach
+    </div>
+ </div>
+@endif
+
+<h2 class="section-title">おすすめ商品</h2>
 
 <div class="product-list">
 @foreach($products as $product)
@@ -164,6 +123,14 @@
             <div class="price">
                 {{ number_format($product->price) }}円
             </div>
+            
+            <div class="card-rating">
+                @if($product->reviews_count > 0)
+                    ★ {{ round($product->reviews_avg_star, 1) }} ({{ $product->reviews_count }})
+                @else
+                    <span class="no-rating">レビューなし</span>
+                @endif
+            </div>
         </div>
     </div>
 
@@ -171,54 +138,39 @@
 @endforeach
 </div>
 
+<!-- pagination -->
+ <div class="pagination">
+        {{ $products->links() }}
+ </div>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+    let heroIndex = 0;
+    const heroTrack = document.getElementById('heroTrack');
+    const heroCount = heroTrack.children.length;
+    const heroDots = document.getElementById('heroDots');
 
-    const products = document.querySelectorAll('.product-item');
-    const searchInput = document.getElementById('searchInput');
-    const minPriceInput = document.getElementById('minPriceInput');
-    const maxPriceInput = document.getElementById('maxPriceInput');
-    const categoryChecks = document.querySelectorAll('.category-check');
-
-    function filterProducts() {
-
-        const searchText = searchInput.value.toLowerCase().trim();
-        const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : null;
-        const maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value) : null;
-
-        const selectedCategories = Array.from(categoryChecks)
-            .filter(c => c.checked)
-            .map(c => c.value);
-
-        products.forEach(product => {
-
-            const productCategory = product.getAttribute('data-category');
-            const productPrice = parseInt(product.getAttribute('data-price'));
-            const name = product.querySelector('h3').textContent.toLowerCase();
-
-            const matchCategory =
-                selectedCategories.length === 0 ||
-                selectedCategories.includes(productCategory);
-
-            const matchSearch = (searchText === '' || name.includes(searchText));
-            const matchMin = (minPrice === null || productPrice >= minPrice);
-            const matchMax = (maxPrice === null || productPrice <= maxPrice);
-
-            product.style.display = (matchCategory && matchSearch && matchMin && matchMax)
-                ? 'inline-block'
-                : 'none';
-        });
+    // ドットをスライド枚数分自動生成
+    for (let i = 0; i < heroCount; i++) {
+        const dot = document.createElement('button');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {heroIndex = i; renderHero(); });
+        heroDots.appendChild(dot);
     }
 
-    searchInput.addEventListener('input', filterProducts);
-    minPriceInput.addEventListener('input', filterProducts);
-    maxPriceInput.addEventListener('input', filterProducts);
+    function renderHero() {
+        heroTrack.style.transform = 'translateX(' + (-heroIndex * 100) + '%)';
+        const dots = heroDots.children;
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.toggle('active', i === heroIndex);
+        }
+    }
 
-    categoryChecks.forEach(check => {
-        check.addEventListener('change', filterProducts);
-    });
+    function moveHero(dir) {
+        heroIndex = (heroIndex + dir + heroCount) % heroCount;
+        renderHero();
+    }
 
-});
+    setInterval(() => moveHero(1), 5000); // 5秒ごとに自動で次へ
 </script>
 <?= view('footer')->render() ?>
 </body>
