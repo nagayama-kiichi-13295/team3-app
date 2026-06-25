@@ -202,10 +202,21 @@ header {
     margin: 20px auto;
 }
 
+/* ===== 最近見た商品（1列スクロール） ===== */
 .recently-scroll {
-    display: grid;   /* ✅ ←横スクロールやめる */
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    display: flex !important;      /* ← 強制上書き */
+    flex-wrap: nowrap !important;  /* ← 折り返し完全禁止 */
+
     gap: 16px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* カード固定サイズ */
+.recently-card {
+    min-width: 200px;       /* ✅ 横幅固定 */
+    flex-shrink: 0;         /* ✅ 縮まない */
 }
 
 /* ✅ 商品カード風 */
