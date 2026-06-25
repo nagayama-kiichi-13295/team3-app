@@ -264,6 +264,41 @@ Route::delete('/cart/remove/{id}', function ($id) {
 
 })->name('cart.remove');
 
+/*
+|--------------------------------------------------------------------------
+| ✅ カート追加（これ追加）
+|--------------------------------------------------------------------------
+*/
+Route::post('/cart/add', function (Request $request) {
+
+    // ✅ JSONで受け取る（←これが重要）
+    $data = json_decode($request->getContent(), true);
+
+    $productId = $data['product_id'] ?? null;
+    $quantity  = (int)($data['quantity'] ?? 1);
+
+    if (!$productId) {
+        return response()->json(['message' => '商品IDエラー'], 400);
+    }
+
+    if ($quantity < 1) $quantity = 1;
+
+    $cart = session()->get('cart', []);
+
+    // ✅ 既にあれば加算
+    if (isset($cart[$productId])) {
+        $cart[$productId] += $quantity;
+    } else {
+        $cart[$productId] = $quantity;
+    }
+
+    session()->put('cart', $cart);
+
+    return response()->json([
+        'message' => 'カートに追加しました'
+    ]);
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -460,3 +495,4 @@ Route::get('/orders', function () {
     return view('orders', compact('orders'));
 
 })->name('orders');
+
