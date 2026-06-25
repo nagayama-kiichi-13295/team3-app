@@ -11,15 +11,15 @@ class ProductController extends Controller
     /**
      * 商品一覧ページ
      */
-    public function index()
-    {
-        $products = Product::with('mainImage')
-            ->withCount('reviews')
-            ->withAvg('reviews', 'star')
-            ->get();
+public function index()
+{
+    $products = Product::with('mainImage')
+        ->withCount('reviews')
+        ->withAvg('reviews', 'star')
+        ->paginate(10);  // ✅ここに変更
 
-        return view('products.index', compact('products'));
-    }
+    return view('products.index', compact('products'));
+}
 
     /**
      * 商品詳細ページ

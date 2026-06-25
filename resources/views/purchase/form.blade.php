@@ -91,6 +91,6 @@
     </form>
 
 </div>
-
+<?= view('footer')->render() ?>
 </body>
 </html>

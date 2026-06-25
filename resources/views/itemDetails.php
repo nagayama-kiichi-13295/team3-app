@@ -66,6 +66,6 @@ $product = $products[$id];
             カートに追加する
         </button>
     </div>
-
+<?= view('footer')->render() ?>
 </body>
 </html>

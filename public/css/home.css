@@ -135,8 +135,11 @@ header {
     width: 92%;
     max-width: 1200px;
     margin: 30px auto;
+
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ✅ここだけ変更 */
+
     gap: 24px;
 }
 

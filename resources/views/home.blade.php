@@ -181,6 +181,6 @@ foreach($products as $product){
 <?php } ?>
 
 </div>
-
+<?= view('footer')->render() ?>
 </body>
 </html>

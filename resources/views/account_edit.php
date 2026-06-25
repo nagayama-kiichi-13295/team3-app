@@ -54,6 +54,6 @@
         <p class="back"><a href="/mypage">マイページに戻る</a></p>
     </div>
 </div>
-
+<?= view('footer')->render() ?>
 </body>
 </html>
