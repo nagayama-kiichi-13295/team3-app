@@ -37,7 +37,10 @@ header {
     position: relative;
     width: 92%;
     max-width: 1200px;
-    margin: 20px auto;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
     overflow: hidden;
     border-radius: 12px;
     z-index: 1;
@@ -108,12 +111,66 @@ header {
 .banner {
     width: 92%;
     max-width: 1200px;
-    margin: 20px auto;   /* ✅ 重なり解消 */
+    margin-top: -15px;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-left: auto;   
     background: #222;
     color: white;
     text-align: center;
     padding: 60px;
     border-radius: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== カルーセルの矢印 ===== */
+.hero-arrow {
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   background: rgba(0,0,0,0.4);
+   color: white;
+   border: none;
+   width: 44px;
+   height: 44px;
+   font-size: 28px;
+   border-radius: 50%;
+   cursor: pointer;
+   line-height: 1;
+   z-index: 6;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.hero-arrow:hover {
+   background: rgba(0,0,0,0.65);
+}
+.hero-arrow.prev { left: 14px; }
+.hero-arrow.next { right: 14px; }
+
+/* ===== カルーセルのドット ===== */
+.hero-dots {
+   position: absolute;
+   bottom: 14px;
+   left: 0;
+   right: 0;
+   display: flex;
+   justify-content: center;
+   gap: 8px;
+   z-index: 6;
+}
+.hero-dots button {
+   width: 10px;
+   height: 10px;
+   border-radius: 50%;
+   border: none;
+   background: rgba(255,255,255,0.6);
+   cursor: pointer;
+   padding: 0;
+}
+.hero-dots button.active {
+   background: white;
 }
 
 /* ================= セクション ================= */
