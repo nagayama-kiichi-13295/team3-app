@@ -248,22 +248,17 @@ header {
 
 /* ================= ページネーション（✅完全修正） ================= */
 .pagination {
-    width: 92%;
+    width: 92%;            /* ✅ 商品一覧と揃える */
     max-width: 1200px;
-    margin: 40px auto;
+    margin: 40px auto;     /* ✅ 中央配置 */
     display: flex;
     justify-content: center;
 }
 
-/* 余計な文章削除 */
-.pagination p {
-    display: none;
-}
-
-/* 一覧 */
+/* ul整える */
 .pagination ul {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     list-style: none;
 }
 
@@ -273,31 +268,15 @@ header {
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    text-decoration: none;
     color: #333;
+    text-decoration: none;
 }
 
-/* current */
+/* 今のページ */
 .pagination .active span {
     background: #ff5a5f;
     color: white;
     border-color: #ff5a5f;
-}
-
-/* 矢印 */
-.pagination a[rel="prev"],
-.pagination a[rel="next"] {
-    font-size: 0;
-}
-
-.pagination a[rel="prev"]::after {
-    content: "‹";
-    font-size: 14px;
-}
-
-.pagination a[rel="next"]::after {
-    content: "›";
-    font-size: 14px;
 }
 
 .image {
