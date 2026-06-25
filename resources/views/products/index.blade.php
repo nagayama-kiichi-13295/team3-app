@@ -21,6 +21,10 @@
     border: 1px solid #ddd;
     border-radius: 6px;
 }
+/* ✅ 上に出てる余計なナビ削除（これが重要） */
+.pagination nav > div:first-child {
+    display: none;
+}
 </style>
 </head>
 
@@ -142,6 +146,8 @@
  <div class="pagination">
         {{ $products->links() }}
  </div>
+
+
 
 <script>
     let heroIndex = 0;

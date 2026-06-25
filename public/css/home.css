@@ -294,7 +294,7 @@ header{
 
 /* ===== ページネーション ===== */
 .pagination {
-   margin: 28px auto;
+   margin: 50px auto 60px ; /* ← 上を広げる */
    display: flex;
    justify-content: center;
 }
@@ -339,4 +339,27 @@ header{
 }
 .pagination p { 
     display: none;
+}/* 「Previous」「Next」の文字だけ消す */
+.pagination a[rel="prev"],
+.pagination a[rel="next"] {
+    font-size: 0;
+}
+
+/* 矢印だけ残す（← →） */
+.pagination a[rel="prev"]::after {
+    content: "‹";
+    font-size: 14px;
+}
+
+.pagination a[rel="next"]::after {
+    content: "›";
+    font-size: 14px;
+}
+
+.pagination a[rel="prev"],
+.pagination a[rel="next"] {
+    font-size: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

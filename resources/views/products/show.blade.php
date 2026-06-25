@@ -75,7 +75,7 @@
                 <button type="submit">レビューを投稿</button>
             </form>
             @else
-            <p class="review-login"><a href="/login">ログイン</a>するとレビューを投稿できます。</p>
+            <p class="review-login"><a href="/login">ログイン</a>するとレビューを投稿できます。</p><br>
             @endauth
 
             <!-- レビュー一覧 -->
