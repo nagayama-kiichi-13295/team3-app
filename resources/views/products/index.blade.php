@@ -17,21 +17,38 @@
 <div class="hero-banner">
     <div class="hero-track" id="heroTrack">
 
+        <!-- ▼▼▼ スライド１: ここに画像か動画を入れる ▼▼▼ -->
         <div class="hero-slide">
             <img src="{{ asset('images/sample.jpg') }}">
         </div>
-
+        <!-- ▼▼▼ スライド２: ここに画像か動画を入れる ▼▼▼ -->
         <div class="hero-slide">
-            <video src="{{ asset('videos/perfect.mp4') }}" autoplay muted loop></video>
+            <img src="{{ asset('images/kutu3.jpg') }}" alt="新作">
         </div>
 
-        <div class="hero-slide">
-            <img src="{{ asset('images/logo.png') }}">
-        </div>
+        <!-- ▼▼▼ スライド３: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/logo.png') }}" alt="新作">
+         </div>
+
+        <!-- ▼▼▼ スライド４: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/kutu4.jpg') }}" alt="新作">
+         </div>
+
+        <!-- ▼▼▼ スライド５: ここに画像か動画を入れる ▼▼▼ -->
+         <div class="hero-slide">
+            <img src="{{ asset('images/kutu.webp') }}" alt="新作">
+         </div>
 
         <!-- ▼▼▼ スライド６: ここに画像か動画を入れる ▼▼▼ -->
+        <div class="hero-slide">
+            <img src="{{ asset('images/kutu6.jpg') }}">
+        </div>
+
+        <!-- ▼▼▼ スライド７: ここに画像か動画を入れる ▼▼▼ -->
          <div class="hero-slide">
-            <img src="{{ asset('images/kutu3.jpg') }}" alt="新作">
+            <img src="{{ asset('images/kutu5.jpg') }}" alt="新作">
          </div>
     </div>
 

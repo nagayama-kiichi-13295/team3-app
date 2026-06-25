@@ -70,7 +70,7 @@ body {
    margin-bottom: 20px;
    cursor: pointer;
 }
-button[type="submit"] {
+.security-page button[type="submit"] {
    width: 100%;
    background: #ff4d4d;
    color: white;

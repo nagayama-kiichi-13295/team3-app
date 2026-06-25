@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ログインとセキュリティ</title>
+    <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/security.css">
 </head>
 <body>
