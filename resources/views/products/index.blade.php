@@ -41,10 +41,7 @@
             <img src="{{ asset('images/kutu.webp') }}" alt="新作">
          </div>
 
-        <!-- ▼▼▼ スライド６: ここに画像か動画を入れる ▼▼▼ -->
-        <div class="hero-slide">
-            <img src="{{ asset('images/kutu6.jpg') }}">
-        </div>
+
 
         <!-- ▼▼▼ スライド７: ここに画像か動画を入れる ▼▼▼ -->
          <div class="hero-slide">

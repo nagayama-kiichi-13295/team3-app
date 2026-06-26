@@ -29,7 +29,7 @@
                         </div>
                         <div>
                             <span style="font-size: 0.85rem; color: #555;">合計金額 (税込)</span><br>
-                            <strong>{{ number_format($order->total_amount) }}円</strong>
+                            <strong>{{ number_format($order->total_amount + 13500) }}円</strong>
                         </div>
                         <div>
                             <span style="font-size: 0.85rem; color: #555;">注文番号</span><br>
@@ -56,7 +56,7 @@
 
                                 <div class="item-summary" style="text-align: right; min-width: 120px;">
                                     <p style="margin: 0;">数量: {{ $item->quantity }}</p>
-                                    <p style="margin: 5px 0 0 0; font-weight: bold;">小計: {{ number_format($item->unit_price * $item->quantity) }}円</p>
+                                    <p style="margin: 5px 0 0 0; font-weight: bold;">小計: {{ number_format($item->unit_price * $item->quantity + 13500) }}円</p>
                                 </div>
 
                             </div>

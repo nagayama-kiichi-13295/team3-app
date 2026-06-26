@@ -80,4 +80,21 @@ class CartController extends Controller
 
         return redirect()->back();
     }
+
+    public function form(Request $request, $product_id)
+{
+    // ✅ 元のURL保存
+    session(['redirect_after_address' => url()->current()]);
+
+    $product = Product::findOrFail($product_id);
+
+    $address = auth()->user()->address ?? null;
+
+    return view('purchase.form', [
+        'product' => $product,
+        'address' => $address,
+        'quantity' => $request->quantity ?? 1,
+        'payments' => auth()->user()->payments ?? collect()
+    ]);
+}
 }

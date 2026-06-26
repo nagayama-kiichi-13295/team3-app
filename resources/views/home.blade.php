@@ -61,13 +61,16 @@
             border-radius:10px;
         }
 
-        .product-list{
-            width:80%;
-            margin:30px auto;
-            display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:20px;
+        .product-list {
+            width: 80%;
+            max-width: 1200px;
+            margin: 30px auto;
+
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ✅これ */
+            gap: 20px;
         }
+
 
         .card{
             background:white;

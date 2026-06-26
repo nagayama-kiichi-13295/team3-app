@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="/css/addresses.css">
 </head>
 <body>
-<?= view('header') -> render() ?>
+
+<?= view('header')->render() ?>
 
 <div class="address-page">
     <div class="form-card">
@@ -16,7 +17,7 @@
 
 <?php if ($errors->any()): ?>
         <ul class="error">
-<?php foreach ($errors -> all() as $error): ?>
+<?php foreach ($errors->all() as $error): ?>
             <li><?= htmlspecialchars($error) ?></li>
 <?php endforeach; ?>
         </ul>
@@ -25,11 +26,15 @@
         <form action="<?= $address ? '/account/addresses/' . $address->id : '/account/addresses' ?>" method="post">
             <?= csrf_field() ?>
 
+            <!-- ✅ ✅ ✅ ここだけ追加 -->
+            <input type="hidden" name="redirect"
+                value="<?= htmlspecialchars(session('redirect_after_address') ?? '') ?>">
+
             <div class="field">
                 <label>郵便番号</label>
                 <div class="zip-row">
                     <input type="text" id="postal_code" name="postal_code" placeholder="123-4567"
-                        value="<?= htmlspecialchars(old('postal_code', $address -> postal_code ?? '')) ?>">
+                        value="<?= htmlspecialchars(old('postal_code', $address->postal_code ?? '')) ?>">
                     <button type="button" class="zip-btn" onclick="searchAddress()">住所を自動入力</button>
                 </div>
                 <small id="zipMsg" class="zip-msg"></small>
@@ -62,45 +67,46 @@
             <div class="field">
                 <label>電話番号</label>
                 <input type="text" name="phone_number" placeholder="090-1234-5678"
-                    value="<?= htmlspecialchars(old('phone_number', $address -> phone_number ?? '')) ?>">
+                    value="<?= htmlspecialchars(old('phone_number', $address->phone_number ?? '')) ?>">
             </div>
 
             <button type="submit"><?= $address ? '更新する' : '追加する' ?></button>
         </form>
 
-        <p class="back"><a href="/account/addresses">戻る</a></p>
+        <p class="back"><a href="/account/addresses">アドレス帳に戻る</a></p>
     </div>
 </div>
 
 <script>
-    function searchAddress() {
-        const zip = document.getElementById('postal_code').value.replace(/[^0-9]/g, '');
-        const msg = document.getElementById('zipMsg');
+function searchAddress() {
+    const zip = document.getElementById('postal_code').value.replace(/[^0-9]/g, '');
+    const msg = document.getElementById('zipMsg');
 
-        if (zip.length !== 7) {
-            msg.textContent = '郵便番号は7桁で入力してください。';
-            return;
-        }
-        msg.textContent = '検索中...';
-
-        fetch('/api/zipcode?zip=' + zip)
-            .then(function (r) { return r.json(); })
-            .then(function (d) {
-                if (!d.ok) {
-                    msg.textContent = d.message || '住所が見つかりませんでした。';
-                    return;
-                }
-                document.getElementById('prefecture').value = d.prefecture;
-                document.getElementById('city').value = d.city;
-                document.getElementById('street').value = d.town;
-                msg.textContent = '';
-                document.getElementById('street').focus();
-            })
-            .catch(function () {
-                msg.textContent = '通信エラーが発生しました。';
-            });
+    if (zip.length !== 7) {
+        msg.textContent = '郵便番号は7桁で入力してください。';
+        return;
     }
+    msg.textContent = '検索中...';
+
+    fetch('/api/zipcode?zip=' + zip)
+        .then(r => r.json())
+        .then(d => {
+            if (!d.ok) {
+                msg.textContent = d.message || '住所が見つかりませんでした。';
+                return;
+            }
+            document.getElementById('prefecture').value = d.prefecture;
+            document.getElementById('city').value = d.city;
+            document.getElementById('street').value = d.town;
+            msg.textContent = '';
+            document.getElementById('street').focus();
+        })
+        .catch(() => {
+            msg.textContent = '通信エラーが発生しました。';
+        });
+}
 </script>
-    <?= view('footer')->render() ?>
+
+<?= view('footer')->render() ?>
 </body>
 </html>

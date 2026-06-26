@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 
 
+
 // モデル
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -533,3 +534,8 @@ Route::get('/payment', function () {
     return view('payment', compact('methods'));
 
 })->name('payment.create');
+
+
+
+Route::get('/address/create', [AddressController::class, 'create'])
+    ->name('address.create');

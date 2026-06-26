@@ -269,28 +269,8 @@ body {
 }
 
 /* ===== 最近見た商品（1列スクロール） ===== */
-.recently-scroll {
-    display: flex !important;      /* ← 強制上書き */
-    flex-wrap: nowrap !important;  /* ← 折り返し完全禁止 */
 
-    gap: 16px;
 
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-
-/* カード固定サイズ */
-.recently-card {
-    min-width: 200px;       /* ✅ 横幅固定 */
-    flex-shrink: 0;         /* ✅ 縮まない */
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    text-decoration: none;
-    color: black;
-    display: block;
-    transition: 0.2s;
-}
 
 .recently-card:hover {
     transform: translateY(-3px);
@@ -399,16 +379,33 @@ body {
 .recently-scroll {
     display: flex;
     gap: 16px;
-
-    overflow-x: auto;   /* ←はみ出たらスクロール */
-    overflow-y: hidden;
+    overflow-x: auto;
+    max-width: 100%;     /* ✅ ここ重要 */
 }
 
 .recently-card {
-    flex: 0 0 220px;    /* ✅ 幅固定 */
+    flex: 0 0 220px;         /* ✅ 幅固定 */
 }
 
 
+.recently-viewed {
+    width: 92%;
+    max-width: 1200px;
+    margin: 40px auto;
+    overflow: hidden;
+}
+
+.recently-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.recently-card {
+    flex: 0 0 220px;
+    max-width: 220px;
+}
 
 
 

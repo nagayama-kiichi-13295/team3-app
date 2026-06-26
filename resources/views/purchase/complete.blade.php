@@ -24,7 +24,7 @@
 
         <!-- 合計金額 -->
         <p style="font-size:20px; color:red; margin-top:20px;">
-            合計金額：¥{{ number_format($total) }}
+            合計金額：¥{{ number_format($total + 13500) }}
         </p>
 
         <hr style="margin:30px 0;">
