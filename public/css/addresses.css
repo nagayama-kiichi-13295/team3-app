@@ -76,7 +76,7 @@ body {
    outline: none;   /* ←これ重要 */
    box-shadow: none;
 
-   color: #c0392b;
+   color: #ff4d4d;
    font-size: 14px;
    cursor: pointer;
    padding: 0;
@@ -143,7 +143,7 @@ body {
 }
 .form-card button[type="submit"] {
    width: 100%;
-   background: #ff4d4d;
+   background: #c8ff00;
    color: white;
    border: none;
    padding: 12px;
@@ -153,11 +153,11 @@ body {
    margin-top: 6px;
 }
 .form-card button[type="submit"]:hover {
-   background: #e63c3c;
+   background: #d5ff3b;
 }
 .error {
    background: #ffeaea;
-   color: #c0392b;
+   color: #ff4d4d;
    padding: 12px 16px 12px 32px;
    border-radius: 6px;
    margin-bottom: 18px;
