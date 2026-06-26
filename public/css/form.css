@@ -147,6 +147,34 @@ body {
     font-size: 14px;
 }
 
+.register-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 16px;
+    background: #ffd814;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-link {
+    color: #ff5a5f;              /* 赤文字 */
+    text-decoration: none;   /* 下線消す */
+    font-weight: bold;       /* ちょい強調 */
+}
+
+.add-link:hover {
+    text-decoration: none;   /* ホバー時も下線なし */
+    opacity: 0.8;            /* ほんのり反応 */
+}
+
+.register-btn:hover {
+    background: #e5bf00;
+}
+
 .add-payment-btn {
     display: inline-block;
     color: #ff5a5f;

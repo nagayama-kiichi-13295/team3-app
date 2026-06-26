@@ -40,66 +40,56 @@
             <div class="form-main">
 
                 {{-- ===== お届け先 ===== --}}{{-- ===== お届け先 ===== --}}
-                <section class="form-card">
-                    <h2>お届け先</h2>
+               <section class="form-card">
+    <h2>お届け先</h2>
 
-                    @if(isset($address))
+    @if(isset($address))
 
-                        <div class="saved-box">
-                            <p>〒{{ $address->postal_code }}</p>
-                            <p>{{ $address->address }}</p>
-                            <p>{{ $address->phone_number }}</p>
-                            <span class="saved-tag">登録済み</span>
-                        </div>
+        <!-- ✅ 登録済み表示 -->
+        <div class="saved-box">
+            <p>〒{{ $address->postal_code }}</p>
+            <p>{{ $address->address }}</p>
+            <p>{{ $address->phone_number }}</p>
+            <span class="saved-tag">登録済み</span>
+        </div>
 
-                        <input type="hidden" name="postal_code" value="{{ $address->postal_code }}">
-                        <input type="hidden" name="address" value="{{ $address->address }}">
-                        <input type="hidden" name="phone_number" value="{{ $address->phone_number }}">
+        <input type="hidden" name="postal_code" value="{{ $address->postal_code }}">
+        <input type="hidden" name="address" value="{{ $address->address }}">
+        <input type="hidden" name="phone_number" value="{{ $address->phone_number }}">
 
-                    @else
+    @else
 
-                        <!-- ✅ ✅ 入力フォームは残す -->
-                        <div class="field">
-                            <label>郵便番号</label>
-                            <input type="text" name="postal_code">
-                        </div>
+        <!-- ✅ 入力フォーム -->
+        <div class="field">
+            <label>郵便番号</label>
+            <input type="text" name="postal_code">
+        </div>
 
-                        <div class="field">
-                            <label>住所</label>
-                            <input type="text" name="address">
-                        </div>
+        <div class="field">
+            <label>住所</label>
+            <input type="text" name="address">
+        </div>
 
-                        <div class="field">
-                            <label>電話番号</label>
-                            <input type="text" name="phone_number">
-                        </div>
+        <div class="field">
+            <label>電話番号</label>
+            <input type="text" name="phone_number">
+        </div>
 
-                        <!-- ✅ ✅ ✅ これが追加ボタン -->
-                        <div style="margin-top:10px;">
-                            <a href="{{ route('address.create') }}" class="add-address-btn">
-                                住所を登録する
-                            </a>
-                        </div>
+        <!-- ✅ ✅ その場登録ボタン -->
+        <button type="submit" name="action" value="save_address" class="register-btn">
+            この住所を登録する
+        </button>
 
-                        
+        <!-- ✅ ✅ 別ページリンク -->
+        <div style="margin-top:8px;">
+        <a href="{{ route('address.create') }}" class="add-link">
+            住所を追加する
+        </a>
+        </div>
 
-                    @endif
+    @endif
 
-                    @if(isset($address))
-
-
-            <!-- ✅ ✅ ✅ ここ追加 -->
-            <div style="margin-top:10px; text-align:right;">
-                <a href="{{ route('address.create') }}" class="add-address-btn">
-                    ＋住所を追加
-                </a>
-            </div>
-
-            <input type="hidden" name="postal_code" value="{{ $address->postal_code }}">
-            <input type="hidden" name="address" value="{{ $address->address }}">
-            <input type="hidden" name="phone_number" value="{{ $address->phone_number }}">
-
-            @endif
+</section>
 
                 </section>
 
