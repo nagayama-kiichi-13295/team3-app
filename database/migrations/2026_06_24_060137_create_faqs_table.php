@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('keyword');
             $table->text('answer');
-              $table->integer('priority')->default(0);
+            $table->integer('priority')->default(0);
             $table->timestamps();
         });
     }
